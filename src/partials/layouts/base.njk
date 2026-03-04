@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang or 'en' }}">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Page Data based on Page Title -->
+        {% set pageKey = title | lower %}
+        {% set pageData = site[pageKey] %}
+        {% set headerContent = spro.sproData['header'] %}
+        {% set footerContent = spro.sproData['footer'] %}
+
+        <!-- SEO Meta Tags -->
+        <link rel="canonical" href="{{ site.url }}{{ page.url }}"/>
+        <title>{{ pageData.seo.title or title or site.title }}</title>
+        <meta name="description" content="{{ pageData.seo.description or site.description }}">
+        <meta name="keywords" content="{{ pageData.seo.keywords }}">
+        <meta name="author" content="{{ site.author }}">
+        <meta name="theme-color" content="" >
+
+        <!-- JSON-LD -->
+        {# {% include "partials/json_ld.njk" %} #}
+
+        <!-- Open Graph -->
+        <meta property="og:title" content="{{ pageData.seo.title }}">
+        <meta property="og:description" content="{{ pageData.seo.description }}">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+        <meta property="og:image" content="{{ site.url }}{{ site.logo }}">
+        <meta property="og:site_name" content="{{ site.site_name }}">
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ pageData.seo.title }}">
+        <meta name="twitter:description" content="{{ pageData.seo.description }}">
+        <meta name="twitter:image" content="{{ site.url }}{{ site.logo }}">
+
+        <!-- Favicon -->
+        {# {% favicon './src/assets/favicon.png' %} #}
+
+        <!-- CSS -->
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin data-iub-purposes="1" data-cmp-ab="1">
+        <link rel="preload" href="/fonts/bootstrap-icons.woff2" as="font" type="font/woff2" crossorigin="anonymous" data-iub-purposes="1" data-cmp-ab="1">
+        <link rel="stylesheet" href="/css/custom.css"/>
+        <link rel="stylesheet" href="/css/pages/{{ title }}.css" />
+
+    </head>
+
+    <body>
+        <!-- Header -->
+        {% include "_header.html" %}
+
+        <main>
+            {{ content | safe }}
+        </main>
+
+        <!-- Footer -->
+        {% include "_footer.html" %}
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer data-iub-purposes="1" data-cmp-ab="1"></script>
+        {# <script type="module" src="/js/index.js" data-iub-purposes="1" data-cmp-ab="1"></script> #}
+    </body>
+
+</html>

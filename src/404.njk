@@ -1,32 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    {% set partials = "src/partials/" %}
-    {% set pageKey = '404' | lower %}
-    {% set pageData = site[pageKey] %}
-
-    <title>{{ pageData.seo.title or title or site.title }}</title>
-
-
-    <meta charset="UTF-8" />
-    <title>YourSiteTitle</title>
-
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-
-    <link
-      rel="shortcut icon"
-      href="favicon.ico"
-      type="image/x-icon"
-    />
-
-    {% set partials = "src/partials/" %}
-  </head>
-  <body>
-    <h1>404 page</h1>
-    
-
-    {% include "global/_resources.html" %}
-    
-    <script type="module" src="js/script.js" defer></script>
-  </body>
-</html>
+---
+title: "404"
+permalink: /{{ title | slug }}/
+layout: layouts/dynamic_page.njk
+---

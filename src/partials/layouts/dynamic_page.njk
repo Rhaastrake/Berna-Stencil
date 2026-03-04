@@ -1,0 +1,19 @@
+---
+layout: layouts/base.njk
+---
+
+{% if title == "homepage" %}
+  {% include "_header.html" %}
+  {% include "_partialExample.html" %}
+
+{% elif title == "404" %}
+  {% include "_partialExample.html" %}
+
+{% elif title == "anotherpage" %}
+{% include "_mimmo.html" %}
+  {% include "_partialExample.html" %}
+
+{% else %}
+  {# fallback generico per altre pagine #}
+  {% include "_partialExample.html" %}
+{% endif %}

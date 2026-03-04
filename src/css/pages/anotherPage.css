@@ -6977,3 +6977,6 @@ progress {
     display: none !important;
   }
 }
+body {
+  background-color: red;
+}
