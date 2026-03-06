@@ -11,10 +11,10 @@
     "sass": "^1.97.2"
   },
   "scripts": {
-    "build:css": "sass src/scss:src/css --no-source-map",
+    "build:css": "sass src/scss:_site/css --no-source-map",
     "build:11ty": "eleventy",
     "build": "npm run build:css && npm run build:11ty",
-    "serve:css": "sass --watch src/scss:src/css --no-source-map",
+    "serve:css": "sass --watch src/scss:_site/css --no-source-map",
     "serve:11ty": "eleventy --serve --quiet",
     "serve": "concurrently \"npm run serve:11ty\" \"npm run serve:css\""
   }

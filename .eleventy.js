@@ -2,7 +2,6 @@ const esbuild = require("esbuild");
 const glob = require("glob");
 
 module.exports = function (eleventyConfig) {
-
   eleventyConfig.on("eleventy.before", async () => {
     const entryPoints = glob.sync("src/js/pages/*.js");
 
@@ -15,7 +14,7 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.addPassthroughCopy("src/assets");
-  eleventyConfig.addPassthroughCopy("src/css");
+  eleventyConfig.addWatchTarget("src/scss");
   eleventyConfig.addPassthroughCopy("src/php/!(configExample.php)");
 
   return {
