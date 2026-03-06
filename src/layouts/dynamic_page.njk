@@ -2,7 +2,7 @@
 layout: base.njk
 ---
 
-<!-- HTML partials per page -->
+<!-- NJK (HTML) partials per page -->
  
 {% if title == "homepage" %}
   {% include "homepage/_examplePartial.njk" %}
@@ -11,5 +11,5 @@ layout: base.njk
   {% include "anotherPage/_examplePartial.njk" %}
 
 {% else %}
-  {% include "404/_404.html" %}
+  {% include "404/_404.njk" %}
 {% endif %}
