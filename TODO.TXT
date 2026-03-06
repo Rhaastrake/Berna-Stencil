@@ -11,8 +11,3 @@ Favicon e immagini:
 Commenti e guide:
 
     Commentare tutto e fare degli esempi nei file html, css e js
-
-Sitemap:
-
-    Capire perchè il sitemap mette cani e porci
-
