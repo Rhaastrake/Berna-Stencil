@@ -3,5 +3,16 @@
 //==========================
 
 // Import this module to get all the constants that you need in your css using "@use 'root' as root;"
+$header-height: 15vh; // Use: root.$header-height;
 
-$header-height: 5vh; // Use: root.$header-height;
+$footer-min-height: 25vh;
+
+// Colors
+$primary: #0d6efd;
+$secondary: #6c757d;
+$success: #198754;
+$info: #0dcaf0;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+$dark: #212529;

@@ -1,0 +1,10 @@
+//==========================
+// CSS RULES FOR MAIN
+//==========================
+
+// Getting root rules from _root.scss
+@use 'root' as root;
+
+main {
+    min-height: calc(100vh - #{root.$header-height + root.$footer-min-height});
+}

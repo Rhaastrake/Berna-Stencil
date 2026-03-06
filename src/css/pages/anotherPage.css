@@ -6590,13 +6590,41 @@ textarea.form-control-lg {
   }
 }
 header {
-  height: 5vh;
+  height: 15vh;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+
+.nav {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  max-width: 1300px;
+  width: 100%;
+}
+
+.nav a {
+  padding: 10px;
+  border: none;
+  gap: 15px;
+}
+
+.logo img {
+  height: 10vh;
+  object-fit: contain;
+}
+
+main {
+  min-height: calc(100vh - 40vh);
 }
 
 footer {
-  height: 5vh;
+  min-height: 25vh;
+  max-height: auto;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
 }

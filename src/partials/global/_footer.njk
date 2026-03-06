@@ -1,0 +1,92 @@
+<footer class="py-5 mt-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <h5 class="fw-bold mb-3">{{ site.title }}</h5>
+                <p>{{ site.description }}</p>
+                {% if footerContent.social %}
+                    <div class="d-flex gap-3">
+                        {% for social in footerContent.social %}
+                            {% if social.url %}
+                                <a href="{{ social.url }}" title="{{ social.name }}" target="_blank" rel="noopener">
+                                    <i class="{{ social.icon }} footer-icon"></i>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            {% for section in footerContent.sections %}
+                {% if section.links %}
+                    <div class="col-lg-2 col-md-6">
+                        <h6 class="fw-bold mb-3">{{ section.title }}</h6>
+                        <ul class="list-unstyled">
+                            {% for link in section.links %}
+                                <li class="mb-2">
+                                    <a href="{{ link.href }}" class="text-decoration-none">{{ link.label }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% elif section.contact %}
+                    <div class="col-lg-4">
+                        <h6 class="fw-bold mb-3">{{ section.title }}</h6>
+                        {% if section.contact.piva %}
+                            <p class="mb-2">
+                                <i class="bi-receipt me-2"></i>
+                                Partita IVA - {{ section.contact.piva }}
+                            </p>
+                        {% endif %}
+                        {% if section.contact.email %}
+                            <p class="mb-2">
+                                <i class="bi-envelope me-2"></i>
+                                <a href="mailto:{{ section.contact.email }}" class="text-decoration-none">{{
+                        section.contact.email }}</a>
+                            </p>
+                        {% endif %}
+                        {% if section.contact.pec %}
+                            <p class="mb-2">
+                                <i class="bi-envelope-check me-2"></i>
+                                <a href="mailto:{{ section.contact.pec }}" class="text-decoration-none">{{
+                        section.contact.pec }}</a>
+                            </p>
+                        {% endif %}
+                        {% if section.contact.phone %}
+                            <p class="mb-2">
+                                <i class="bi-telephone me-2"></i>
+                                <a href="tel:{{ section.contact.phone }}" class="text-decoration-none">{{
+                        section.contact.phone }}</a>
+                            </p>
+                        {% endif %}
+                        {% if section.contact.address %}
+                            <p class="mb-0">
+                                <i class="bi-geo-alt me-2"></i>{{ section.contact.address }}
+                            </p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="mb-0">
+                    &copy; {{ site.copyright.year }}
+                    {{ site.name }} {{ site.copyright.text }}.
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <small class="text-muted">
+                    <a href="{{ site.copyright.privacy }}" class="text-decoration-none me-3">Privacy
+                        Policy</a>
+                    <a href="{{ site.copyright.cookie }}" class="text-decoration-none me-3">Cookie
+                        Policy</a>
+                    <a href="{{ site.copyright.terms }}" class="text-decoration-none me-3">Terms and conditions</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</footer>
