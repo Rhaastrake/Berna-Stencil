@@ -6,7 +6,7 @@
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    echo 'Metodo non consentito';
+    echo 'Method not allowed (PHP RESPONSE)';
     exit;
 }
 
@@ -28,7 +28,7 @@ $host = parse_url($origin ?: $referer, PHP_URL_HOST);
 
 if (!$host || !in_array($host, $allowedDomains)) {
     http_response_code(403);
-    echo 'Forbidden origin';
+    echo 'Forbidden origin (PHP RESPONSE)';
     exit;
 }
 
@@ -83,10 +83,10 @@ try {
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = MAIL_PORT;
     $mail->CharSet    = 'UTF-8';
-    $mail->Encoding   = 'base64';+
+    $mail->Encoding   = 'base64';
 
     $mail->setFrom(MAIL_USERNAME, MAIL_FROM_NAME);
-    $mail->addAddress(MAIL_USERNAME, 'Webfixer.it');
+    $mail->addAddress(MAIL_TO_ADDRESS, MAIL_TO_NAME);
 
     $mail->isHTML(true);
 
