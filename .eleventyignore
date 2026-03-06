@@ -3,3 +3,8 @@ src/php/phpmailer/README/
 src/php/phpmailer/SECURITY.md
 src/php/phpmailer/SECURITY/
 src/php/configExample.php
+
+src/assets/**
+src/php/**
+src/js/**
+src/scss/**

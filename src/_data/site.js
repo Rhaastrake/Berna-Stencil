@@ -10,7 +10,7 @@ module.exports = {
   logo: "/assets/img/logo",
   image_width: [320, 480, 720, 1280, 1920, 2048, 2560, 3840, 4096, 7680],
   copyright: {
-    year: "0000",
+    year: "2026",
     text: "Copyright text",
     privacy: "",//link to privacy policy
     cookie: "",//link to cookies policy

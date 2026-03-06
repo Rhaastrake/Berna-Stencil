@@ -18,9 +18,10 @@ header {
 }
 
 .nav {
-    align-items: center;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
     max-width: 1300px;
     width: 100%;
 }
@@ -30,13 +31,11 @@ header {
     border: none;
 }
 
-.nav-links,
-.nav-extra-links {
+.nav-links{
     display: flex;
     gap: 15px;
 }
 
 .logo {
-    height: 10vh;
-    object-fit: contain;
+    text-align: start;
 }
