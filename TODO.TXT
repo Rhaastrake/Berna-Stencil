@@ -1,23 +1,16 @@
-JS:
-
-    Fare il modo che come il css ogni pagina carichi un solo file js che per inglobae altre pezzi più specifici usi le funzioni esportate
-
-
 Favicon e immagini:
 
     Capire come gestire favicon e immagini di dimensioni diverse in base allo schermo
 
-
-Commenti e guide:
-
-    Commentare tutto e fare degli esempi nei file html, css e js
-
-Assistant.js:
     
-    Sviluppare una console per gestire tutto
-
-
 Tag main:
 
     Capire dove dichiarare tag main, se in base o altrove per non obbligare o meno l'uso della classe container di bootstrap
 
+Guide:
+
+    Compilare le guide e rivedere i commenti nei file sass ecc
+
+Assistant.js:
+    
+    Sviluppare una console per gestire tutto
