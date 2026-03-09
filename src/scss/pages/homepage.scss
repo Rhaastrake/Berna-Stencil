@@ -11,6 +11,9 @@
 
 @import "../modules/mobile";
 
+// Use @use with a namespace to avoid Bootstrap variable conflicts:
+// @use "../modules/root" as root;
+
 //==========================
 // "homepage" PAGE CUSTOM CSS RULES
 //==========================

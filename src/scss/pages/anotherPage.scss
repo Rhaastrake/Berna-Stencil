@@ -2,7 +2,7 @@
 // CSS MODULES IMPORTS
 //==========================
 
-// Import all the modules you need for this page from ../core
+// Import all the modules you need for this page from ../modules
 @import "../modules/bootstrap";
 
 @import "../modules/header";
@@ -11,8 +11,11 @@
 
 @import "../modules/mobile";
 
+// Use @use with a namespace to avoid Bootstrap variable conflicts:
+// @use "../modules/root" as root;
+
 //==========================
-// "anotherPage" PAGE CUSTOM CSS RULES
+// "homepage" PAGE CUSTOM CSS RULES
 //==========================
 
 // Add any other rule that you need for this specific page

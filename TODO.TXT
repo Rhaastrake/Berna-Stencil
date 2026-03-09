@@ -17,13 +17,7 @@ Assistant.js:
     Sviluppare una console per gestire tutto
 
 
+Tag main:
 
-Inserire icone bootstrap
-
-Capire ordine css e js
-Controllare css duplicato
-
-rendere coerente import e use css
-
-Gestire tag main
+    Capire dove dichiarare tag main, se in base o altrove per non obbligare o meno l'uso della classe container di bootstrap
 

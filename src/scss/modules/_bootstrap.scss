@@ -56,7 +56,14 @@
 @import "../../../node_modules/bootstrap/scss/tables";           // Tables
 
 //==========================
-// 6️⃣ FULL IMPORT (optional)
+// 6️⃣ ICONS
+//==========================
+$bootstrap-icons-font-src: url("../fonts/bootstrap-icons.woff2") format("woff2"),
+                            url("../fonts/bootstrap-icons.woff") format("woff");
+@import "../../../node_modules/bootstrap-icons/font/bootstrap-icons";
+
+//==========================
+// 7️⃣ FULL IMPORT (optional)
 //==========================
 // If you want to include everything in one line instead of manually importing all above:
 // @import "../../../node_modules/bootstrap/scss/bootstrap";
