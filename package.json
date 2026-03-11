@@ -7,15 +7,16 @@
   "devDependencies": {
     "concurrently": "^9.2.1",
     "esbuild": "^0.27.3",
-    "glob": "^13.0.6",
     "sass": "^1.77.0"
   },
   "scripts": {
-    "build:css": "sass src/scss:_site/css --no-source-map",
+    "build:css": "sass src/scss:_site/css --no-source-map --style=compressed",
+    "build:js": "esbuild \"src/js/pages/*.js\" --bundle --outdir=_site/js/pages --minify",
     "build:11ty": "eleventy",
-    "build": "npm run build:css && npm run build:11ty",
+    "build": "npm run build:css && npm run build:js && npm run build:11ty",
     "serve:css": "sass --watch src/scss:_site/css --no-source-map",
+    "serve:js": "esbuild \"src/js/pages/*.js\" --bundle --outdir=_site/js/pages --watch",
     "serve:11ty": "eleventy --serve --quiet",
-    "serve": "concurrently \"npm run serve:11ty\" \"npm run serve:css\""
+    "serve": "concurrently \"npm run serve:11ty\" \"npm run serve:css\" \"npm run serve:js\""
   }
 }
