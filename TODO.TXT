@@ -2,10 +2,6 @@ Favicon e immagini:
 
     Capire come gestire favicon e immagini di dimensioni diverse in base allo schermo
 
-Tag main:
-
-    Capire dove dichiarare tag main, se in base o altrove per non obbligare o meno l'uso della classe container di bootstrap
-
 PhP:
     
     Capire se il php presente funziona senza problemi e apire come gestire i composer json ecc
