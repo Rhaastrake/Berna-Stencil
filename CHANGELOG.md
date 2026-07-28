@@ -5,6 +5,13 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3] - 2026-07-29
+
+### Fixed
+- `updateOutputPath` no longer strips custom flags from `build:css` and `serve:css`: the output path is now replaced in place instead of regenerating the whole script
+- Missing `--load-path=node_modules` in the regenerated Sass scripts, which broke Bootstrap SCSS imports
+- Malformed `outDir` in `tsconfig.json` when the output path is absolute (`./c:/...`)
+
 ## [1.2.2] - 2026-07-23
 
 ### Added
