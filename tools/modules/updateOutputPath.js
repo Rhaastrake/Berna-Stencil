@@ -6,9 +6,20 @@ const { isTypeScriptProject } = require('./utils');
 const OUTPUT_DIR_REGEX = /const OUTPUT_DIR\s*=\s*['"`]([^'"`]*)['"`]/;
 const TSCONFIG_OUTDIR_REGEX = /"outDir"\s*:\s*"[^"]*"/;
 
+const OUT_SCRIPTS = [
+    ['build:css', '/css',      'sass src/frontend/scss:{OUT}/css --no-source-map --style=compressed --quiet --load-path=node_modules'],
+    ['serve:css', '/css',      'sass --watch src/frontend/scss:{OUT}/css --no-source-map --quiet --load-path=node_modules'],
+    ['build:js',  '/js/pages', 'esbuild "{GLOB}" --bundle --outdir={OUT}/js/pages --minify'],
+    ['serve:js',  '/js/pages', 'esbuild "{GLOB}" --bundle --outdir={OUT}/js/pages --watch'],
+];
+
 function parseOutputDir(content) {
     const match = content.match(OUTPUT_DIR_REGEX);
     return match ? match[1] : null;
+}
+
+function isAbsolutePath(p) {
+    return path.isAbsolute(p) || /^[a-zA-Z]:/.test(p);
 }
 
 function updateEleventyConfig(newPath) {
@@ -23,7 +34,7 @@ function updateEleventyConfig(newPath) {
     console.log(`[updated] .eleventy.js → ${newPath}`);
 }
 
-function updatePackageJson(newPath) {
+function updatePackageJson(newPath, oldPath) {
     const pkg = JSON.parse(fs.readFileSync(PATHS.packageJson, 'utf8'));
     const scriptGlob = isTypeScriptProject()
         ? 'src/frontend/ts/pages/*.ts'
@@ -31,10 +42,19 @@ function updatePackageJson(newPath) {
 
     pkg.outputDir = newPath;
     pkg.scripts = pkg.scripts || {};
-    pkg.scripts['build:css'] = `sass src/frontend/scss:${newPath}/css --no-source-map --style=compressed --quiet`;
-    pkg.scripts['serve:css'] = `sass --watch src/frontend/scss:${newPath}/css --no-source-map --quiet`;
-    pkg.scripts['build:js']  = `esbuild "${scriptGlob}" --bundle --outdir=${newPath}/js/pages --minify`;
-    pkg.scripts['serve:js']  = `esbuild "${scriptGlob}" --bundle --outdir=${newPath}/js/pages --watch`;
+
+    for (const [name, suffix, template] of OUT_SCRIPTS) {
+        const current = pkg.scripts[name];
+        const token = oldPath ? `${oldPath}${suffix}` : null;
+
+        if (current && token && current.includes(token)) {
+            pkg.scripts[name] = current.split(token).join(`${newPath}${suffix}`);
+        } else {
+            pkg.scripts[name] = template
+                .replace(/\{OUT\}/g, newPath)
+                .replace(/\{GLOB\}/g, scriptGlob);
+        }
+    }
 
     fs.writeFileSync(PATHS.packageJson, `${JSON.stringify(pkg, null, 2)}\n`);
     console.log(`[updated] package.json → ${newPath}`);
@@ -43,15 +63,16 @@ function updatePackageJson(newPath) {
 function updateTsConfig(newPath) {
     if (!isTypeScriptProject()) return;
 
+    const outDir = isAbsolutePath(newPath) ? `${newPath}/ts` : `./${newPath}/ts`;
     const content = fs.readFileSync(PATHS.tsconfig, 'utf8');
-    const updated = content.replace(TSCONFIG_OUTDIR_REGEX, `"outDir": "./${newPath}/ts"`);
+    const updated = content.replace(TSCONFIG_OUTDIR_REGEX, `"outDir": "${outDir}"`);
 
     if (content === updated) {
         console.log('[skip] outDir not found in tsconfig.json');
         return;
     }
     fs.writeFileSync(PATHS.tsconfig, updated);
-    console.log(`[updated] tsconfig.json → ${newPath}/ts`);
+    console.log(`[updated] tsconfig.json → ${outDir}`);
 }
 
 function deleteOldOutput(oldPath) {
@@ -93,7 +114,7 @@ function updateOutputPath(rawPath) {
 
     console.log(`\nupdating output path → "${normalizedPath}"`);
     try {
-        updatePackageJson(normalizedPath);
+        updatePackageJson(normalizedPath, oldPath);
         updateEleventyConfig(normalizedPath);
         updateTsConfig(normalizedPath);
     } catch (err) {
