@@ -8,15 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.2.4] - 2026-07-31
 
 ### Changed
-- Refactor interno di `tools/`: la logica è divisa in `lib/`, `cli/` e
-  `config/`, con valori e messaggi estratti in `settings.json` e
-  `messages.json`. Nessun cambiamento di comportamento.
-- La CLI usa una palette uniforme: il colore resta solo sul riquadro del
-  titolo, i numeri delle voci sono attenuati.
+- Internal refactor of `tools/`: the logic is now split across `lib/`, `cli/`
+  and `config/`, with values and messages extracted into `settings.json` and
+  `messages.json`. No behaviour changes — pages, `site.json` and
+  `page-components.njk` are written exactly as before.
+- The CLI now uses a uniform palette: colour is limited to the title box, and
+  the menu numbers are dimmed instead of each carrying its own colour.
 
 ### Fixed
-- L'ultima riga del menu non chiudeva il codice colore `dim`, che restava
-  attivo sulla riga successiva.
+- The last line of the menu never closed the `dim` colour code, which stayed
+  active on the following line.
 
 ## [1.2.3] - 2026-07-29
 
