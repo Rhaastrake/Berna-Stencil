@@ -21,7 +21,7 @@ Building a website from scratch involves a lot of moving parts: templating, buil
 - 🪶 **Lightweight by default** — SCSS frameworks can be filtered so you ship only what you actually use
 - 🌍 **Open source** — free to use, free to modify, free to share
 
-![Version](https://img.shields.io/badge/version-1.2.3-blue)
+![Version](https://img.shields.io/badge/version-1.2.4-blue)
 ![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 
