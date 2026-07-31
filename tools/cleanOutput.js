@@ -1,25 +1,23 @@
-const fs = require('fs');
 const path = require('path');
-const { findProjectRoot, NOT_INSIDE_PROJECT_MESSAGE } = require('./modules/constants');
+const settings = require('./config/settings.json');
+const { PATHS } = require('./lib/paths');
+const { readPackageJson } = require('./lib/project');
+const { removeDirectory } = require('./lib/files');
+const { log } = require('./lib/logger');
 
-const root = findProjectRoot(process.cwd());
-if (!root) {
-    console.error(NOT_INSIDE_PROJECT_MESSAGE);
+const OUTPUT_KEY = settings.packageJson.outputKey;
+
+const packageJson = readPackageJson();
+
+if (!packageJson[OUTPUT_KEY]) {
+    log('output.missingConfiguration', { key: OUTPUT_KEY, file: settings.paths.packageJson });
     process.exit(1);
 }
 
-const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf-8'));
+const outputDirectory = path.resolve(PATHS.root, packageJson[OUTPUT_KEY]);
 
-if (!pkg.outputDir) {
-    console.log('(!) outputDir not found in package.json');
-    process.exit(1);
-}
-
-const outputDir = path.resolve(root, pkg.outputDir);
-
-if (fs.existsSync(outputDir)) {
-    fs.rmSync(outputDir, { recursive: true, force: true });
-    console.log(`(✓) cleaned → ${outputDir}`);
+if (removeDirectory(outputDirectory)) {
+    log('output.cleaned', { path: outputDirectory });
 } else {
-    console.log(`(i) nothing to clean → ${outputDir}`);
+    log('output.nothingToClean', { path: outputDirectory });
 }

@@ -1,0 +1,76 @@
+{
+  "project": {
+    "notInside": "Not inside a Nibula project."
+  },
+  "validation": {
+    "invalidName": "Invalid name.",
+    "invalidNameCharacters": "Page name can only contain lowercase letters, numbers, and hyphens.",
+    "nameStartsWithNumber": "Page name cannot start with a number.",
+    "protectedName": "\"{name}\" is a protected page name.",
+    "invalidPath": "Invalid path.",
+    "invalidPathCharacters": "Path contains invalid characters.",
+    "templatesLabel": "CLI page templates"
+  },
+  "page": {
+    "alreadyExists": "[skip] page \"{name}\" already exists",
+    "doesNotExist": "[skip] page \"{name}\" does not exist",
+    "targetExists": "[skip] target page \"{name}\" already exists",
+    "templateMissing": "[skip] template not found: {path}",
+    "fileMissing": "[skip] not found: {path}",
+    "fileCreated": "[created] {path}",
+    "fileRenamed": "[renamed] {source} \u2192 {destination}",
+    "fileDeleted": "[deleted] {path}",
+    "createFailed": "[error] could not create page files: {error}",
+    "renameFailed": "[error] could not rename page files: {error}",
+    "deleteFailed": "[error] {path}: {error}"
+  },
+  "components": {
+    "fileMissing": "[skip] not found: {path}",
+    "anchorMissing": "[skip] no {anchor} anchor in {file}",
+    "blockAdded": "[updated] page block added for \"{name}\"",
+    "blockMissing": "[skip] page block for \"{name}\" not found",
+    "blockRemoved": "[cleaned] page block removed for \"{name}\"",
+    "blockRenamed": "[renamed] page block \"{source}\" \u2192 \"{destination}\""
+  },
+  "siteData": {
+    "fileMissing": "[skip] not found: {path}",
+    "parseFailed": "[error] cannot parse {file}: {error}",
+    "recordExists": "[skip] record \"{name}\" already exists",
+    "recordMissing": "[skip] record \"{name}\" not found",
+    "recordAdded": "[updated] record \"{name}\" added",
+    "recordRemoved": "[cleaned] record \"{name}\" removed",
+    "recordRenamed": "[updated] record \"{source}\" renamed to \"{destination}\""
+  },
+  "output": {
+    "emptyPath": "[skip] empty output path",
+    "readFailed": "[error] cannot read {file}: {error}",
+    "updateFailed": "[error] could not update output path: {error}",
+    "updating": "\nupdating output path \u2192 \"{path}\"",
+    "variableMissing": "[skip] {variable} not found in {file}",
+    "keyMissing": "[skip] {key} not found in {file}",
+    "fileUpdated": "[updated] {file} \u2192 {path}",
+    "directoryDeleted": "[deleted] {path}",
+    "refuseDelete": "[skip] refusing to delete \"{path}\" (outside project)",
+    "missingConfiguration": "(!) {key} not found in {file}",
+    "cleaned": "(\u2713) cleaned \u2192 {path}",
+    "nothingToClean": "(i) nothing to clean \u2192 {path}"
+  },
+  "cli": {
+    "createPrompt": "Name of the new page: ",
+    "removePrompt": "Name of the page to remove: ",
+    "renameFromPrompt": "Page to rename: ",
+    "renameToPrompt": "New name: ",
+    "outputPathPrompt": "New output path: ",
+    "menuPrompt": "Choose an option: ",
+    "currentOutputPath": "Current path: \"{path}\"",
+    "confirmRemove": "This permanently deletes all files for \"{name}\".",
+    "cancelled": "Cancelled.",
+    "pageNotFound": "Page \"{name}\" does not exist.",
+    "sameName": "Old and new name are the same.",
+    "invalidOption": "Invalid option.",
+    "unexpectedError": "Unexpected error: {error}",
+    "missingFiles": "This project is missing required files:",
+    "incompleteProject": "The project may be incomplete or created with a different Nibula version.",
+    "exitHint": "CTRL + C to exit"
+  }
+}

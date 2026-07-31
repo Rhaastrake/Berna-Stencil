@@ -1,23 +1,25 @@
+const path = require('path');
 const esbuild = require('esbuild');
 const glob = require('glob');
-const path = require('path');
-const fs = require('fs');
-const { findProjectRoot, NOT_INSIDE_PROJECT_MESSAGE } = require('./modules/constants');
+const settings = require('./config/settings.json');
+const { PATHS } = require('./lib/paths');
+const { readPackageJson, allScriptEntries } = require('./lib/project');
 
-const root = findProjectRoot(process.cwd());
-if (!root) {
-    console.error(NOT_INSIDE_PROJECT_MESSAGE);
-    process.exit(1);
+const WATCH_FLAG = '--watch';
+const PATH_SEPARATOR = '/';
+
+function toPosix(target) {
+    return target.split(path.sep).join(PATH_SEPARATOR);
 }
 
-const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf-8'));
-const outputDir = pkg.outputDir || 'out';
-const isWatch = process.argv.includes('--watch');
+function collectEntryPoints() {
+    return allScriptEntries().flatMap((entries) => glob.sync(toPosix(path.join(PATHS.root, entries))));
+}
 
-const posix = (p) => p.split(path.sep).join('/');
-const jsFiles = glob.sync(posix(path.join(root, 'src/frontend/js/pages/*.js')));
-const tsFiles = glob.sync(posix(path.join(root, 'src/frontend/ts/pages/*.ts')));
-const entryPoints = [...jsFiles, ...tsFiles];
+const packageJson = readPackageJson();
+const outputDirectory = packageJson[settings.packageJson.outputKey] || settings.project.defaultOutputDirectory;
+const watch = process.argv.includes(WATCH_FLAG);
+const entryPoints = collectEntryPoints();
 
 if (entryPoints.length === 0) {
     process.exit(0);
@@ -26,12 +28,12 @@ if (entryPoints.length === 0) {
 const options = {
     entryPoints,
     bundle: true,
-    outdir: path.join(root, outputDir, 'js/pages'),
-    minify: !isWatch,
+    outdir: path.join(PATHS.root, outputDirectory, ...settings.build.scriptOutput.split(PATH_SEPARATOR)),
+    minify: !watch,
 };
 
-if (isWatch) {
-    esbuild.context(options).then((ctx) => ctx.watch()).catch(() => process.exit(1));
+if (watch) {
+    esbuild.context(options).then((context) => context.watch()).catch(() => process.exit(1));
 } else {
     esbuild.build(options).catch(() => process.exit(1));
 }
