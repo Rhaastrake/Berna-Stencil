@@ -5,7 +5,8 @@ const path = require('path');
 const https = require('https');
 const readline = require('readline');
 const { spawnSync } = require('child_process');
-const { findProjectRoot, color, NOT_INSIDE_PROJECT_MESSAGE } = require('../tools/modules/constants');
+const { findProjectRoot, NOT_INSIDE_PROJECT_MESSAGE } = require('../tools/lib/paths');
+const { color } = require('../tools/lib/colors');
 
 const pkg = require('../package.json');
 
@@ -41,8 +42,6 @@ function maybeDelegateToLocal(root) {
     const local = path.join(root, 'node_modules', 'nibula', 'bin', 'nibula.js');
     if (!fs.existsSync(local)) return;
 
-    // Compare REAL paths so symlinks (e.g. from `npm link`) resolve to the same
-    // physical file; otherwise the guard would loop forever under npm link.
     let localReal;
     let selfReal;
     try { localReal = fs.realpathSync(local); } catch { return; }
@@ -150,8 +149,6 @@ function globalNibulaPath() {
     return fs.existsSync(candidate) ? candidate : null;
 }
 
-// Riesegue il comando con la versione appena installata: questo processo ha
-// ancora in memoria il codice vecchio, quindi non può scaffoldare da solo.
 function reexecAfterUpdate(args) {
     const target = globalNibulaPath();
     if (!target) {

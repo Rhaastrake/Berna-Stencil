@@ -5,7 +5,7 @@ const path = require('path');
 const readline = require('readline');
 const { writeSync } = require('fs');
 const { spawnSync } = require('child_process');
-const { color } = require('../tools/modules/constants');
+const { color } = require('../tools/lib/colors');
 
 // ── PATHS ────────────────────────────────────────────────────────────────────
 

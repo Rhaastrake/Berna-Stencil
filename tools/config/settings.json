@@ -1,0 +1,135 @@
+{
+  "project": {
+    "marker": ".eleventy.js",
+    "defaultOutputDirectory": "out",
+    "currentDirectory": ".",
+    "outputSuffix": "-out"
+  },
+  "paths": {
+    "eleventyConfig": ".eleventy.js",
+    "packageJson": "package.json",
+    "typescriptConfig": "tsconfig.json",
+    "routes": "src/frontend/routes",
+    "stylePages": "src/frontend/scss/pages",
+    "siteData": "src/frontend/data/site.json",
+    "pageComponents": "src/frontend/layouts/page-components.njk",
+    "templates": "tools/res/templates"
+  },
+  "languages": {
+    "javascript": {
+      "pages": "src/frontend/js/pages",
+      "extension": "js",
+      "template": "template.js"
+    },
+    "typescript": {
+      "pages": "src/frontend/ts/pages",
+      "extension": "ts",
+      "template": "template.ts"
+    }
+  },
+  "packageJson": {
+    "outputKey": "outputDir",
+    "scriptsKey": "scripts"
+  },
+  "eleventy": {
+    "outputVariable": "OUTPUT_DIR"
+  },
+  "typescript": {
+    "outputKey": "outDir",
+    "outputSubdirectory": "ts"
+  },
+  "build": {
+    "scriptOutput": "js/pages"
+  },
+  "outputScripts": [
+    {
+      "name": "build:css",
+      "marker": "/css",
+      "template": "sass src/frontend/scss:{output}/css --no-source-map --style=compressed --quiet --load-path=node_modules"
+    },
+    {
+      "name": "serve:css",
+      "marker": "/css",
+      "template": "sass --watch src/frontend/scss:{output}/css --no-source-map --quiet --load-path=node_modules"
+    },
+    {
+      "name": "build:js",
+      "marker": "/js/pages",
+      "template": "esbuild \"{entries}\" --bundle --outdir={output}/js/pages --minify"
+    },
+    {
+      "name": "serve:js",
+      "marker": "/js/pages",
+      "template": "esbuild \"{entries}\" --bundle --outdir={output}/js/pages --watch"
+    }
+  ],
+  "page": {
+    "protected": ["homepage", "404"],
+    "styleExtension": "scss",
+    "routeExtension": "njk",
+    "styleTemplate": "template.scss",
+    "routeTemplate": "template.njk",
+    "outputFiles": [
+      "js/pages/{camelName}.js",
+      "css/pages/{camelName}.css",
+      "{pageName}.html",
+      "pages/{pageName}.html"
+    ],
+    "outputDirectories": [
+      "{pageName}",
+      "pages/{pageName}"
+    ],
+    "dataKeys": {
+      "pages": "pages",
+      "seo": "seo",
+      "title": "title"
+    },
+    "defaultData": {
+      "seo": {
+        "title": "{title}",
+        "description": "description",
+        "keywords": "",
+        "noindex": false,
+        "canonical": ""
+      },
+      "cdn": {
+        "css": [],
+        "js": []
+      }
+    }
+  },
+  "pageComponents": {
+    "anchor": "{% else %}",
+    "condition": "{% elif title == \"{camelName}\" %}",
+    "include": "{% include \"component.njk\" ignore missing %}"
+  },
+  "frontMatter": {
+    "title": "title: \"{camelName}\"",
+    "permalink": "permalink: \"/{pageName}/\""
+  },
+  "cli": {
+    "title": "Nibula CLI",
+    "boxWidth": 17,
+    "confirmHint": "[y/N]",
+    "symbols": {
+      "prompt": "\u276f",
+      "error": "\u2716",
+      "warning": "\u26a0",
+      "bullet": "-"
+    },
+    "colors": {
+      "box": "cyan",
+      "menuKey": "dim",
+      "prompt": "cyan",
+      "error": "red",
+      "warning": "yellow",
+      "notice": "dim"
+    },
+    "menu": [
+      { "key": "1", "action": "createPage", "label": "Create page" },
+      { "key": "2", "action": "removePage", "label": "Remove page" },
+      { "key": "3", "action": "renamePage", "label": "Rename page" },
+      { "key": "4", "action": "outputPath", "label": "Configure output path" }
+    ]
+  }
+} 

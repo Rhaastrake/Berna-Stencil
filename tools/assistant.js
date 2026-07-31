@@ -1,36 +1,15 @@
-const readline = require('readline');
+const settings = require('./config/settings.json');
+const { message } = require('./lib/logger');
+const { toKebabCase } = require('./lib/text');
+const { validatePageName, validateOutputPath, checkRequiredFiles } = require('./lib/validation');
+const { addPage, removePage, renamePage } = require('./lib/pageActions');
+const { pageExists } = require('./lib/pageArtifacts');
+const { updateOutputPath, getCurrentOutputPath } = require('./lib/outputPath');
+const { ask, confirm, close } = require('./cli/prompt');
+const ui = require('./cli/ui');
 
-const { addPage, removePage, renamePage, pageExists } = require('./modules/updatePage');
-const { updateOutputPath, getCurrentOutputPath } = require('./modules/updateOutputPath');
-const { validatePageName, validateOutputPath, checkRequiredFiles } = require('./modules/validation');
-const { toKebabCase } = require('./modules/utils');
-const { color } = require('./modules/constants');
-
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: true,
-});
-
-function sanitizeInput(value) {
-    return (value ?? '').replace(/[\x00-\x1F\x7F]/g, '').trim();
-}
-
-function ask(prompt) {
-    return new Promise((resolve) => {
-        const onClose = () => resolve(null);
-        rl.once('close', onClose);
-        rl.question(prompt, (answer) => {
-            rl.off('close', onClose);
-            resolve(sanitizeInput(answer));
-        });
-    });
-}
-
-async function confirm(prompt) {
-    const answer = await ask(`${prompt} ${color.dim}[y/N]${color.reset} `);
-    return /^y(es)?$/i.test((answer ?? '').trim());
-}
+const NEW_LINE = '\n';
+const NO_PREFIX = '';
 
 async function askPageName(prompt) {
     const raw = await ask(prompt);
@@ -39,43 +18,43 @@ async function askPageName(prompt) {
     const name = toKebabCase(raw);
     const error = validatePageName(name);
     if (error) {
-        console.log(`\n${color.red}✖ ${error}${color.reset}`);
+        ui.error(error);
         return null;
     }
     return name;
 }
 
 async function handleCreate() {
-    const name = await askPageName(`\n${color.green}❯${color.reset} Name of the new page: `);
+    const name = await askPageName(ui.promptLine(message('cli.createPrompt')));
     if (name) addPage(name);
 }
 
 async function handleRemove() {
-    const name = await askPageName(`\n${color.red}❯${color.reset} Name of the page to remove: `);
+    const name = await askPageName(ui.promptLine(message('cli.removePrompt')));
     if (!name) return;
 
     if (!pageExists(name)) {
-        console.log(`\n${color.yellow}⚠ Page "${name}" does not exist.${color.reset}`);
+        ui.warning(message('cli.pageNotFound', { name }));
         return;
     }
 
-    const confirmed = await confirm(`This permanently deletes all files for "${name}".`);
+    const confirmed = await confirm(message('cli.confirmRemove', { name }));
     if (!confirmed) {
-        console.log(`\n${color.dim}Cancelled.${color.reset}`);
+        ui.notice(message('cli.cancelled'));
         return;
     }
     removePage(name);
 }
 
 async function handleRename() {
-    const oldName = await askPageName(`\n${color.yellow}❯${color.reset} Page to rename: `);
+    const oldName = await askPageName(ui.promptLine(message('cli.renameFromPrompt')));
     if (!oldName) return;
 
-    const newName = await askPageName(`${color.yellow}❯${color.reset} New name: `);
+    const newName = await askPageName(ui.promptLine(message('cli.renameToPrompt'), NO_PREFIX));
     if (!newName) return;
 
     if (oldName === newName) {
-        console.log(`\n${color.yellow}⚠ Old and new name are the same.${color.reset}`);
+        ui.warning(message('cli.sameName'));
         return;
     }
     renamePage(oldName, newName);
@@ -83,69 +62,61 @@ async function handleRename() {
 
 async function handleOutputPath() {
     const current = getCurrentOutputPath();
-    const label = current ? `\n${color.dim}Current path: "${current}"${color.reset}\n` : '\n';
+    const prefix = current
+        ? ui.noticePrefix(message('cli.currentOutputPath', { path: current }))
+        : NEW_LINE;
 
-    const input = await ask(`${label}${color.magenta}❯${color.reset} New output path: `);
+    const input = await ask(ui.promptLine(message('cli.outputPathPrompt'), prefix));
     if (input === null) return;
 
     const error = validateOutputPath(input);
     if (error) {
-        console.log(`\n${color.red}✖ ${error}${color.reset}`);
+        ui.error(error);
         return;
     }
     updateOutputPath(input);
 }
 
-const MENU_ACTIONS = {
-    '1': handleCreate,
-    '2': handleRemove,
-    '3': handleRename,
-    '4': handleOutputPath,
+const ACTIONS = {
+    createPage: handleCreate,
+    removePage: handleRemove,
+    renamePage: handleRename,
+    outputPath: handleOutputPath,
 };
 
-function renderMenu() {
-    console.log(`\n${color.cyan}${color.bold}╭─────────────────╮`);
-    console.log(`│    Nibula CLI   │`);
-    console.log(`╰─────────────────╯${color.reset}\n`);
-    console.log(`  ${color.green}1.${color.reset} Create page`);
-    console.log(`  ${color.red}2.${color.reset} Remove page`);
-    console.log(`  ${color.yellow}3.${color.reset} Rename page`);
-    console.log(`  ${color.magenta}4.${color.reset} Configure output path`);
-    console.log(`  ${color.dim}CTRL + C to exit\n`);
+function findAction(choice) {
+    const item = settings.cli.menu.find((entry) => entry.key === choice);
+    return item ? ACTIONS[item.action] : null;
 }
 
 async function main() {
     const missing = checkRequiredFiles();
     if (missing.length > 0) {
-        console.log(`\n${color.red}✖ This project is missing required files:${color.reset}`);
-        for (const item of missing) {
-            console.log(`  ${color.red}-${color.reset} ${item.label}`);
-        }
-        console.log(`\n${color.dim}The project may be incomplete or created with a different Nibula version.${color.reset}`);
-        rl.close();
+        ui.renderMissingFiles(missing);
+        close();
         process.exit(1);
     }
 
     while (true) {
-        renderMenu();
+        ui.renderMenu();
 
-        const choice = await ask(`${color.cyan}❯${color.reset} Choose an option: `);
+        const choice = await ask(ui.promptLine(message('cli.menuPrompt'), NO_PREFIX));
         if (choice === null) break;
 
-        const action = MENU_ACTIONS[choice];
+        const action = findAction(choice);
         if (!action) {
-            console.log(`\n${color.red}✖ Invalid option.${color.reset}`);
+            ui.error(message('cli.invalidOption'));
             continue;
         }
 
         try {
             await action();
-        } catch (err) {
-            console.log(`\n${color.red}✖ Unexpected error: ${err.message}${color.reset}`);
+        } catch (error) {
+            ui.error(message('cli.unexpectedError', { error: error.message }));
         }
     }
 
-    rl.close();
+    close();
     process.exit(0);
 }
 
