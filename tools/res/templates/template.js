@@ -3,3 +3,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     // initExampleModule();
 });
+
+// Page logic here

@@ -48,7 +48,7 @@ function projectRoot() {
 function frontendDir() {
     return path.join(projectRoot(), 'src', 'frontend');
 }
-
+    
 const PATHS = Object.freeze({
     get root()           { return projectRoot(); },
     get routes()         { return path.join(frontendDir(), 'routes'); },
