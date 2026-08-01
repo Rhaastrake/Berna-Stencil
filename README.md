@@ -43,10 +43,10 @@ Nibula ships with a clean, opinionated layout so beginners are never lost. But i
 
 * **Node.js**: v18.0.0 or higher
 * **Composer** *(only if you choose the PHP backend)*: latest version
+* **Better Nunjucks** — VS Code extension by **Ed Heltzel**
 
 ### Recommended
 
-* **Better Nunjucks** — VS Code extension by **Ed Heltzel**
 * **Material Icon Theme** — VS Code extension by **Philipp Kief**
 
 ## 📦 Installation
