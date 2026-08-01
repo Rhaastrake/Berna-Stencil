@@ -28,7 +28,7 @@ jobs:
             exit 1
           fi
 
-      - run: npm install -g npm@latestgit
+      - run: npm install -g npm@latest
 
       - run: npm ci
 
