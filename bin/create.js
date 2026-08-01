@@ -75,7 +75,7 @@ const FRONTEND_EXCLUDE = {
 };
 
 const CREATE_DIRS = [
-    'src/frontend/_routes',
+    'src/frontend/routes',
 ];
 
 // Backend files that belong to exactly one backend, matched by basename.

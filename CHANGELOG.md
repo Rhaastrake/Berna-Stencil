@@ -5,6 +5,19 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.6] - 2026-08-01
+
+### Fixed
+- The scaffolder created the routes folder as `src/frontend/_routes` instead of
+  `src/frontend/routes`. The CLI writes and looks for page templates in
+  `routes`, so on a freshly created project every page ended up outside the
+  folder Eleventy and the assistant expect.
+
+  ### Notes
+- Projects created with 1.2.5 have an empty `src/frontend/_routes` folder that
+  can be deleted. Pages created before this fix should be moved to
+  `src/frontend/routes`.
+
 ## [1.2.5] - 2026-08-01
 
 ### Added
