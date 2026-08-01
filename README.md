@@ -1,5 +1,9 @@
 # ✏️ Nibula
 
+![Version](https://img.shields.io/badge/version-1.2.4-blue)
+![License](https://img.shields.io/badge/license-Apache--2.0-blue)
+![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
+
 **Nibula** is an open source static site generator built on top of [Eleventy](https://www.11ty.dev/), with one clear mission: make the jump from plain, hand-written websites to a real project setup as gentle as possible — without ever pulling you away from the web you already know.
 
 If you've only ever written HTML, CSS, and a bit of JavaScript, moving to a "framework" usually feels like starting over: new syntax, new rules, new folder structures, and a pile of documentation before you can even see a page on screen. Nibula is designed to avoid exactly that. You keep working with the **three languages that matter — HTML, CSS, and JavaScript** — and the tool quietly handles the tedious parts around them. The goal is simple: even someone with little experience should always know *where to put their hands*.
@@ -20,10 +24,6 @@ Building a website from scratch involves a lot of moving parts: templating, buil
 - 🧩 **Your own modules** — add your own CSS and JS/TS modules freely and easily
 - 🪶 **Lightweight by default** — SCSS frameworks can be filtered so you ship only what you actually use
 - 🌍 **Open source** — free to use, free to modify, free to share
-
-![Version](https://img.shields.io/badge/version-1.2.4-blue)
-![License](https://img.shields.io/badge/license-Apache--2.0-blue)
-![Eleventy](https://img.shields.io/badge/11ty-v3.1.2-black)
 
 ## JavaScript or TypeScript — your choice
 
