@@ -5,6 +5,26 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-08-01
+
+### Added
+- A `global.js` module in `src/frontend/js/modules/`, for code that has to run
+  on every page — a header menu, a theme toggle, a cookie banner. Page entry
+  points import it once and it takes care of running the shared modules, so
+  there's no longer a line to remember in every single page.
+- `docs/Javascript.md` now covers the global module, with the header burger
+  menu as a worked example and a note on when a behaviour belongs in
+  `global.js` rather than in a page.
+
+### Changed
+- Page entry points, and the template new pages are created from, now start
+  with `import '../modules/global.js';`.
+
+### Notes
+- Existing projects keep working as they are. To adopt the global module, add
+  `src/frontend/js/modules/global.js` and the import line at the top of each
+  page entry point.
+
 ## [1.2.6] - 2026-08-01
 
 ### Fixed

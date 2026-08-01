@@ -1,3 +1,4 @@
+import '../modules/global.js';
 // import { initExampleModule } from '../modules/exampleModule';
 
 document.addEventListener("DOMContentLoaded", (): void => {

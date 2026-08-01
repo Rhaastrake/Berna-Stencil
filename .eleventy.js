@@ -70,7 +70,7 @@ module.exports = function (eleventyConfig) {
   watch: [`${OUTPUT_DIR}/js/**/*.js`]
   });
 
-  return {
+  return {  
     dir: {
       input: "src/frontend",
       output: OUTPUT_DIR,
