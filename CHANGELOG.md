@@ -5,6 +5,23 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.5] - 2026-08-01
+
+### Added
+- `nib new` now refuses to run from inside an existing Nibula project. Creating
+  a project inside another one produced a broken setup, since the outer build
+  would pick up the inner project's files. The error message reports the path of
+  the project that was detected, so it's clear which one triggered the check.
+- A GitHub Actions workflow that publishes the package to npm whenever a release
+  is created, using npm's trusted publishing. The workflow verifies that the git
+  tag matches the version in `package.json` before publishing, and attaches a
+  provenance attestation to the published package.
+
+### Changed
+- Rewrote the README: added a section on when Nibula is *not* the right tool,
+  clarified that Composer is only needed with the PHP backend, and moved the
+  editor extensions from the required to the recommended prerequisites.
+
 ## [1.2.4] - 2026-07-31
 
 ### Changed
