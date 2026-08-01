@@ -1,6 +1,8 @@
 {
   "project": {
-    "notInside": "Not inside a Nibula project."
+    "notInside": "Not inside a Nibula project.",
+    "alreadyInside": "You are already inside a Nibula project.",
+    "alreadyInsideHint": "Run \"nib new\" from outside a project."
   },
   "validation": {
     "invalidName": "Invalid name.",

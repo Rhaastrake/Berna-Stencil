@@ -7,6 +7,7 @@ const readline = require('readline');
 const { spawnSync } = require('child_process');
 const { findProjectRoot, NOT_INSIDE_PROJECT_MESSAGE } = require('../tools/lib/paths');
 const { color } = require('../tools/lib/colors');
+const { message } = require('../tools/lib/logger');
 
 const pkg = require('../package.json');
 
@@ -36,6 +37,15 @@ function requireProjectRoot() {
         process.exit(1);
     }
     return root;
+}
+
+function requireOutsideProject() {
+    const root = findProjectRoot(process.cwd());
+    if (!root) return;
+
+    console.error(`\n${color.red}${message('project.alreadyInside')}${color.reset}`);
+    console.error(`${color.dim}${message('project.alreadyInsideHint')}${color.reset}\n`);
+    process.exit(1);
 }
 
 function maybeDelegateToLocal(root) {
@@ -209,6 +219,8 @@ async function main() {
                 console.error('Missing project name. Usage: nib new <project-name>');
                 process.exit(1);
             }
+
+            requireOutsideProject();
 
             if (!skipCheck) {
                 const info = await checkVersion();

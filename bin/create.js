@@ -36,12 +36,12 @@ const BACKEND = Object.freeze({
 // ── CHOICES ──────────────────────────────────────────────────────────────────
 
 const LANGUAGE_CHOICES = [
-    { label: 'JavaScript (recomended)', value: LANGUAGE.JAVASCRIPT },
+    { label: 'JavaScript (recommended)', value: LANGUAGE.JAVASCRIPT },
     { label: 'TypeScript',           value: LANGUAGE.TYPESCRIPT },
 ];
 
 const FRAMEWORK_CHOICES = [
-    { label: 'Bootstrap (recomended)', value: FRAMEWORK.BOOTSTRAP  },
+    { label: 'Bootstrap (recommended)', value: FRAMEWORK.BOOTSTRAP  },
     { label: 'Bulma',               value: FRAMEWORK.BULMA      },
     { label: 'Foundation',          value: FRAMEWORK.FOUNDATION },
     { label: 'UIkit',               value: FRAMEWORK.UIKIT      },
@@ -49,8 +49,8 @@ const FRAMEWORK_CHOICES = [
 ];
 
 const BACKEND_CHOICES = [
-    { label: 'Node.js (index.js — no PHP, no Composer)', value: BACKEND.NODE },
-    { label: 'PHP (index.php — Composer dependencies)',  value: BACKEND.PHP  },
+    { label: 'Node.js (No composer required)', value: BACKEND.NODE },
+    { label: 'PHP (Can run everywhere)',  value: BACKEND.PHP  },
 ];
 
 // Runtime dependency added to the ROOT package.json when the Node backend is
