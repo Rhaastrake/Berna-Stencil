@@ -11,7 +11,7 @@ Only the language differs.
 > | Host | PHP | Node.js |
 > |---|---|---|
 > | Apache (shared hosting, VPS) | ✅ | ⚠️ needs a persistent process (VPS only) |
-> | Nginx + PHP-FPM (VPS) | ✅ | ✅ (Nginx reverse-proxies to Node) |
+> | Nginx (VPS) | ⚠️ works, but the shipped `nginx.conf` targets Node — needs a manual `fastcgi_pass` block | ✅ (Nginx reverse-proxies to Node) |
 > | IIS (Windows Server) | ✅ FastCGI | ✅ via ARR reverse proxy |
 > | Static hosting (Netlify, Vercel, GitHub Pages, Cloudflare Pages) | ❌ | ❌ |
 >

@@ -5,6 +5,35 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-08-03
+
+### Changed
+- `nginx.conf` is now a complete, ready-to-use site file instead of a set of
+  directives to paste into your own `server` block. Replace three placeholders
+  (`YOUR_DOMAIN`, `SITE_FOLDER`, `YOUR_CERTIFICATE`), symlink it into
+  `sites-enabled/`, reload.
+- Nginx documentation moved from `docs/Deploy.md` to `docs/Nginx.md`;
+  `Deploy.md` now covers only where to publish, one section per server.
+
+### Added
+- HTTP → HTTPS redirect on port 80, with an optional ACME webroot block.
+- TLS setup via Let's Encrypt, with placeholders for the certificate path.
+- Security headers: `X-Content-Type-Options`, `X-Frame-Options`,
+  `Referrer-Policy`, `Strict-Transport-Security` (`max-age=300` by default).
+- `.php` requests return 404, preventing source-code leaks when php-fpm is
+  not configured.
+
+### Removed
+- **Breaking:** the automatic Node → PHP fallback on Nginx. `/api` is now
+  proxied to Node only; if the process is down, Nginx returns 502. For a PHP
+  deployment, edit the `.php` block and `try_files` as described in
+  `docs/Nginx.md`.
+
+### Migration
+Existing Nginx deployments: replace your `server` block with the new
+`nginx.conf` and fill in the three placeholders. If you relied on the PHP
+fallback, follow *Using the PHP backend* in `docs/Nginx.md`.
+
 ## [1.3.0] - 2026-08-01
 
 ### Added
