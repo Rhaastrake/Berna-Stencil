@@ -5,6 +5,22 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2026-08-03
+
+### Added
+- `nginx.conf` header now documents the full setup: package install,
+  certificate issuance with `certbot --cert-name`, auto-renew, and the
+  `sites-available` → `sites-enabled` steps.
+- Troubleshooting table covering the errors whose message points elsewhere
+  than the actual cause: `nginx -t` without sudo, wrong certificate name,
+  certificate not covering the domain, nginx < 1.25, missing `404.html`,
+  DNS not pointing to the server.
+
+### Changed
+- Certificates are now issued with `--cert-name SITE_NAME`, so the directory
+  under `/etc/letsencrypt/live/` matches the site name and `YOUR_CERTIFICATE`
+  is easier to fill in.
+
 ## [1.4.0] - 2026-08-03
 
 ### Changed
