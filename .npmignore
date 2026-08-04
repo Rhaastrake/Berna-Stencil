@@ -3,3 +3,4 @@ src/backend/config.php
 src/backend/config.js
 out/
 node_modules/
+.github
