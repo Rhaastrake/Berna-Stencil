@@ -76,6 +76,16 @@ cd your-project
 nib run
 ```
 
+## 📄 Managing pages
+
+Instead of creating and wiring up multiple files by hand, let the interactive assistant do it for you. To create, remove, or rename pages and configure the output path, run:
+
+```bash
+nib cli
+```
+
+See [docs/Assistant CLI.md](docs/Assistant%20CLI.md) for details.
+
 ## 💻 Commands
 
 Run these from anywhere inside a project — except `nib new`, which must be run **outside** a project, in the folder where you want the new one created.
@@ -88,28 +98,6 @@ Run these from anywhere inside a project — except `nib new`, which must be run
 | `nib build` | Build the output folder |
 | `nib clean` | Remove the output directory |
 | `nib update` | Update Nibula to the latest version (applies from your next project on) |
-
-## 📄 Managing pages
-
-Instead of creating and wiring up multiple files by hand, let the interactive assistant do it for you. To create, remove, or rename pages and configure the output path, run:
-
-```bash
-nib cli
-```
-
-See [docs/Assistant CLI.md](docs/Assistant%20CLI.md) for details.
-
-## 🌍 Deploying
-
-Nibula builds a static site into your `out` folder, which you upload to a web
-server. Which backend you chose affects deployment:
-
-- **Node** runs as a long-running service on a VPS; the web server reverse-proxies `/api` to it.
-- **PHP** runs on ordinary shared hosting (Apache/IIS) or a VPS with PHP-FPM — no process to keep alive.
-
-The shipped `.htaccess`, `web.config` and `nginx.conf` cover **both** backends.
-See [docs/Deploy.md](docs/Deploy.md) for the full guide, including how to start
-the Node service on your server.
 
 ## 🙌 Wrapping up
 
