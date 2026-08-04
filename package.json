@@ -1,6 +1,6 @@
 {
   "name": "nibula",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "A beginner-friendly static site generator built on Eleventy that stays close to vanilla HTML, CSS and JS — with a page-management CLI, an optional PHP backend, and SEO files generated for you.",
   "keywords": [
     "static-site-generator",
