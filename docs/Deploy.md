@@ -62,12 +62,76 @@ automatically.
 modules) proxies `/api` to Node and wins if present. Remove it to fall through
 to `ApiToPhp`, which rewrites `/api` to the PHP front controller.
 
+---
+
 ## Your own server (Nginx on a VPS)
 
 Nginx doesn't read per-directory config files — the whole site lives in one file.
 Nibula ships `nginx.conf` in the project root as a ready-to-use site file that
 **covers both backends without edits**: `/api` goes to Node, and if Node is
 unreachable the request falls through to PHP automatically.
+
+Upload the contents of `out` to `/var/www/SITE_FOLDER`, then follow the steps
+below.
+
+### 1. Replace
+
+| Placeholder | Where |
+|---|---|
+| `YOUR_DOMAIN` | `server_name`, twice (port 80 and 443) |
+| `SITE_FOLDER` | document root under `/var/www/` |
+| `YOUR_CERTIFICATE` | dir under `/etc/letsencrypt/live/` |
+| `SITE_NAME` | file name in the commands below |
+
+### 2. Install (skip if already present)
+
+```bash
+sudo apt update
+sudo apt install -y nginx certbot python3-certbot-nginx
+```
+
+If you are using PHP as backend:
+
+```bash
+sudo apt install -y php-fpm
+```
+
+### 3. Certificate
+
+```bash
+sudo certbot certonly --nginx --cert-name SITE_NAME -d YOUR_DOMAIN
+sudo systemctl enable --now certbot.timer      # auto-renew every 90 days
+```
+
+### 4. Install the site
+
+```bash
+# Move to nginx folders
+cd /etc/nginx/sites-available
+
+# Create and write a new file
+sudo nano SITE_NAME
+# CTRL + O, ENTER, CTRL + X
+
+# Copy the config to sites-enabled
+sudo cp SITE_NAME ../sites-enabled/
+
+# Test and reload the nginx configuration
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+### If it fails
+
+| Symptom | Cause |
+|---|---|
+| `cannot load certificate ... Permission denied` | `nginx -t` needs sudo |
+| `cannot load certificate ... No such file` | wrong certificate name |
+| `no alternative certificate subject name` | certificate doesn't cover domain |
+| `unknown directive "http2"` | nginx < 1.25, check with `nginx -v` |
+| NXDOMAIN / timeout during certbot | DNS not pointing here |
+| 500 instead of the 404 page | `404.html` missing |
+| 502 on `/api`, Node deployed | Node process not running |
+| 502 on `/api`, PHP deployed | wrong php-fpm socket path |
 
 ---
 
@@ -77,7 +141,7 @@ After uploading `out`:
 
 1. Install the backend's runtime deps:
    ```bash
-   cd /var/www/backend/SITE_FOLDER
+   cd /var/www/SITE_FOLDER/backend
    npm install
    ```
 
@@ -91,24 +155,50 @@ After uploading `out`:
    sudo node /var/www/SITE_FOLDER/backend/_core/index.js
    curl http://127.0.0.1:3000/api/example-public
    ```
-4. Exit the screen without closing the process with `CTRL + A`, `D`. To resume the screen type `screen -r node-backend`.
 
-5. For production use **systemd**, which also restarts on crash and reboot. An
-   example unit ships at `backend/backend-node.service.example` — copy it to
-   `/etc/systemd/system/backend-node.service`, adjust `WorkingDirectory` and the
-   `node` path (`which node`), then:
+4. Exit the screen without closing the process with `CTRL + A`, `D`. To resume
+   the screen type `screen -r node-backend`.
+
+5. For production use **systemd**, which also restarts on crash and reboot.
+   Create `/etc/systemd/system/backend-node.service`:
+
+   ```ini
+   [Unit]
+   Description=Nibula Node backend
+   After=network.target
+
+   [Service]
+   Type=simple
+   User=www-data
+   WorkingDirectory=/var/www/SITE_FOLDER/backend
+   ExecStart=/usr/bin/node /var/www/SITE_FOLDER/backend/_core/index.js
+   Restart=always
+   RestartSec=5
+
+   [Install]
+   WantedBy=multi-user.target
+   ```
+
+   Adjust `WorkingDirectory` and the `node` path (`which node`), then:
+
    ```bash
    sudo systemctl daemon-reload
    sudo systemctl enable --now backend-node
    sudo systemctl status backend-node
    ```
+
    (`pm2` works too: `pm2 start _core/index.js --name backend-node`.)
 
 ### Environment variables
 
+Read by the Node backend at startup. Set them in the systemd unit with
+`Environment=KEY=value`.
+
 | Variable | Default | Purpose |
 |---|---|---|
-| `PORT` | `3000` | Port Node listens on (match your proxy target) |
+| `PORT` | `3000` | Port Node listens on (must match the proxy target in `nginx.conf`) |
 | `HOST` | `127.0.0.1` | Bind address — keep it local; the web server is the public face |
-| `APP_ENV` | `production` | `production` hides error details; anything else = verbose 500s |
 | `DOCUMENT_ROOT` | auto (`SITE_FOLDER/`) | Where `404.html` lives; detected as the folder above `backend/` |
+
+Error verbosity is **not** an environment variable: it is the `APP_ENV` key in
+`config.js` / `config.php`. See `docs/Backend.md`.

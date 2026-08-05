@@ -5,6 +5,49 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] - 2026-08-05
+
+### Fixed
+- `nib new` no longer creates an empty `routes` folder. Page source folders are
+  created on demand when a page is added, and removed again when the last page
+  in them is deleted — `routes`, `scss/pages` and the JS/TS pages folder alike.
+- Removing a page that doesn't exist reported the skip and then went on to strip
+  its entry from `site.json` and `page-components.njk` anyway. It now stops.
+- `example.config.php` was missing the `APP_ENV` key, so PHP projects had no way
+  to discover the debug switch from the template. Behaviour was unaffected —
+  the code already fell back to `production` — but the key is now visible and
+  documented, and the two templates are identical again.
+- The backend's `dev` script set `APP_ENV` as an environment variable, which
+  neither backend reads. It ran in production mode and produced no debug output.
+  The script is gone; error verbosity is set in `config.js` / `config.php`.
+- `bin/create.js` repeated the `mysql2` version already declared in
+  `src/backend/package.json`. It now reads that file, so the two cannot drift.
+- `docs/Deploy.md` pointed at `backend/backend-node.service.example`, removed in
+  1.5.0. The systemd unit is written out in full instead.
+- `docs/Deploy.md` gave the backend path as `/var/www/backend/SITE_FOLDER`,
+  inverted with respect to the rest of the document.
+
+### Changed
+- Nginx setup steps moved from the `nginx.conf` header into `docs/Deploy.md`,
+  under "Your own server". The header keeps only the three placeholders that
+  appear in the file and a pointer to the docs, so a config copied into
+  `/etc/nginx/sites-available/` no longer carries 60 lines of install
+  instructions that were already followed.
+- `docs/Deploy.md` troubleshooting is now a table, with a row for a 502 on
+  `/api` caused by the Node process not running.
+- `.eleventyignore` reduced to `src/frontend/assets/**`. The `scss`, `js` and
+  `src/backend` entries excluded nothing: the first two are not Eleventy
+  template formats and the third is outside the input directory. The last one
+  was also misleading, since `.eleventy.js` deliberately copies `src/backend`
+  into the build.
+- `docs/Backend.md` documents `APP_ENV` in its own section, including the
+  `display_errors` behaviour specific to PHP, and states explicitly that it is
+  a config key rather than an environment variable.
+
+### Notes
+- Existing projects are unaffected: the scaffolding and template changes apply
+  only to newly created ones.
+
 ## [1.5.0] - 2026-08-04
 
 ### Added

@@ -53,11 +53,11 @@ const BACKEND_CHOICES = [
     { label: 'PHP (Can run everywhere)',  value: BACKEND.PHP  },
 ];
 
-// Runtime dependency added to the ROOT package.json when the Node backend is
-// chosen, so it lands in the root node_modules (never in src/backend).
-const NODE_BACKEND_DEPENDENCIES = {
-    mysql2: '^3.11.0',
-};
+// Runtime dependencies for the Node backend, read from the backend's own
+// package.json so the two never drift. They are added to the ROOT package.json
+// when Node is chosen, so they land in the root node_modules (never in
+// src/backend).
+const NODE_BACKEND_DEPENDENCIES = require(path.join(templateDir, 'src/backend/package.json')).dependencies;
 
 // ── COPY CONFIG ───────────────────────────────────────────────────────────────
 

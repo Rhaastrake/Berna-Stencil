@@ -52,6 +52,16 @@ function removeDirectory(target) {
     return true;
 }
 
+function removeDirectoryIfEmpty(target) {
+    try {
+        if (fs.readdirSync(target).length > 0) return false;
+        fs.rmdirSync(target);
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
 module.exports = {
     exists,
     readText,
@@ -62,4 +72,5 @@ module.exports = {
     moveFile,
     removeFile,
     removeDirectory,
+    removeDirectoryIfEmpty,
 };

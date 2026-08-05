@@ -1,14 +1,21 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * Mirror of src/backend/example.config.js
+ *
+ * Versioned, secret-free template. On setup, copy this file to config.php and
+ * fill in real values. config.php is git-ignored and stays local.
+ */
+
 return [
     // Default key for protected endpoints that don't have a specific key in CUSTOM_ENDPOINT_KEYS
     'GENERAL_API_KEY' => 'DEFAULT_KEY',
 
-    // If you want restrict access to protected endpoints to specific clients, you can define custom keys for each endpoint
+    // If you want to restrict access to protected endpoints to specific clients, define custom keys per endpoint.
     // For subfolder endpoints, use the relative path ('subfolder/endpoint')
     'CUSTOM_ENDPOINT_KEYS' => [
-        'subfolder/example-protected'    => 'custom-key',
+        'subfolder/example-protected' => 'custom-key',
     ],
 
     'GENERAL_ALLOWED_ORIGINS' => [
@@ -17,7 +24,7 @@ return [
     ],
 
     'CUSTOM_ENDPOINT_ORIGINS' => [
-        'subfolder/example-protected'    => ['https://app.example.com'],
+        'subfolder/example-protected' => ['https://app.example.com'],
     ],
 
     // Database configuration
@@ -25,4 +32,7 @@ return [
     'DB_NAME' => 'example_db',
     'DB_USER' => 'root',
     'DB_PASS' => '',
+
+    // Environment: 'production' hides error details; anything else = debug.
+    'APP_ENV' => 'production',
 ];

@@ -107,19 +107,32 @@ both, PHP-array vs JS-object syntax.
 
 ```js
 module.exports = {
+    // Default key for protected endpoints that don't have a specific key in CUSTOM_ENDPOINT_KEYS
     GENERAL_API_KEY: 'DEFAULT_KEY',
+
+    // If you want to restrict access to protected endpoints to specific clients, define custom keys per endpoint.
+    // For subfolder endpoints, use the relative path ('subfolder/endpoint')
     CUSTOM_ENDPOINT_KEYS: {
-        'subfolder/endpoint': 'custom-key',
+        'subfolder/example-protected': 'custom-key',
     },
-    GENERAL_ALLOWED_ORIGINS: ['*' /*, 'https://example.com' */],
+
+    GENERAL_ALLOWED_ORIGINS: [
+        '*',
+        // 'https://example.com',
+    ],
+
     CUSTOM_ENDPOINT_ORIGINS: {
-        'subfolder/endpoint': ['https://app.example.com'],
+        'subfolder/example-protected': ['https://app.example.com'],
     },
+
+    // Database configuration
     DB_HOST: '127.0.0.1',
     DB_NAME: 'example_db',
     DB_USER: 'root',
     DB_PASS: '',
-    APP_ENV: 'production', // anything else = verbose errors
+
+    // Environment: 'production' hides error details; anything else = debug.
+    APP_ENV: 'production',
 };
 ```
 
@@ -146,6 +159,26 @@ endpoints).
 
 Resolution order: `CUSTOM_ENDPOINT_ORIGINS[path]` if present, otherwise
 `GENERAL_ALLOWED_ORIGINS`.
+
+### Error verbosity
+
+`APP_ENV` decides what an unhandled exception tells the client.
+
+| Value | Response to a 500 |
+|---|---|
+| `'production'` (default) | `{"status":"error","message":"Internal server error","code":500}` |
+| anything else | the real exception message, plus `stack` (Node) or `file` and `line` (PHP) |
+
+On PHP it does one extra thing: `'production'` also turns off `display_errors`
+and `error_reporting`, so a stray warning can't be printed before the JSON and
+corrupt the response body.
+
+Set it to something like `'development'` while building, and back to
+`'production'` before you publish. Missing key means `'production'`.
+
+> This is a config key, **not** an environment variable. Setting `APP_ENV` in a
+> shell or in a systemd unit has no effect — both backends read it from
+> `config.js` / `config.php` only.
 
 ## Database
 

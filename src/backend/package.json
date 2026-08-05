@@ -6,8 +6,7 @@
   "main": "_core/index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node _core/index.js",
-    "dev": "APP_ENV=development node _core/index.js"
+    "start": "node _core/index.js"
   },
   "engines": {
     "node": ">=18"

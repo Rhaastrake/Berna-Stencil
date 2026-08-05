@@ -1,7 +1,7 @@
 const path = require('path');
 const settings = require('../config/settings.json');
 const { PATHS } = require('./paths');
-const { exists, readText, writeText, copyFile, moveFile, removeFile, removeDirectory } = require('./files');
+const { exists, readText, writeText, copyFile, moveFile, removeFile, removeDirectory, removeDirectoryIfEmpty } = require('./files');
 const { log } = require('./logger');
 const { formatText } = require('./text');
 const { languageSettings } = require('./project');
@@ -133,6 +133,12 @@ function removePage(pageName) {
 
     removePageBlock(pageName);
     removeSiteData(pageName);
+
+    const sourceDirectories = [source.style, source.script, source.route].map(file => path.dirname(file));
+
+    for (const directory of sourceDirectories) {
+        if (removeDirectoryIfEmpty(directory)) log('page.fileDeleted', { path: directory });
+    }
 }
 
 module.exports = { addPage, removePage, renamePage };
