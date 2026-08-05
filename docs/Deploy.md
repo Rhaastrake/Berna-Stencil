@@ -58,9 +58,16 @@ comment the `mod_proxy` block in `.htaccess`.
 Same idea: upload the contents of `out`, `web.config` is already there and read
 automatically.
 
-**Backend routing:** the `ApiToNode` rule (requires the ARR + URL Rewrite
-modules) proxies `/api` to Node and wins if present. Remove it to fall through
-to `ApiToPhp`, which rewrites `/api` to the PHP front controller.
+**Backend routing:** `/api` is rewritten to the PHP front controller. To use the
+Node backend instead, uncomment the `ApiToNode` rule in `web.config` and delete
+`ApiToPhp` — this needs the ARR and URL Rewrite modules with proxying enabled,
+so a server you control, not shared hosting.
+
+> ⚠️ **If you chose the Node backend and your host has no ARR** (Aruba and other
+> Windows shared hosting), don't upload the `backend` folder at all. The static
+> site works, and `/api/*` answers with your `404.html`. Upload it and every
+> `/api` request returns an empty 404 instead: IIS rewrites it onto the PHP
+> front controller, which a Node project doesn't contain.
 
 ---
 

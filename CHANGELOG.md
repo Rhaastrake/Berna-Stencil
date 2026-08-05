@@ -5,6 +5,43 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.3] - 2026-08-05
+
+### Fixed
+- `web.config` no longer breaks on Windows shared hosting. `ApiToNode` was the
+  first rule, so every `/api` request returned a 500: rewriting to an absolute
+  URL needs the ARR module, and the `<serverVariables>` block needs an entry in
+  `applicationHost.config` — neither is available on a shared plan. `ApiToPhp`
+  is now the default and `ApiToNode` ships commented out, with the requirements
+  spelled out above it. `<serverVariables>` is gone; on a server with ARR the
+  forwarded-protocol header is set server-side.
+- The PHP front controller looked for `404.html` only under
+  `$_SERVER['DOCUMENT_ROOT']`, which doesn't resolve to the site root on shared
+  hosting, so an unknown `/api` route returned an empty page. It now falls back
+  to the path relative to `_core`, matching how `index.js` already resolved it.
+- `Content-Type: text/html` was only sent when `404.html` existed; the plain
+  fallback went out undeclared.
+- Requesting a protected endpoint in a browser opened a credentials prompt
+  instead of showing the error. IIS attaches `WWW-Authenticate: Basic` to 401
+  responses, which the browser answers with a login dialog. It is now removed in
+  `web.config`, so the JSON envelope reaches the client as intended.
+- `httpErrors` under `backend/` is set to `PassThrough`. The site root keeps
+  `Replace` so unknown pages get `404.html`, but under `backend/` every response
+  is the API's own JSON envelope and IIS must not substitute its HTML for it.
+- `nib rename` overwrote the page's SEO title in `site.json` with one derived
+  from the new name, discarding whatever you had written. It now moves the
+  record under the new key and changes nothing else. This also fixes the rename
+  failing outright when the record's `seo` field was malformed, since the field
+  is no longer read.
+- `nib rename` rewrote `title` in the route's front matter for the same reason.
+  Only `permalink` is updated now.
+
+### Changed
+- `docs/Deploy.md` documents the new IIS default, and warns that a Node project
+  published to Windows shared hosting should leave the `backend` folder out —
+  the requests would be rewritten onto a PHP front controller the project
+  doesn't contain.
+
 ## [1.5.2] - 2026-08-05
 
 ### Fixed

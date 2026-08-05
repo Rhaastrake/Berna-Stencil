@@ -203,7 +203,7 @@ async function handleRequest(req, res) {
             const apiKey = req.headers['x-api-key'] || '';
 
             if (validKey === '' || !hashEquals(validKey, apiKey)) {
-                Response.error('Unauthorized. X_API_KEY is incorrect or missing', 401);
+                Response.error('Unauthorized. X_API_KEY is incorrect or missing', 403);
             }
         }
 

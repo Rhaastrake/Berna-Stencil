@@ -79,11 +79,7 @@ function renameSiteData(oldName, newName) {
         return;
     }
 
-    const record = data[PAGES_KEY][oldCamelName];
-    data[PAGES_KEY][newCamelName] = {
-        ...record,
-        [SEO_KEY]: { ...record[SEO_KEY], [TITLE_KEY]: toTitleCase(newName) },
-    };
+    data[PAGES_KEY][newCamelName] = data[PAGES_KEY][oldCamelName];
     delete data[PAGES_KEY][oldCamelName];
 
     writeSiteData(data);

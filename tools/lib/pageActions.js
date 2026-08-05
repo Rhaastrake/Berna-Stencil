@@ -18,11 +18,11 @@ function templatePath(name) {
     return path.join(PATHS.templates, name);
 }
 
-function applyFrontMatter(filePath, values) {
+function applyFrontMatter(filePath, values, keys = Object.keys(FRONT_MATTER_PATTERNS)) {
     let content = readText(filePath);
 
-    for (const [key, pattern] of Object.entries(FRONT_MATTER_PATTERNS)) {
-        content = content.replace(pattern, formatText(settings.frontMatter[key], values));
+    for (const key of keys) {
+        content = content.replace(FRONT_MATTER_PATTERNS[key], formatText(settings.frontMatter[key], values));
     }
 
     writeText(filePath, content);
@@ -96,7 +96,7 @@ function renamePage(oldName, newName) {
             moveFile(source, destination);
             log('page.fileRenamed', { source, destination });
 
-            if (isRoute) applyFrontMatter(destination, values);
+            if (isRoute) applyFrontMatter(destination, values, ['permalink']);
         }
     } catch (error) {
         log('page.renameFailed', { error: error.message });
