@@ -74,9 +74,7 @@ const FRONTEND_EXCLUDE = {
     [LANGUAGE.TYPESCRIPT]: ['js'],
 };
 
-const CREATE_DIRS = [
-    'src/frontend/routes',
-];
+const CREATE_DIRS = [];
 
 // Backend files that belong to exactly one backend, matched by basename.
 // Everything else (migrations, .htaccess, web.config, README, ...) is shared.
