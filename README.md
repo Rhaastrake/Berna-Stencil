@@ -106,3 +106,5 @@ Thanks for giving Nibula a try.
 It's a one-person project, so every bit of feedback counts more than you'd think: if something breaks, if the documentation isn't clear, or if a feature is missing, open an [issue](https://github.com/Rhaastrake/Nibula/issues) — even just to tell me what you built with it.
 
 If Nibula was useful to you, leaving a ⭐ on the repository is the easiest way to help other people find it.
+
+You can support the project by [buying me a coffee](https://paypal.me/rhaastrake) ☕🫡
