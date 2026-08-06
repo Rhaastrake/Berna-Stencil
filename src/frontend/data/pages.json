@@ -1,0 +1,27 @@
+{
+  "404": {
+    "seo": {
+      "title": "404 - Not found",
+      "keywords": "",
+      "noindex": true,
+      "canonical": ""
+    },
+    "cdn": {
+      "css": [],
+      "js": []
+    }
+  },
+  "homepage": {
+    "seo": {
+      "title": "Homepage",
+      "description": "Description",
+      "keywords": "",
+      "noindex": false,
+      "canonical": ""
+    },
+    "cdn": {
+      "css": [],
+      "js": []
+    }
+  }
+}

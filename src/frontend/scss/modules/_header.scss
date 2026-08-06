@@ -3,7 +3,7 @@
 //==========================
 
 // Getting root rules from _root.scss
-@use 'root' as root;
+@use "../root" as root;
 
 header {
     height: root.$header-height;
@@ -12,7 +12,6 @@ header {
     justify-content: center;
     align-items: center;
     padding: root.$header-padding-y root.$header-padding-x;
-    background-color: root.$primary;
     background-color: #2e7253;
 }
 

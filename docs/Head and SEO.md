@@ -1,6 +1,6 @@
 # Head & SEO
 
-Global settings live in `src/frontend/data/site.json` and are available everywhere via `{{ site.* }}`.
+Global settings live in `src/frontend/data/pages.json` and are available everywhere via `{{ pages.* }}`.
 
 ## Global fields
 
@@ -46,10 +46,10 @@ Global settings live in `src/frontend/data/site.json` and are available everywhe
 
 ## Per-page SEO and CDN
 
-Each page is keyed by its camelCase `title` from the front matter:
+Per-page settings live in `src/frontend/data/pages.json`, available via `{{ pages.* }}`. Each page is keyed by its camelCase `title` from the front matter, at the root of the file:
 
 ```json
-"pages": {
+{
   "examplePage": {
     "seo": {
       "title": "Example Page",
@@ -113,14 +113,15 @@ See the SCSS docs for how to hook your variables to `data-theme`.
 The three favicon tags are hardcoded in `base.njk`. To change the icons, replace the files in `src/frontend/assets/brand/` keeping the same names:
 
 ```html
-<link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="{{ '/assets/brand/favicon.svg' | url }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/brand/favicon-32.png' | url }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/brand/apple-touch-icon.png' | url }}">
 ```
 
 | File | Purpose |
 |---|---|
 | `favicon.svg` | Modern browsers, scales to any size |
+| `favicon-48.png` | Fallback for older browsers and some crawlers |
 | `favicon-32.png` | Fallback for older browsers and some crawlers |
 | `apple-touch-icon.png` | iOS home screen icon — 180×180, must be opaque (iOS renders transparency as black) |
 

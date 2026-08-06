@@ -34,14 +34,15 @@
     "blockRemoved": "[cleaned] page block removed for \"{name}\"",
     "blockRenamed": "[renamed] page block \"{source}\" \u2192 \"{destination}\""
   },
-  "siteData": {
-    "fileMissing": "[skip] not found: {path}",
-    "parseFailed": "[error] cannot parse {file}: {error}",
-    "recordExists": "[skip] record \"{name}\" already exists",
-    "recordMissing": "[skip] record \"{name}\" not found",
-    "recordAdded": "[updated] record \"{name}\" added",
-    "recordRemoved": "[cleaned] record \"{name}\" removed",
-    "recordRenamed": "[updated] record \"{source}\" renamed to \"{destination}\""
+  "pagesData": {
+      "fileMissing": "[skip] not found: {path}",
+      "invalidStructure": "[error] {file} must contain an object of pages",
+      "parseFailed": "[error] cannot parse {file}: {error}",
+      "recordExists": "[skip] record \"{name}\" already exists",
+      "recordMissing": "[skip] record \"{name}\" not found",
+      "recordAdded": "[updated] record \"{name}\" added",
+      "recordRemoved": "[cleaned] record \"{name}\" removed",
+      "recordRenamed": "[updated] record \"{source}\" renamed to \"{destination}\""
   },
   "output": {
     "emptyPath": "[skip] empty output path",
@@ -58,6 +59,7 @@
     "nothingToClean": "(i) nothing to clean \u2192 {path}"
   },
   "cli": {
+    "usingLocalVersion": "Nibula cli local version ({local})",
     "createPrompt": "Name of the new page: ",
     "removePrompt": "Name of the page to remove: ",
     "renameFromPrompt": "Page to rename: ",

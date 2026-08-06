@@ -2,7 +2,8 @@
 // CSS RULES FOR FOOTER
 //==========================
 
-@use 'root' as root;
+// Getting root rules from _root.scss
+@use "../root" as root;
 
 footer {
     display: flex;

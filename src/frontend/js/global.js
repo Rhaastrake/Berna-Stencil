@@ -1,4 +1,4 @@
-// import { initExampleModule } from "./exampleModule";
+// import { initExampleModule } from "./modules/exampleModule.js";
 
 function initGlobal() {
     // initExampleModule();
@@ -6,5 +6,6 @@ function initGlobal() {
 
 // Global logic here
 
-// Do not touch this line
+// Do not touch
+// This instruction starts global.js itself
 document.addEventListener('DOMContentLoaded', initGlobal);

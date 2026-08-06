@@ -4,7 +4,7 @@
 
 Each page has its own SCSS entry point in `src/frontend/scss/pages/`
 
-It must contain `_root.scss` + other modules like `_global.scss` or any other one that you need and its own specific css rules
+It must contain `_root.scss` + any other module that you need and its own specific css rules
 
 `_root.scss` uses `@use` to enable namespaced access (`root.$var`); other modules use `@import` as they don't expose variables.
 
@@ -14,9 +14,9 @@ It must contain `_root.scss` + other modules like `_global.scss` or any other on
 // CSS MODULES IMPORTS
 //==========================
 
-@use "../modules/root" as root;
+@use "../root" as root;
 
-@import "../modules/global";
+@import "../global";
 
 //==========================
 // PAGE CUSTOM CSS RULES
@@ -49,7 +49,7 @@ You can create subfolders if you want to refactor the structure, but be sure to 
 
 ### _yourModule.scss <small>(`src/frontend/scss/modules/subfolder/`)</small>
 ```scss
-@use '../root' as root;
+@use '../../root' as root;
 
 body {
   background-color: root.$primary;
@@ -71,8 +71,6 @@ body {
 
 | File | Purpose |
 |---|---|
-| `_root.scss` | Global variables (colors, spacing) |
-| `_global.scss` | Site-wide base rules and frameworks |
 | `_typography.scss` | Font rules |
 | `_header.scss` | Header styles |
 | `_footer.scss` | Footer styles |
@@ -87,12 +85,12 @@ You can choose one or none of them (more than 1 works, but you may get in variou
 
 To enable/disable them you have to modify 3 files around the project by just commenting them
 
-### 1. _global.scss <small>(`src/frontend/scss/modules/`)</small>
+### 1. _global.scss <small>(`src/frontend/scss/`)</small>
 ```scss
-@import "../modules/frameworks/bootstrap";
-// @import "../modules/frameworks/bulma";
-// @import "../modules/frameworks/foundation";
-// @import "../modules/frameworks/uikit";
+@import "modules/frameworks/bootstrap";
+// @import "modules/frameworks/bulma";
+// @import "modules/frameworks/foundation";
+// @import "modules/frameworks/uikit";
 ```
 
 ### 2. base.njk <small>(`src/frontend/layouts/`)</small>

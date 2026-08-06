@@ -33,7 +33,7 @@ For a page named `my-page`, the following files are created:
 | `src/frontend/js/pages/myPage.js` | JS entry point |
 | `src/frontend/routes/my-page.njk` | Nunjucks template |
 
-It also adds an `elif` block in `page-components.njk` and a stub entry in `site.json`:
+It also adds an `elif` block in `page-components.njk` and a stub entry in `pages.json`:
 
 ```json
     "myPage": {
@@ -53,11 +53,11 @@ It also adds an `elif` block in `page-components.njk` and a stub entry in `site.
 
 ## Remove page
 
-Deletes all source files for the page and cleans up the output directory, `page-components.njk`, and `site.json`.
+Deletes all source files for the page and cleans up the output directory, `page-components.njk`, and `pages.json`.
 
 ## Rename page
 
-Renames all three source files, updates the `elif` block in `page-components.njk`, and renames the record in `site.json` while preserving all existing fields.
+Renames all three source files, updates the `elif` block in `page-components.njk`, and renames the record in `pages.json`. Nothing inside the record is touched — your SEO title, description and CDN links stay exactly as you wrote them.
 
 ## Configure output path
 

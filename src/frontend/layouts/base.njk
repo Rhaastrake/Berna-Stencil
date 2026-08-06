@@ -8,15 +8,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="color-scheme" content="{{ site.theme or 'light' }}">
 
-        {# Preconnect hints — establish early connections to external origins #}
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-
       {#╔══════════════════╗
         ║    PAGE DATA     ║
         ╚══════════════════╝#}
 
         {% set pageKey = title %}
-        {% set pageData = site.pages[pageKey] %}
+        {% set pageData = pages[pageKey] %}
 
       {#╔══════════════════╗
         ║       SEO        ║
@@ -27,7 +24,7 @@
         <meta name="description" content="{{ pageData.seo.description or site.description }}">
         <meta name="keywords" content="{{ pageData.seo.keywords or site.keywords }}">
         <meta name="author" content="{{ site.author }}">
-        <meta name="theme-color" content="{{ site.theme_color }}">
+        <meta name="theme-color" content="{{ site.theme }}">
 
         {% if pageData.seo.noindex %}
         <meta name="robots" content="noindex, follow">
@@ -77,16 +74,16 @@
         ║     FAVICON      ║
         ╚══════════════════╝#}
 
-        <link rel="icon" type="image/svg+xml" href="/assets/brand/favicon.svg">
-        <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png">
+        <link rel="icon" type="image/svg+xml" href="{{ '/assets/brand/favicon.svg' | url }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/brand/favicon-32.png' | url }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/brand/apple-touch-icon.png' | url }}">
 
       {#╔══════════════════╗
         ║       CSS        ║
         ╚══════════════════╝#}
 
         {# Page CSS #}
-        <link rel="stylesheet" href="/css/pages/{{ title }}.css"/>
+        <link rel="stylesheet" href="{{ ('/css/pages/' + title + '.css') | url }}"/>
 
         {# Per-page CDN CSS #}
         {% if pageData and pageData.cdn and pageData.cdn.css %}
@@ -112,10 +109,17 @@
         ╚══════════════════╝#}
 
         {# Framework — uncomment the one you are using #}
-        <script src="/js/bootstrap.bundle.min.js" defer></script>
-        {# <script src="/js/foundation.min.js" defer></script> #}
-        {# <script src="/js/uikit.min.js" defer></script> #}
-        {# <script src="/js/uikit-icons.min.js" defer></script> #}
+        
+        {# Bootstrap JS #}
+        <script src="{{ '/js/bootstrap.bundle.min.js' | url }}" defer></script>
+
+        {# Foundation JS #}
+        {# <script src="{{ '/js/foundation.min.js' | url }}" defer></script> #}
+
+        {# UIkit JS #}
+        {# <script src="{{ '/js/uikit.min.js' | url }}" defer></script> #}
+        {# <script src="{{ '/js/uikit-icons.min.js' | url }}" defer></script> #}
+
         {# Bulma — no JS needed #}
 
         {# Per-page CDN JS #}
@@ -126,7 +130,7 @@
         {% endif %}
 
         {# Page JS #}
-        <script src="/js/pages/{{ title }}.js"></script>
+        <script src="{{ ('/js/pages/' + title + '.js') | url }}"></script>
 
     </body>
 

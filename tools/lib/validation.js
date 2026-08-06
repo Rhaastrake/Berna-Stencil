@@ -12,6 +12,7 @@ function requiredFiles() {
         { label: settings.paths.eleventyConfig,  path: PATHS.eleventyConfig },
         { label: settings.paths.packageJson,     path: PATHS.packageJson },
         { label: settings.paths.siteData,        path: PATHS.siteData },
+        { label: settings.paths.pagesData,       path: PATHS.pagesData },
         { label: settings.paths.pageComponents,  path: PATHS.pageComponents },
         { label: message('validation.templatesLabel'), path: PATHS.templates },
     ];

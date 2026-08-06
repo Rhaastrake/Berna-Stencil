@@ -5,7 +5,6 @@ const { message } = require('../lib/logger');
 const SYMBOLS = settings.cli.symbols;
 const COLORS = settings.cli.colors;
 const MENU = settings.cli.menu;
-const BOX_WIDTH = settings.cli.boxWidth;
 const BOX_TITLE = settings.cli.title;
 const BOX_TOP_LEFT = '\u256d';
 const BOX_TOP_RIGHT = '\u256e';
@@ -15,6 +14,17 @@ const BOX_HORIZONTAL = '\u2500';
 const BOX_VERTICAL = '\u2502';
 const NEW_LINE = '\n';
 const SPACE = ' ';
+
+const LOCAL_FLAG = 'NIBULA_LOCAL';
+const LOCAL_FLAG_VALUE = '1';
+const TITLE_PADDING = 2;
+
+const TITLE_SUFFIX = process.env[LOCAL_FLAG] === LOCAL_FLAG_VALUE
+    ? ` (local v${require('../../package.json').version})`
+    : '';
+
+const PLAIN_TITLE = `${BOX_TITLE}${TITLE_SUFFIX}`;
+const BOX_WIDTH = Math.max(settings.cli.boxWidth, PLAIN_TITLE.length + TITLE_PADDING);
 
 function line(colorName, text) {
     return `${color[colorName]}${text}${color.reset}`;
@@ -41,10 +51,14 @@ function noticePrefix(text) {
 }
 
 function centeredTitle() {
-    const padding = BOX_WIDTH - BOX_TITLE.length;
+    const padding = BOX_WIDTH - PLAIN_TITLE.length;
     const left = SPACE.repeat(Math.ceil(padding / 2));
     const right = SPACE.repeat(Math.floor(padding / 2));
-    return `${left}${BOX_TITLE}${right}`;
+
+    if (!TITLE_SUFFIX) return `${left}${BOX_TITLE}${right}`;
+
+    const suffix = `${color.dim}${TITLE_SUFFIX}${color.reset}${color[COLORS.box]}${color.bold}`;
+    return `${left}${BOX_TITLE}${suffix}${right}`;
 }
 
 function renderMenu() {

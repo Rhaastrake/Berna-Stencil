@@ -28,8 +28,8 @@ To render a component inside a page, navigate to `src/frontend/layouts/` and edi
 {% include "welcome.njk" %}
 
 {% elif title == "examplePage" %}
-{% include "exampleComponent1.njk" %}
-{% include "subfolder/exampleComponent2.njk" %}
+{% include "example-component-1.njk" %}
+{% include "subfolder/example-component-2.njk" %}
 
 {% else %}
 {% include "404/_404.njk" %}
@@ -50,8 +50,8 @@ A component can include other components. This is useful for breaking complex se
 ### exampleComponent.njk
 ```js
 <section class="hero">
-  {% include "ui/heroTitle.njk" %}
-  {% include "ui/heroButton.njk" %}
+  {% include "hero/hero-title.njk" %}
+  {% include "hero/hero-button.njk" %}
 </section>
 ```
 
@@ -67,14 +67,23 @@ All values defined in `src/frontend/data/site.json` are globally available in ev
 
 ### site.json <small>(`src/frontend/data/`)</small>
 ```json
-{
-  "title": "My Site",
-  "theme": "dark",
-  "logo": "/assets/brand/logo.svg",
-  "legal": {
-    "privacy": "/privacy"
+"site_name": "Site name",
+"title": "Site title",
+"description": "Site description",
+"keywords": "keyword1, keyword2, keyword3",
+"domain": "yoursite.com",
+"url": "https://yoursite.com",
+"lang": "en",
+"author": "Name and surname",
+"logo": "/assets/brand/logo.svg",
+"legal": {
+  "privacy": "", // This is supposed to contain a link
+  "cookie": "", // This is supposed to contain a link
+  "terms": "", // This is supposed to contain a link
+  "copyright": {
+    "year": "2026",
+    "text": "All rights reserved."
   }
-}
 ```
 
 ### Usage in any `.njk` file
@@ -83,3 +92,50 @@ All values defined in `src/frontend/data/site.json` are globally available in ev
 <a href="{{ site.legal.privacy }}">Privacy Policy</a>
 <img src="{{ site.logo }}" alt="{{ site.title }}">
 ```
+
+## Your own data files
+
+`site.json` isn't special: **any** `.json` file you drop in `src/frontend/data/` becomes a global variable, and the variable takes the name of the file.
+
+Create `test.json`, put anything you want inside it, and every key is reachable as `test.yourKey` — no import, no configuration, no restart.
+
+### test.json <small>(`src/frontend/data/`)</small>
+```json
+{
+  "testMessage": "This is a test"
+}
+```
+
+### Usage in any `.njk` file
+```js
+<p>{{ test.testMessage }}</p>
+```
+
+Renders as:
+```html
+<p>This is a test</p>
+```
+
+That's the whole rule: **file name = variable name, keys inside = what you write after the dot.** `site.json` gives you `site.title` for exactly the same reason.
+
+Values can be anything JSON allows, so a list lets you loop instead of copying markup:
+
+```json
+{
+  "testMessage": "This is a test",
+  "links": [
+    { "label": "Home",    "url": "/" },
+    { "label": "Contact", "url": "/contact/" }
+  ]
+}
+```
+
+```js
+{% for link in test.links %}
+  <a href="{{ link.url }}">{{ link.label }}</a>
+{% endfor %}
+```
+
+Subfolders create nested names: `data/shop/products.json` becomes `{{ shop.products }}`.
+
+> ⚠️ Don't reuse a name that already exists. Another file named `site.json` in a subfolder overwrites the original one silently, with no error to point you at the cause.

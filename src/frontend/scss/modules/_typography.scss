@@ -1,5 +1,9 @@
+//==========================
+// CSS RULES FOR TYPOGRAPHY
+//==========================
+
 // Getting root rules from _root.scss
-@use "root" as root;
+@use "../root" as root;
 
 html {
   font-size: 16px;

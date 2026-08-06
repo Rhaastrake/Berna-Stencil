@@ -11,7 +11,8 @@ Import only what the page needs.
 ### examplePage.js <small>(`src/frontend/js/pages/`)</small>
 
 ```js
-import '../modules/global.js';
+import '../global.js';
+
 // import { initExampleModule } from '../modules/exampleModule.js';
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -25,9 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 Some code has to run on every page: a header menu, a theme toggle, a cookie banner. Repeating it in every page entry point means you'll eventually forget it on one of them, and the bug only shows up on that single page.
 
-That's what `global.js` is for. It lives in `src/frontend/js/modules/`, every page entry point imports it, and it takes care of running the shared modules.
+That's what `global.js` is for. It lives in `src/frontend/js/`, every page entry point imports it, and it takes care of running the shared modules.
 
-### global.js <small>(`src/frontend/js/modules/`)</small>
+### global.js <small>(`src/frontend/js/`)</small>
 
 ```js
 // import { initExampleModule } from './exampleModule.js';
@@ -38,14 +39,15 @@ function initGlobal() {
 
 // Global logic here
 
-// Do not touch this line
+// Do not touch
+// This instruction starts global.js itself
 document.addEventListener('DOMContentLoaded', initGlobal);
 ```
 
 Pages import it without curly braces, since there is nothing to export — the module runs on its own as soon as it's part of the bundle:
 
 ```js
-import '../modules/global.js';
+import '../global.js';
 ```
 
 Note that the import path inside `global.js` is `'./exampleModule.js'` and not `'../modules/exampleModule.js'`: `global.js` already sits in the modules folder, next to the modules it imports.
@@ -56,9 +58,8 @@ A responsive header has a burger button that opens the navigation on small scree
 
 Write the behaviour as a normal module:
 
+### header.js <small>(`src/frontend/js/modules/`)</small>
 ```js
-// src/frontend/js/modules/header.js
-
 export function initHeader() {
     const toggle = document.querySelector('.menu-toggle');
     const menu = document.querySelector('.menu');
@@ -74,13 +75,14 @@ export function initHeader() {
 Then wire it up once, in `global.js`:
 
 ```js
-import { initHeader } from './header.js';
+import { initHeader } from './modules/header.js';
 
 function initGlobal() {
     initHeader();
 }
 
-// Do not touch this line
+// Do not touch
+// This instruction starts global.js itself
 document.addEventListener('DOMContentLoaded', initGlobal);
 ```
 

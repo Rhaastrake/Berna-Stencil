@@ -2,11 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const settings = require('../config/settings.json');
 const { paint } = require('./colors');
-const { message } = require('./logger');
 
 const PACKAGE_ROOT = path.resolve(__dirname, '..', '..');
 const PATH_SEPARATOR = '/';
-const NOT_INSIDE_PROJECT_MESSAGE = paint('red', message('project.notInside'));
 
 let cachedProjectRoot = null;
 
@@ -24,7 +22,7 @@ function projectRoot() {
     if (cachedProjectRoot) return cachedProjectRoot;
     const root = findProjectRoot();
     if (!root) {
-        console.error(NOT_INSIDE_PROJECT_MESSAGE);
+        console.error(paint('red', require('./logger').message('project.notInside')));
         process.exit(1);
     }
     cachedProjectRoot = root;
@@ -47,14 +45,19 @@ const PATHS = Object.freeze({
     get routes()           { return resolveFromProject(settings.paths.routes); },
     get stylePages()       { return resolveFromProject(settings.paths.stylePages); },
     get siteData()         { return resolveFromProject(settings.paths.siteData); },
+    get pagesData()        { return resolveFromProject(settings.paths.pagesData); },
     get pageComponents()   { return resolveFromProject(settings.paths.pageComponents); },
     get templates()        { return resolveFromPackage(settings.paths.templates); },
 });
 
+function getNotInsideProjectMessage() {
+    return paint('red', require('./logger').message('project.notInside'));
+}
+
 module.exports = {
     PATHS,
     PACKAGE_ROOT,
-    NOT_INSIDE_PROJECT_MESSAGE,
+    getNotInsideProjectMessage,
     findProjectRoot,
     resolveFromProject,
     resolveFromPackage,

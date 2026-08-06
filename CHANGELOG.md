@@ -5,6 +5,37 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-08-06
+
+### Breaking
+- Per-page settings must move out of `site.json`. Take the block under the `pages`
+  key and make it the root object of a new `src/frontend/data/pages.json`, then
+  update `base.njk`, `sitemap.njk` and `llms.njk` to read `pages[title]` instead of
+  `site.pages[title]`. Without `pages.json` the assistant reports the missing file
+  and stops.
+- SCSS and JS import paths change with the `_root`, `_global` and `global` moves.
+  Update the `@use` and `@import` lines in your page entry points accordingly.
+- Existing projects keep working until you run `npm install nibula@latest` inside
+  them: commands now delegate to the project's own copy, so an old project keeps
+  running the version it was built with.
+
+### Changed
+- **Per-page settings moved from `site.json` to a new `pages.json`.** They were nested under a `pages` key in the same file the CLI writes on every page operation; splitting them means a syntax error in one page's record no longer makes the whole site configuration unreadable. Access changes from `{{ site.pages[title] }}` to `{{ pages[title] }}`, and the CLI now reads and writes `pages.json` only.
+- Commands run inside a project now execute the project's own Nibula, taken from its `node_modules`, instead of the globally installed one. `nib cli` typed in a terminal used to run the global copy against local files, so a project scaffolded with an older version could be operated on by a newer CLI expecting a different structure. When the two versions differ, the one being used is reported before the command runs, and the assistant's title shows it as well.
+- `_root.scss` and `_global.scss` moved out of `scss/modules/`. They are not modules — every page imports them and nothing else does — so they now sit at the root of `scss/`.
+- `global.js` and `global.ts` moved out of their `modules/` folders, for the same reason.
+- Import paths updated across existing modules, pages and scaffold templates to match both moves.
+- `base.njk` applies the `url` filter to per-page CSS and JS, to the favicons and to the framework scripts. Without it these paths ignore `pathPrefix`, so every asset 404s on a site published under a subpath — GitHub Pages being the common case.
+- Documentation updated throughout for the new structure and the `site.json` / `pages.json` split.
+
+### Fixed
+- TypeScript page entry points imported modules with a `.js` extension.
+- `logo` was nested inside `legal` in `site.json`, so `{{ site.logo }}` resolved to nothing in the header, the footer, the Open Graph image and the JSON-LD publisher block. It now sits at the root, where the templates already looked for it.
+
+### Removed
+- `legal.cookieControls` from `site.json`.
+- Preconnect hint to `cdn.jsdelivr.net` in `base.njk`. The project loads its framework from `node_modules` through passthrough copy, so the hint opened a TCP and TLS connection to a host that was never used.
+
 ## [1.5.3] - 2026-08-05
 
 ### Fixed

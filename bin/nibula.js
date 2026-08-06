@@ -8,6 +8,7 @@ const { spawnSync } = require('child_process');
 const { findProjectRoot, NOT_INSIDE_PROJECT_MESSAGE } = require('../tools/lib/paths');
 const { color } = require('../tools/lib/colors');
 const { message } = require('../tools/lib/logger');
+const { delegateToLocal } = require('./delegate');
 
 const pkg = require('../package.json');
 
@@ -48,27 +49,9 @@ function requireOutsideProject() {
     process.exit(1);
 }
 
-function maybeDelegateToLocal(root) {
-    const local = path.join(root, 'node_modules', 'nibula', 'bin', 'nibula.js');
-    if (!fs.existsSync(local)) return;
-
-    let localReal;
-    let selfReal;
-    try { localReal = fs.realpathSync(local); } catch { return; }
-    try { selfReal = fs.realpathSync(__filename); } catch { selfReal = __filename; }
-
-    if (localReal !== selfReal) {
-        const res = spawnSync('node', [localReal, ...process.argv.slice(2)], {
-            stdio: 'inherit',
-            cwd: process.cwd(),
-        });
-        process.exit(res.status ?? 0);
-    }
-}
-
 function enterProject() {
     const root = requireProjectRoot();
-    maybeDelegateToLocal(root);
+    delegateToLocal(root);
     return root;
 }
 
@@ -198,6 +181,7 @@ function findExistingProject(baseDir, projectName) {
 
 function usage(currentVersion) {
     console.log(`
+
 ${color.bold}${color.cyan}Nibula (${currentVersion})${color.reset} ${color.bold}by Michele Garofalo${color.reset}
 
 ${color.yellow}nib new <project-name>${color.reset}   Create your new project
@@ -206,6 +190,7 @@ ${color.yellow}nib run${color.reset}                  Start the dev server and b
 ${color.yellow}nib build${color.reset}                Build the site out folder to publish
 ${color.yellow}nib clean${color.reset}                Remove the output directory
 ${color.yellow}nib update${color.reset}               Update to the latest version
+
 `);
 }
 

@@ -11,6 +11,7 @@
     "typescriptConfig": "tsconfig.json",
     "routes": "src/frontend/routes",
     "stylePages": "src/frontend/scss/pages",
+    "pagesData": "src/frontend/data/pages.json",
     "siteData": "src/frontend/data/site.json",
     "pageComponents": "src/frontend/layouts/page-components.njk",
     "templates": "tools/res/templates"
@@ -79,11 +80,6 @@
       "{pageName}",
       "pages/{pageName}"
     ],
-    "dataKeys": {
-      "pages": "pages",
-      "seo": "seo",
-      "title": "title"
-    },
     "defaultData": {
       "seo": {
         "title": "{title}",
@@ -101,7 +97,7 @@
   "pageComponents": {
     "anchor": "{% else %}",
     "condition": "{% elif title == \"{camelName}\" %}",
-    "include": "{% include \"component.njk\" ignore missing %}"
+    "include": "{% include \"component-name.njk\" ignore missing %}"
   },
   "frontMatter": {
     "title": "title: \"{camelName}\"",

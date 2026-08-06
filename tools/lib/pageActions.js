@@ -6,7 +6,7 @@ const { log } = require('./logger');
 const { formatText } = require('./text');
 const { languageSettings } = require('./project');
 const { getPageArtifacts, pageExists } = require('./pageArtifacts');
-const { addSiteData, removeSiteData, renameSiteData } = require('./siteData');
+const { readPagesData, addPageData, removePageData, renamePageData } = require('./pagesData');
 const { addPageBlock, removePageBlock, renamePageBlock } = require('./pageComponents');
 
 const FRONT_MATTER_PATTERNS = Object.freeze({
@@ -63,7 +63,7 @@ function addPage(pageName) {
     }
 
     addPageBlock(pageName);
-    addSiteData(pageName);
+    addPageData(pageName);
 }
 
 function renamePage(oldName, newName) {
@@ -75,6 +75,7 @@ function renamePage(oldName, newName) {
         log('page.targetExists', { name: newName });
         return;
     }
+    if (!readPagesData()) return;
 
     const current = getPageArtifacts(oldName);
     const next = getPageArtifacts(newName);
@@ -104,13 +105,15 @@ function renamePage(oldName, newName) {
     }
 
     renamePageBlock(oldName, newName);
-    renameSiteData(oldName, newName);
+    renamePageData(oldName, newName);
 }
 
 function removePage(pageName) {
     if (!pageExists(pageName)) {
         log('page.doesNotExist', { name: pageName });
+        return;
     }
+    if (!readPagesData()) return;
 
     const { source, output } = getPageArtifacts(pageName);
     const files = [source.style, source.script, source.route, ...output.files];
@@ -132,7 +135,7 @@ function removePage(pageName) {
     }
 
     removePageBlock(pageName);
-    removeSiteData(pageName);
+    removePageData(pageName);
 
     const sourceDirectories = [source.style, source.script, source.route].map(file => path.dirname(file));
 

@@ -6,20 +6,19 @@
 @use 'root' as root;
 
 // Frameworks imports
-@import "../modules/frameworks/bootstrap";
-// @import "../modules/frameworks/bulma";
-// @import "../modules/frameworks/foundation";
-// @import "../modules/frameworks/uikit";
-
+@import "modules/frameworks/bootstrap";
+// @import "modules/frameworks/bulma";
+// @import "modules/frameworks/foundation";
+// @import "modules/frameworks/uikit";
 
 // Modules imports
-@import "typography";
+@import "modules/typography";
 
-@import "header";
-@import "footer";
+@import "modules/header";
+@import "modules/footer";
 
-@import "animations";
-@import "mobile";
+@import "modules/animations";
+@import "modules/mobile";
 
 //==========================
 // Global css rules for the entire site

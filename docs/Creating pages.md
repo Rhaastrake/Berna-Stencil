@@ -11,16 +11,16 @@ For a page named `my-page`:
 |---|---|
 | `src/frontend/routes/my-page.njk` | Template with front matter |
 | `src/frontend/scss/pages/myPage.scss` | Imports framework + modules |
-| `src/frontend/js/pages/myPage.js` | Imports JS modules |
+| `src/frontend/js/pages/myPage.js` | Imports JS/TS modules |
 
 ## Adding content
 
-1. Create a component in `src/frontend/components/` (e.g. `_myPage.njk`)
+1. Create a component in `src/frontend/components/` (e.g. `my-component.njk`)
 2. Include it in `src/frontend/layouts/page-components.njk` inside the generated `elif` block:
 
 ```njk
 {% elif title == "myPage" %}
-  {% include "_myPage.njk" %}
+  {% include "my-component.njk" ignore missing %}
 ```
 
 See **Components** DOC file for more info
@@ -51,15 +51,20 @@ The parent path (`about`) does **not** need to exist as a real page — it's jus
 
 ## SEO
 
-The CLI creates a stub entry in `src/frontend/data/site.json`. Fill it in:
+The CLI creates a stub entry in `src/frontend/data/pages.json`. Fill it in:
 
 ```json
-"myPage": {
-  "seo": {
-    "title": "My Page | Site Name",
-    "description": "Page description"
-  }
-}
+    "myPage": {
+      "seo": {
+        "title": "My Page",
+        "description": "Description",
+        "keywords": "",
+        "noindex": false,
+        "canonical": ""
+      },
+      "cdn": {
+        "css": [],
+        "js": []
+      }
+    }
 ```
-
-See **Head & SEO** for all available options.

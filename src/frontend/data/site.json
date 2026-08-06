@@ -8,41 +8,14 @@
   "lang": "en",
   "author": "Name and surname",
   "theme": "dark",
+  "logo": "/assets/brand/logo.svg",
   "legal": {
     "privacy": "",
     "cookie": "",
-    "cookieControls": "",
     "terms": "",
     "copyright": {
       "year": "2026",
       "text": "All rights reserved."
-    }
-  },
-  "pages": {
-    "404": {
-      "seo": {
-        "title": "404 - Not found",
-        "keywords": "",
-        "noindex": true,
-        "canonical": ""
-      },
-      "cdn": {
-        "css": [],
-        "js": []
-      }
-    },
-    "homepage": {
-      "seo": {
-        "title": "Homepage",
-        "description": "Description",
-        "keywords": "",
-        "noindex": false,
-        "canonical": ""
-      },
-      "cdn": {
-        "css": [],
-        "js": []
-      }
     }
   }
 }

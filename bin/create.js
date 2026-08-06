@@ -78,7 +78,7 @@ const CREATE_DIRS = [];
 
 // Backend files that belong to exactly one backend, matched by basename.
 // Everything else (migrations, .htaccess, web.config, README, ...) is shared.
-const NODE_ONLY_FILES = new Set(['package.json', 'backend-node.service.example']);
+const NODE_ONLY_FILES = new Set(['package.json']);
 const PHP_ONLY_FILES  = new Set(['composer.json', 'composer.lock']);
 const PHP_ONLY_DIRS   = new Set(['vendor']);
 // Runtime artifacts that must never be copied from the template, either way.

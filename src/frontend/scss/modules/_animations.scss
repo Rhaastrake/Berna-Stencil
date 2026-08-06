@@ -3,7 +3,7 @@
 //==========================
 
 // Getting root rules from _root.scss
-@use 'root' as root;
+@use "../root" as root;
 
 .fade-in {
   animation: fadeIn 1s;
