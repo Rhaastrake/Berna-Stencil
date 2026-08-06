@@ -5,7 +5,14 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2026-08-06
+## [1.6.1] - 2026-08-06
+
+### Fixed
+- `src/frontend/scss/pages/prova.scss` was left in the template and shipped with 1.6.0, so every new project started with a stylesheet for a page that doesn't exist — no route, no script, no entry in `pages.json`.
+- Open Graph and Twitter Card tags read `seo.title` and `seo.description` directly, with none of the fallbacks the `<title>` and meta description already had. A page that left those fields empty in `pages.json` published an empty social preview — exactly the case the fallbacks exist for. They now follow the same chain.
+- `data-theme` was missing from the `<html>` tag. It is documented as the hook to target in SCSS for theme variables, so a selector written against it never matched.
+
+## [1.6.0] - 2026-08-06
 
 ### Breaking
 - Per-page settings must move out of `site.json`. Take the block under the `pages`

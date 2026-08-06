@@ -1,7 +1,7 @@
 <!-- This is the base of every page that you will create -->
 
 <!DOCTYPE html>
-<html lang="{{ site.lang or 'en' }}" data-bs-theme="{{ site.theme or 'light' }}">
+<html lang="{{ site.lang or 'en' }}" data-theme="{{ site.theme or 'light' }}" data-bs-theme="{{ site.theme or 'light' }}">
 
     <head>
         <meta charset="UTF-8">
@@ -31,8 +31,8 @@
         {% endif %}
 
         {# Open Graph #}
-        <meta property="og:title" content="{{ pageData.seo.title }}">
-        <meta property="og:description" content="{{ pageData.seo.description }}">
+        <meta property="og:title" content="{{ pageData.seo.title or title or site.title }}">
+        <meta property="og:description" content="{{ pageData.seo.description or site.description }}">
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ site.url }}{{ page.url }}">
         <meta property="og:image" content="{{ site.url }}{{ site.logo }}">
@@ -40,8 +40,8 @@
 
         {# Twitter Card #}
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="{{ pageData.seo.title }}">
-        <meta name="twitter:description" content="{{ pageData.seo.description }}">
+        <meta name="twitter:title" content="{{ pageData.seo.title or title or site.title }}">
+        <meta name="twitter:description" content="{{ pageData.seo.description or site.description }}">
         <meta name="twitter:image" content="{{ site.url }}{{ site.logo }}">
 
       {#╔══════════════════════════════════════════╗
