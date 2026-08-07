@@ -15,12 +15,14 @@ const BOX_VERTICAL = '\u2502';
 const NEW_LINE = '\n';
 const SPACE = ' ';
 
-const LOCAL_FLAG = 'NIBULA_LOCAL';
-const LOCAL_FLAG_VALUE = '1';
+const GLOBAL_VERSION_FLAG = 'NIBULA_GLOBAL_VERSION';
 const TITLE_PADDING = 2;
 
-const TITLE_SUFFIX = process.env[LOCAL_FLAG] === LOCAL_FLAG_VALUE
-    ? ` (local v${require('../../package.json').version})`
+const LOCAL_VERSION = require('../../package.json').version;
+const GLOBAL_VERSION = process.env[GLOBAL_VERSION_FLAG];
+
+const TITLE_SUFFIX = GLOBAL_VERSION && GLOBAL_VERSION !== LOCAL_VERSION
+    ? ` (local v${LOCAL_VERSION})`
     : '';
 
 const PLAIN_TITLE = `${BOX_TITLE}${TITLE_SUFFIX}`;
@@ -54,8 +56,6 @@ function centeredTitle() {
     const padding = BOX_WIDTH - PLAIN_TITLE.length;
     const left = SPACE.repeat(Math.ceil(padding / 2));
     const right = SPACE.repeat(Math.floor(padding / 2));
-
-    if (!TITLE_SUFFIX) return `${left}${BOX_TITLE}${right}`;
 
     const suffix = `${color.dim}${TITLE_SUFFIX}${color.reset}${color[COLORS.box]}${color.bold}`;
     return `${left}${BOX_TITLE}${suffix}${right}`;

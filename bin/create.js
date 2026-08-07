@@ -33,6 +33,11 @@ const BACKEND = Object.freeze({
     PHP:  'php',
 });
 
+const COMMENT_STYLE = Object.freeze({
+    SLASH: { open: '// ', close: '' },
+    NJK:   { open: '{# ', close: ' #}' },
+});
+
 // ── CHOICES ──────────────────────────────────────────────────────────────────
 
 const LANGUAGE_CHOICES = [
@@ -88,14 +93,16 @@ const BACKEND_SKIP_DIRS = new Set(['node_modules', 'cache', '.git']);
 
 const ALL_FRAMEWORKS = Object.values(FRAMEWORK).filter(f => f !== FRAMEWORK.NONE);
 
+const SCSS_FRAMEWORK_PREFIX = 'modules/frameworks/';
+
+// Markers are substrings matched against whole lines, never full lines, so the
+// surrounding syntax (Nunjucks url filter, passthrough copy mapping) can change
+// without breaking the scaffolder.
 const FRAMEWORKS = {
     [FRAMEWORK.BOOTSTRAP]: {
         scss:     'bootstrap',
-        njk:      ['<script src="/js/bootstrap.bundle.min.js" defer></script>'],
-        eleventy: [
-            '"node_modules/bootstrap/dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",',
-            '"node_modules/bootstrap-icons/font/fonts": "css/fonts",',
-        ],
+        njk:      ['/js/bootstrap.bundle.min.js'],
+        eleventy: ['bootstrap/dist/js/bootstrap.bundle.min.js', 'bootstrap-icons/font/fonts'],
     },
     [FRAMEWORK.BULMA]: {
         scss:     'bulma',
@@ -104,19 +111,13 @@ const FRAMEWORKS = {
     },
     [FRAMEWORK.FOUNDATION]: {
         scss:     'foundation',
-        njk:      ['<script src="/js/foundation.min.js" defer></script>'],
-        eleventy: ['"node_modules/foundation-sites/dist/js/foundation.min.js": "js/foundation.min.js",'],
+        njk:      ['/js/foundation.min.js'],
+        eleventy: ['foundation-sites/dist/js/foundation.min.js'],
     },
     [FRAMEWORK.UIKIT]: {
         scss:     'uikit',
-        njk:      [
-            '<script src="/js/uikit.min.js" defer></script>',
-            '<script src="/js/uikit-icons.min.js" defer></script>',
-        ],
-        eleventy: [
-            '"node_modules/uikit/dist/js/uikit.min.js": "js/uikit.min.js",',
-            '"node_modules/uikit/dist/js/uikit-icons.min.js": "js/uikit-icons.min.js",',
-        ],
+        njk:      ['/js/uikit.min.js', '/js/uikit-icons.min.js'],
+        eleventy: ['uikit/dist/js/uikit.min.js', 'uikit/dist/js/uikit-icons.min.js'],
     },
     [FRAMEWORK.NONE]: {
         scss:     null,
@@ -189,10 +190,6 @@ function logAdd(name) {
     log(`${color.green}+${color.reset} ${name}`);
 }
 
-function escapeRegex(str) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
 function copyRecursive(src, dest, exclude = []) {
     const stat = fs.statSync(src);
     if (stat.isDirectory()) {
@@ -250,22 +247,60 @@ function copyBackend(src, dest, backend) {
     }
 }
 
-function slashComment(content, line) {
-    content = content.replace(new RegExp(`^([ \\t]*)// (${escapeRegex(line)})$`, 'gm'), '$1$2');
-    return content.replace(new RegExp(`^([ \\t]*)(${escapeRegex(line)})$`, 'gm'), '$1// $2');
+function splitLine(line) {
+    const body = line.trim();
+    if (!body) return { indent: line, body: '', trailing: '' };
+
+    const start = line.indexOf(body);
+    return {
+        indent:   line.slice(0, start),
+        body,
+        trailing: line.slice(start + body.length),
+    };
 }
 
-function slashUncomment(content, line) {
-    return content.replace(new RegExp(`^([ \\t]*)// (${escapeRegex(line)})$`, 'gm'), '$1$2');
+function uncommentLine(line, style) {
+    const { indent, body, trailing } = splitLine(line);
+    if (!body.startsWith(style.open)) return line;
+
+    let inner = body.slice(style.open.length);
+    if (style.close) {
+        if (!inner.endsWith(style.close)) return line;
+        inner = inner.slice(0, -style.close.length);
+    }
+
+    return indent + inner + trailing;
 }
 
-function njkComment(content, line) {
-    content = content.split(`{# ${line} #}`).join(line);
-    return content.split(line).join(`{# ${line} #}`);
+function commentLine(line, style) {
+    const bare = uncommentLine(line, style);
+    const { indent, body, trailing } = splitLine(bare);
+    if (!body) return line;
+
+    return indent + style.open + body + style.close + trailing;
 }
 
-function njkUncomment(content, line) {
-    return content.split(`{# ${line} #}`).join(line);
+function mapMarkedLines(content, marker, style, transform) {
+    return content
+        .split('\n')
+        .map(line => (line.includes(marker) ? transform(line, style) : line))
+        .join('\n');
+}
+
+function slashComment(content, marker) {
+    return mapMarkedLines(content, marker, COMMENT_STYLE.SLASH, commentLine);
+}
+
+function slashUncomment(content, marker) {
+    return mapMarkedLines(content, marker, COMMENT_STYLE.SLASH, uncommentLine);
+}
+
+function njkComment(content, marker) {
+    return mapMarkedLines(content, marker, COMMENT_STYLE.NJK, commentLine);
+}
+
+function njkUncomment(content, marker) {
+    return mapMarkedLines(content, marker, COMMENT_STYLE.NJK, uncommentLine);
 }
 
 function installDependencies(backend) {
@@ -323,14 +358,14 @@ function installDependencies(backend) {
 function applyFramework(framework) {
     const config = FRAMEWORKS[framework];
 
-    const globalScssPath = path.join(targetDir, 'src/frontend/scss/modules/_global.scss');
+    const globalScssPath = path.join(targetDir, 'src/frontend/scss/_global.scss');
     if (fs.existsSync(globalScssPath)) {
         let content = fs.readFileSync(globalScssPath, 'utf8');
         ALL_FRAMEWORKS.forEach(fw => {
-            content = slashComment(content, `@import "../modules/frameworks/${fw}";`);
+            content = slashComment(content, `${SCSS_FRAMEWORK_PREFIX}${fw}`);
         });
         if (config.scss) {
-            content = slashUncomment(content, `@import "../modules/frameworks/${config.scss}";`);
+            content = slashUncomment(content, `${SCSS_FRAMEWORK_PREFIX}${config.scss}`);
         }
         fs.writeFileSync(globalScssPath, content);
     }
@@ -339,9 +374,9 @@ function applyFramework(framework) {
     if (fs.existsSync(baseNjkPath)) {
         let content = fs.readFileSync(baseNjkPath, 'utf8');
         ALL_FRAMEWORKS.forEach(fw => {
-            FRAMEWORKS[fw].njk.forEach(line => { content = njkComment(content, line); });
+            FRAMEWORKS[fw].njk.forEach(marker => { content = njkComment(content, marker); });
         });
-        config.njk.forEach(line => { content = njkUncomment(content, line); });
+        config.njk.forEach(marker => { content = njkUncomment(content, marker); });
         fs.writeFileSync(baseNjkPath, content);
     }
 
@@ -349,9 +384,9 @@ function applyFramework(framework) {
     if (fs.existsSync(eleventyPath)) {
         let content = fs.readFileSync(eleventyPath, 'utf8');
         ALL_FRAMEWORKS.forEach(fw => {
-            FRAMEWORKS[fw].eleventy.forEach(line => { content = slashComment(content, line); });
+            FRAMEWORKS[fw].eleventy.forEach(marker => { content = slashComment(content, marker); });
         });
-        config.eleventy.forEach(line => { content = slashUncomment(content, line); });
+        config.eleventy.forEach(marker => { content = slashUncomment(content, marker); });
         fs.writeFileSync(eleventyPath, content);
     }
 }

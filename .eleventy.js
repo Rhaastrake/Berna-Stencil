@@ -33,6 +33,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/frontend/robots.txt");
 
   eleventyConfig.addPassthroughCopy({
+    // Bootstrap
     "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",
     "node_modules/bootstrap-icons/font/fonts": "css/fonts",
 

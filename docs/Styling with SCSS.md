@@ -31,7 +31,7 @@ body {
 
 Instead of using `:root` in your custom modules or pages, the best thing to do is to centralize all your variables in a single file (that will be tree-shaken automatically by Sass)
 
-### _root.scss <small>(`src/frontend/scss/modules/`)</small>
+### _root.scss <small>(`src/frontend/scss/`)</small>
 ```scss
 $header-height: 10vh;
 
@@ -50,6 +50,8 @@ You can create subfolders if you want to refactor the structure, but be sure to 
 ### _yourModule.scss <small>(`src/frontend/scss/modules/subfolder/`)</small>
 ```scss
 @use '../../root' as root;
+
+@import '../../global';
 
 body {
   background-color: root.$primary;
@@ -97,19 +99,19 @@ To enable/disable them you have to modify 3 files around the project by just com
 
 ```html
 {# Bootstrap JS #}
-<script src="/js/bootstrap.bundle.min.js" defer></script>
+<script src="{{ '/js/bootstrap.bundle.min.js' | url }}" defer></script>
 
 {# Foundation JS #}
-{# <script src="/js/foundation.min.js" defer></script> #}
+{# <script src="{{ '/js/foundation.min.js' | url }}" defer></script> #}
 
 {# UIkit JS #}
-{# <script src="/js/uikit.min.js" defer></script> #}
-{# <script src="/js/uikit-icons.min.js" defer></script> #}
+{# <script src="{{ '/js/uikit.min.js' | url }}" defer></script> #}
+{# <script src="{{ '/js/uikit-icons.min.js' | url }}" defer></script> #}
 
 {# Bulma — no JS needed #}
 ```
 
-### 3. eleventy.config.js
+### 3. eleventy.js
 
 ```javascript
 eleventyConfig.addPassthroughCopy({
@@ -128,7 +130,7 @@ eleventyConfig.addPassthroughCopy({
 });
 ```
 
-> ⚠️ Changes to `eleventy.config.js` are not picked up while the dev server is running — restart it.
+> ⚠️ Changes to `eleventy.js` are not picked up while the dev server is running — restart it.
 
 ### Reducing bundle size
 

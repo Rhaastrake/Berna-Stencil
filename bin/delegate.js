@@ -10,6 +10,7 @@ const ENTRY_FILE = path.join('bin', 'nibula.js');
 const PACKAGE_FILE = 'package.json';
 const LOCAL_FLAG = 'NIBULA_LOCAL';
 const LOCAL_FLAG_VALUE = '1';
+const GLOBAL_VERSION_FLAG = 'NIBULA_GLOBAL_VERSION';
 
 const globalVersion = require(`../${PACKAGE_FILE}`).version;
 
@@ -49,7 +50,7 @@ function delegateToLocal(projectRoot) {
     const result = spawnSync(process.execPath, [localEntry, ...process.argv.slice(2)], {
         stdio: 'inherit',
         cwd: process.cwd(),
-        env: { ...process.env, [LOCAL_FLAG]: LOCAL_FLAG_VALUE },
+        env: { ...process.env, [LOCAL_FLAG]: LOCAL_FLAG_VALUE, [GLOBAL_VERSION_FLAG]: globalVersion },
     });
 
     process.exit(result.status ?? 0);
