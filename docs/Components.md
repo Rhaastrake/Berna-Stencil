@@ -11,37 +11,38 @@ Create a new `.njk` file anywhere inside `src/frontend/components/`. You can org
 ```
 src/frontend/components/
 ├── global/
-├── layouts/
+│   ├── header.njk
+│   └── footer.njk
 ├── modals/
 │   └── privacyModal.njk # You can move it to a modals/subfolder
+├── not-found.njk
 ├── welcome.njk
 ```
 
 ## Include a component
 
-To render a component inside a page, navigate to `src/frontend/layouts/` and edit `page-components.njk`
+Components are included in the page that renders them. Open the page's file in `src/frontend/routes/` and write the includes in its body
 
-### page-components.njk <small>(`src/frontend/layouts/`)</small>
+### example-page.njk <small>(`src/frontend/routes/`)</small>
 
 ```js
-{% if title == "homepage" %}
-{% include "welcome.njk" %}
+---
+title: "examplePage"
+permalink: "/example-page/"
+layout: base.njk
+---
 
-{% elif title == "examplePage" %}
 {% include "example-component-1.njk" %}
 {% include "subfolder/example-component-2.njk" %}
-
-{% else %}
-{% include "404/_404.njk" %}
-{{ content | safe }}
-{% endif %}
 ```
 
-Add a new `{% elif %}` block for each page, listing its components in order. If a component lives in a subfolder, specify the relative path accordingly
+Components render in the order you list them. If a component lives in a subfolder, specify the relative path accordingly
 
-> ⚠️ A new `elif` block is automatically added when you create a page via the Assistant CLI
+Paths are resolved from `src/frontend/components/`, so you never write that part — `"welcome.njk"`, not `"components/welcome.njk"`
 
-> ⚠️ If you move or delete a component, always update `page-components.njk` or the site will break
+> ⚠️ If you move or delete a component, update every route that includes it or the build will fail
+
+Writing HTML directly in the route works too, and is perfectly fine for a short page. Components are the recommendation when there is something to reuse or when a page grows past a screenful — not a rule
 
 ## Nest components
 

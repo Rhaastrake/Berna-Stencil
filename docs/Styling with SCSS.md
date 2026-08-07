@@ -111,7 +111,7 @@ To enable/disable them you have to modify 3 files around the project by just com
 {# Bulma — no JS needed #}
 ```
 
-### 3. eleventy.js
+### 3. .eleventy.js <small>(project root)</small>
 
 ```javascript
 eleventyConfig.addPassthroughCopy({
@@ -130,7 +130,9 @@ eleventyConfig.addPassthroughCopy({
 });
 ```
 
-> ⚠️ Changes to `eleventy.js` are not picked up while the dev server is running — restart it.
+> ⚠️ Changes to `.eleventy.js` are not picked up while the dev server is running — restart it.
+
+> These three files are set up for you when you pick a framework during `nib new`. You only need to edit them by hand if you change your mind later.
 
 ### Reducing bundle size
 

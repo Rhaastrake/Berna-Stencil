@@ -39,6 +39,16 @@ dependencies.
 **Node backend:** Node.js 18+ and shell access to run a persistent process — a
 VPS you control.
 
+## Editing the server config
+
+`.htaccess` and `web.config` are in the root of `out`, ready to upload. To change
+a rule, edit the source in `src/frontend/hosting/` — a change made directly in
+`out` is lost on the next build.
+
+`nginx.conf` works differently: it sits in the project root and is **not** part
+of `out`, because nginx reads no per-directory config. You install it on the
+server by hand, as described below.
+
 ---
 
 ## Shared hosting (Apache)

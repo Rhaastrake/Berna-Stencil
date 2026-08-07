@@ -33,7 +33,7 @@ For a page named `my-page`, the following files are created:
 | `src/frontend/js/pages/myPage.js` | JS entry point |
 | `src/frontend/routes/my-page.njk` | Nunjucks template |
 
-It also adds an `elif` block in `page-components.njk` and a stub entry in `pages.json`:
+It also adds a stub entry in `pages.json`:
 
 ```json
     "myPage": {
@@ -51,13 +51,17 @@ It also adds an `elif` block in `page-components.njk` and a stub entry in `pages
     }
 ```
 
+The route is created with an empty body and a commented example — you decide which components go in it. See **Components** DOC file.
+
 ## Remove page
 
-Deletes all source files for the page and cleans up the output directory, `page-components.njk`, and `pages.json`.
+Deletes all source files for the page, cleans up the output directory, and removes the record from `pages.json`.
 
 ## Rename page
 
-Renames all three source files, updates the `elif` block in `page-components.njk`, and renames the record in `pages.json`. Nothing inside the record is touched — your SEO title, description and CDN links stay exactly as you wrote them.
+Renames all three source files, updates the `permalink` in the route's front matter, and renames the record in `pages.json`. Nothing inside the record is touched — your SEO title, description and CDN links stay exactly as you wrote them.
+
+The includes you wrote inside the route move with the file, since the route itself is renamed rather than rewritten.
 
 ## Configure output path
 

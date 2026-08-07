@@ -42,6 +42,23 @@ src/backend/
 > the matching `example.config.*`, and are git-ignored so your secrets stay
 > local. If `config.*` is missing (e.g. after a fresh clone), copy the example.
 
+### Installing Composer packages (PHP)
+
+Backend dependencies live in `src/backend/_core`, next to `composer.json`.
+Install from there, not from the project root:
+
+```bash
+cd src/backend/_core
+composer require vendor/package
+```
+
+`_core/init.php` already requires Composer's autoloader, so an installed package
+is usable in your endpoints straight away — there is no extra `require` to add.
+
+Packages land in `src/backend/_core/vendor/`, which is git-ignored. After a fresh
+clone that folder is missing and the backend won't start at all: run
+`composer install` from `src/backend/_core` to restore it.
+
 ## How routing works
 
 The file path inside `api/` maps directly to the URL. The `public` / `protected`

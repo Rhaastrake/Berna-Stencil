@@ -46,7 +46,6 @@ const PATHS = Object.freeze({
     get stylePages()       { return resolveFromProject(settings.paths.stylePages); },
     get siteData()         { return resolveFromProject(settings.paths.siteData); },
     get pagesData()        { return resolveFromProject(settings.paths.pagesData); },
-    get pageComponents()   { return resolveFromProject(settings.paths.pageComponents); },
     get templates()        { return resolveFromPackage(settings.paths.templates); },
 });
 

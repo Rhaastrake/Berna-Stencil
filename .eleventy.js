@@ -27,8 +27,11 @@ module.exports = function (eleventyConfig) {
     copyRecursiveSync("src/backend", `${OUTPUT_DIR}/backend`);
   });
 
-  eleventyConfig.addPassthroughCopy("src/frontend/.htaccess");
-  eleventyConfig.addPassthroughCopy("src/frontend/web.config");
+  eleventyConfig.addPassthroughCopy({
+    "src/frontend/hosting/.htaccess": ".htaccess",
+    "src/frontend/hosting/web.config": "web.config",
+  });
+  
   eleventyConfig.addPassthroughCopy("src/frontend/assets");
   eleventyConfig.addPassthroughCopy("src/frontend/robots.txt");
 

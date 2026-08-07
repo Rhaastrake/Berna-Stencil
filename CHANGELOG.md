@@ -5,13 +5,85 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-08-07
+
+### Breaking
+
+Existing projects keep running the Nibula version they were built with. These
+steps apply only when you run `npm install nibula@latest` inside a project. Do
+them in one pass, before the next build.
+
+- **`page-components.njk` no longer exists.** Its `elif` chain is replaced by
+  includes written directly in each route. For every page, move the includes
+  from its `elif` block into the matching file in `src/frontend/routes/`, then
+  delete `src/frontend/layouts/page-components.njk`.
+- **Every route's layout becomes `base.njk`.** Change `layout: page-components.njk`
+  to `layout: base.njk` in the front matter of each file in `routes/`.
+- **`index.njk` and `404.njk` move into `routes/`.** They sat at the root of
+  `src/frontend/`; every page now lives in one place.
+- **`llms.njk`, `robots.njk` and `sitemap.njk` move into `src/frontend/indexing/`.**
+  Their `permalink` values are unchanged, so the published URLs stay the same.
+- **`.htaccess` and `web.config` move into `src/frontend/hosting/`.** The build
+  still places them in the root of the output folder, so what you deploy is
+  unchanged. `nginx.conf` stays at the project root: it is installed on the
+  server by hand, not published with the site.
+
+### Added
+
+- `docs/Project structure.md` maps the whole project and lists where to go for
+  each kind of change. There was no overview of the layout anywhere, so the two
+  new folders — and the older ones — had to be inferred from the file tree.
+- `src/frontend/components/not-found.njk` holds the 404 page markup, included by
+  `routes/404.njk`.
+
+### Changed
+
+- **`llms.txt` is generated from page data instead of being hardcoded.** It
+  listed the homepage and nothing else, so every other page was invisible to AI
+  crawlers unless you edited the template by hand. It now walks the same
+  collection `sitemap.njk` does, reading each page's title and description from
+  `pages.json` and skipping drafts, the 404 page and anything marked `noindex`.
+  Creating a page with the assistant is enough to have it listed.
+- **Components are included in the route that renders them.** Composition lived
+  in a single shared layout, so adding a page meant appending a branch to a file
+  that grew with every page, and reading one page's structure meant scrolling
+  past all the others. A route now includes what it needs, and what a page
+  contains is visible in the page itself.
+- **The assistant no longer edits Nunjucks templates.** Creating, renaming and
+  removing a page used to rewrite `page-components.njk` with regular expressions
+  against the template's syntax. That step is gone; the assistant now touches
+  only files it fully controls.
+- **Documentation catches up with the code.** `Head & SEO` opened by pointing at
+  `pages.json` and `{{ pages.* }}` for the global settings, which have lived in
+  `site.json` since 1.6.0, and still listed `legal.cookieControls`, removed in
+  the same release. `JavaScript` claimed `global.js` sits in the modules folder,
+  which stopped being true when it moved up a level — the surrounding example
+  already contradicted it. `Styling with SCSS` referred to the Eleventy config
+  as `eleventy.config.js`.
+- New pages are scaffolded with a commented example include instead of a warning
+  not to edit the file.
+
+### Removed
+
+- `src/frontend/layouts/page-components.njk`, and with it the `pageComponents`
+  configuration block, its six log messages, and its entry in the project's
+  required-files check.
+- The include of `404/_404.njk`, a component that was never shipped. It survived
+  only because of `ignore missing`, which silently swallowed it on every build.
+
+### Notes
+
+- `routes/` is no longer created on demand or removed when empty: with
+  `index.njk` and `404.njk` inside, it always exists. The same on-demand handling
+  still applies to `scss/pages/` and `js/pages/`.
+- Writing markup directly in a route works and is fine for a simple page.
+  Components remain the recommendation when there is something to reuse, not a
+  requirement.
+
 ## [1.6.2] - 2026-08-07
 
 ### Added
-- `nib --version` (also `-v`, `v`, `version`) prints the version number on its own line. Inside a project it reports the project's own copy, which is the one actually running the command.
-
-### Fixed
-[...le quattro voci di prima, invariate...]
+- `nib --version` (also `-v`, `v`, `ver`, `version`) prints the version number on its own line. Inside a project it reports the project's own copy, which is the one actually running the command.
 
 ### Changed
 - `docs/Styling with SCSS.md` now matches the template: the Nunjucks snippets include the `url` filter and the config file is named `.eleventy.js`.

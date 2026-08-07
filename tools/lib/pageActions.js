@@ -7,7 +7,6 @@ const { formatText } = require('./text');
 const { languageSettings } = require('./project');
 const { getPageArtifacts, pageExists } = require('./pageArtifacts');
 const { readPagesData, addPageData, removePageData, renamePageData } = require('./pagesData');
-const { addPageBlock, removePageBlock, renamePageBlock } = require('./pageComponents');
 
 const FRONT_MATTER_PATTERNS = Object.freeze({
     title:     /^title:.*$/m,
@@ -62,7 +61,6 @@ function addPage(pageName) {
         return;
     }
 
-    addPageBlock(pageName);
     addPageData(pageName);
 }
 
@@ -104,7 +102,6 @@ function renamePage(oldName, newName) {
         return;
     }
 
-    renamePageBlock(oldName, newName);
     renamePageData(oldName, newName);
 }
 
@@ -134,7 +131,6 @@ function removePage(pageName) {
         }
     }
 
-    removePageBlock(pageName);
     removePageData(pageName);
 
     const sourceDirectories = [source.style, source.script, source.route].map(file => path.dirname(file));

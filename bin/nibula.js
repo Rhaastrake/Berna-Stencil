@@ -293,6 +293,14 @@ async function main() {
             usage(pkg.version);
             break;
         }
+        case 'version':
+        case 'v':
+        case 'ver':
+        case '-v':
+        case '--version': {
+            console.log(pkg.version);
+            break;
+        }
         default:
             console.error(`${color.red}\nUnknown command:${color.reset} ${cmd}`);
             usage(pkg.version);

@@ -1,6 +1,6 @@
 # Head & SEO
 
-Global settings live in `src/frontend/data/pages.json` and are available everywhere via `{{ pages.* }}`.
+Global settings live in `src/frontend/data/site.json` and are available everywhere via `{{ site.* }}`.
 
 ## Global fields
 
@@ -19,7 +19,6 @@ Global settings live in `src/frontend/data/pages.json` and are available everywh
   "legal": {
     "privacy": "",
     "cookie": "",
-    "cookieControls": "",
     "terms": "",
     "copyright": {
       "year": "2026",
@@ -41,7 +40,7 @@ Global settings live in `src/frontend/data/pages.json` and are available everywh
 | `theme` | Site color scheme (`light` / `dark`) — sets `data-theme`, `data-bs-theme` and `color-scheme` |
 | `theme_color` | Browser UI / PWA bar color — should match the chosen `theme` |
 | `logo` | Path to the logo, also used as social image |
-| `legal.privacy` / `cookie` / `cookieControls` / `terms` | Legal page URLs |
+| `legal.privacy` / `cookie` / `terms` | Legal page URLs |
 | `legal.copyright.year` / `text` | Footer copyright |
 
 ## Per-page SEO and CDN
@@ -68,10 +67,10 @@ Per-page settings live in `src/frontend/data/pages.json`, available via `{{ page
 
 | Field | Purpose | If empty / absent |
 |---|---|---|
-| `seo.title` | Page title | Falls back to global `title` |
-| `seo.description` | Meta description | Falls back to global `description` |
+| `seo.title` | Page title, and the page's label in `llms.txt` | Falls back to global `title` |
+| `seo.description` | Meta description, and the page's summary in `llms.txt` | Falls back to global `description` |
 | `seo.keywords` | Meta keywords | Falls back to global `keywords` |
-| `seo.noindex` | If `true`, emits `<meta name="robots" content="noindex, follow">` and drops the page from the sitemap | Page is indexable |
+| `seo.noindex` | If `true`, emits `<meta name="robots" content="noindex, follow">` and drops the page from both the sitemap and `llms.txt` | Page is indexable |
 | `seo.canonical` | Absolute canonical URL override | Computed as `url + page.url` |
 | `cdn.css` / `cdn.js` | Extra per-page CDN links | No extra links loaded |
 
@@ -129,12 +128,14 @@ The three favicon tags are hardcoded in `base.njk`. To change the icons, replace
 
 ## AI & SEO bots
 
-`llms.txt`, `robots.txt` and `sitemap.xml` are generated from `.njk` templates and are publicly reachable (they must not be blocked by the server config).
+`llms.txt`, `robots.txt` and `sitemap.xml` are generated from `.njk` templates in `src/frontend/indexing/` and are publicly reachable (they must not be blocked by the server config).
 
 | File | Purpose | Reachable at |
 |---|---|---|
-| `llms.njk` | Tells AI models what the site is about | `yoursite.com/llms.txt` |
+| `llms.njk` | Describes the site and lists its pages for AI models | `yoursite.com/llms.txt` |
 | `robots.njk` | Controls search-engine crawling | `yoursite.com/robots.txt` |
-| `sitemap.njk` | Lists indexable pages (skips drafts, 404, and `noindex`) | `yoursite.com/sitemap.xml` |
+| `sitemap.njk` | Lists indexable pages | `yoursite.com/sitemap.xml` |
 
-To customize, edit `src/frontend/llms.njk` or `src/frontend/robots.njk` directly.
+`llms.njk` and `sitemap.njk` build their lists the same way: they walk every page, then skip drafts, the 404 page, and anything with `seo.noindex` set to `true`. Creating a page with the assistant is enough to have it appear in both — there is no separate list to maintain.
+
+To customize the wording or the fixed sections, edit `src/frontend/indexing/llms.njk` or `src/frontend/indexing/robots.njk` directly.

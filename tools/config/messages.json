@@ -26,14 +26,6 @@
     "renameFailed": "[error] could not rename page files: {error}",
     "deleteFailed": "[error] {path}: {error}"
   },
-  "components": {
-    "fileMissing": "[skip] not found: {path}",
-    "anchorMissing": "[skip] no {anchor} anchor in {file}",
-    "blockAdded": "[updated] page block added for \"{name}\"",
-    "blockMissing": "[skip] page block for \"{name}\" not found",
-    "blockRemoved": "[cleaned] page block removed for \"{name}\"",
-    "blockRenamed": "[renamed] page block \"{source}\" \u2192 \"{destination}\""
-  },
   "pagesData": {
       "fileMissing": "[skip] not found: {path}",
       "invalidStructure": "[error] {file} must contain an object of pages",

@@ -16,11 +16,16 @@ For a page named `my-page`:
 ## Adding content
 
 1. Create a component in `src/frontend/components/` (e.g. `my-component.njk`)
-2. Include it in `src/frontend/layouts/page-components.njk` inside the generated `elif` block:
+2. Include it in the page's own file, `src/frontend/routes/my-page.njk`:
 
 ```njk
-{% elif title == "myPage" %}
-  {% include "my-component.njk" ignore missing %}
+---
+title: "myPage"
+permalink: "/my-page/"
+layout: base.njk
+---
+
+{% include "my-component.njk" %}
 ```
 
 See **Components** DOC file for more info
@@ -36,8 +41,8 @@ To create a URL like `domain.it/about/team`, edit the `permalink` in `src/fronte
 ```njk
 ---
 title: "team"
-permalink: "about/team/"
-layout: page-components.njk
+permalink: "/about/team/"
+layout: base.njk
 ---
 ```
 
@@ -68,3 +73,5 @@ The CLI creates a stub entry in `src/frontend/data/pages.json`. Fill it in:
       }
     }
 ```
+
+The `seo.title` and `seo.description` you write here are also what the page shows up as in `llms.txt`, so a page left with the placeholder description will advertise itself that way to AI crawlers.

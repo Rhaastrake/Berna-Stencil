@@ -31,7 +31,7 @@ That's what `global.js` is for. It lives in `src/frontend/js/`, every page entry
 ### global.js <small>(`src/frontend/js/`)</small>
 
 ```js
-// import { initExampleModule } from './exampleModule.js';
+// import { initExampleModule } from './modules/exampleModule.js';
 
 function initGlobal() {
     // initExampleModule();
@@ -50,7 +50,7 @@ Pages import it without curly braces, since there is nothing to export — the m
 import '../global.js';
 ```
 
-Note that the import path inside `global.js` is `'./exampleModule.js'` and not `'../modules/exampleModule.js'`: `global.js` already sits in the modules folder, next to the modules it imports.
+Note the difference in import paths. A page entry point sits inside `js/pages/`, so it reaches a module with `'../modules/exampleModule.js'`. `global.js` sits directly in `js/`, one level up, so the same module is `'./modules/exampleModule.js'`.
 
 ### A concrete example: the header menu
 
