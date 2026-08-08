@@ -278,10 +278,32 @@ async function main() {
         }
         case 'update': {
             const info = await checkVersion();
-            if (info.latest !== null && !info.behind) {
-                console.log(`Already on the latest version (${info.current}).`);
+
+            if (info.latest === null) {
+                console.error(`\n${color.yellow}${message('update.unknownLatest')}${color.reset}\n`);
+                process.exit(1);
+            }
+
+            if (!info.behind) {
+                console.log(message('update.upToDate', { current: info.current }));
                 process.exit(0);
             }
+
+            console.log(`\n${message('update.current', { current: info.current })}`);
+            console.log(`${color.green}${message('update.available', { latest: info.latest })}${color.reset}`);
+            console.log(`${color.dim}${message('update.scopeNotice')}${color.reset}\n`);
+
+            if (!process.stdin.isTTY) {
+                console.error(message('update.nonInteractive'));
+                process.exit(1);
+            }
+
+            const answer = await ask(message('update.confirm'));
+            if (answer !== '' && answer !== 'y' && answer !== 'yes') {
+                console.log(message('update.cancelled'));
+                process.exit(0);
+            }
+
             process.exit(updateGlobal(info.latest));
         }
         case undefined:

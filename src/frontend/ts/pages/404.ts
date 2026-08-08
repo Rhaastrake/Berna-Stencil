@@ -2,7 +2,7 @@ import '../global';
 
 // import { initExampleModule } from '../modules/exampleModule';
 
-document.addEventListener("DOMContentLoaded", (): void => {
+document.addEventListener("DOMContentLoaded", () => {
     // initExampleModule();
 });
 

@@ -1,11 +1,7 @@
 // import { initExampleModule } from "./modules/exampleModule"
 
-function initGlobal() {
+document.addEventListener('DOMContentLoaded', () => {
     // initExampleModule();
-}
+});
 
 // Global logic here
-
-// Do not touch
-// This instruction starts global.ts itself
-document.addEventListener('DOMContentLoaded', initGlobal);

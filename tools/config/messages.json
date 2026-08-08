@@ -4,6 +4,16 @@
     "alreadyInside": "You are already inside a Nibula project.",
     "alreadyInsideHint": "Run \"nib new\" from outside a project."
   },
+  "update": {
+    "current": "Current version: {current}",
+    "available": "Latest version: {latest}",
+    "unknownLatest": "Could not reach the npm registry to check the latest version.",
+    "scopeNotice": "The update applies to newly created projects only. Existing ones keep running their own copy of Nibula.",
+    "confirm": "Update now? [Y/n] ",
+    "cancelled": "Update cancelled.",
+    "nonInteractive": "Run the command in a terminal to confirm the update.",
+    "upToDate": "Already on the latest version ({current})."
+  },
   "validation": {
     "invalidName": "Invalid name.",
     "invalidNameCharacters": "Page name can only contain lowercase letters, numbers, and hyphens.",
