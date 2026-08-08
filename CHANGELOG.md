@@ -5,6 +5,35 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2026-08-08
+
+### Fixed
+- `nib update` installed the new version without saying which one, and without
+  asking. It now reports the installed version and the one it is about to
+  install, and waits for confirmation — the update replaces the globally
+  installed Nibula, so it should not happen as a side effect of typing the
+  command.
+- The prompt states that the update applies to newly created projects only.
+  Existing ones keep running their own copy, which the delegation introduced in
+  1.6.0 already guaranteed, but nothing said so at the moment it mattered.
+- `nib update` no longer installs blindly when the npm registry can't be
+  reached. The version lookup returns nothing in that case, and the command went
+  on to install `nibula@latest` anyway; it now reports the failure and stops.
+- Running `nib update` outside a terminal updated without confirmation and
+  reported nothing. It now explains that a terminal is required.
+
+### Changed
+- `src/frontend/js/global.js` and `src/frontend/ts/global.ts` call the listener
+  directly instead of declaring `initGlobal` and passing it to
+  `DOMContentLoaded`. The named function added a level of indirection to a
+  scaffolded file that starts out empty, and a beginner reading it had to follow
+  two hops to find where their code goes.
+- `src/frontend/components/global/header.njk` reads the logo from
+  `{{ site.logo }}` instead of a hardcoded path. The value was already in
+  `site.json`, documented and used by the Open Graph image and the JSON-LD
+  publisher block; the header was the one place that ignored it, so changing the
+  logo left it pointing at the old file.
+
 ## [2.0.1] - 2026-08-08
 
 ### Added
