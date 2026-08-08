@@ -13,26 +13,21 @@ For a page named `my-page`:
 | `src/frontend/scss/pages/myPage.scss` | Imports framework + modules |
 | `src/frontend/js/pages/myPage.js` | Imports JS/TS modules |
 
+It also adds a stub entry in `src/frontend/data/pages.json` for the page's SEO and CDN links — fill it in as described in the **Head & SEO** DOC file.
+
 ## Adding content
 
-1. Create a component in `src/frontend/components/` (e.g. `my-component.njk`)
-2. Include it in the page's own file, `src/frontend/routes/my-page.njk`:
-
-```njk
----
-title: "myPage"
-permalink: "/my-page/"
-layout: base.njk
----
-
-{% include "my-component.njk" %}
-```
-
-See **Components** DOC file for more info
+The route is created empty. Write your HTML in its body, or include components — see the **Components** DOC file.
 
 ## URL and title
 
-The URL is the kebab-case name (`/my-page/`). The `title` in the front matter is camelCase (`myPage`) and is used internally to load the correct CSS and JS files — do not change it.
+The URL is the kebab-case name (`/my-page/`). The `title` in the front matter is camelCase (`myPage`) and is used internally to load the correct CSS and JS files, and to look up the page's record in `pages.json` — do not change it.
+
+## Layout
+
+`layout` decides the HTML skeleton the page is rendered into. New pages get `base.njk`, which brings the head, the SEO tags, the header and the footer.
+
+A page that needs a different shell — a landing page with no header, for instance — points at a layout of its own. See **Components** DOC file, *Custom layouts*.
 
 ## Subpages (nested URLs)
 
@@ -53,25 +48,3 @@ The parent path (`about`) does **not** need to exist as a real page — it's jus
 | `/team/` | `/team/` | `routes/team.njk` |
 | `/about/team/` | `/about/team/` | `routes/team.njk` |
 | `/company/about/team/` | `/company/about/team/` | `routes/team.njk` |
-
-## SEO
-
-The CLI creates a stub entry in `src/frontend/data/pages.json`. Fill it in:
-
-```json
-    "myPage": {
-      "seo": {
-        "title": "My Page",
-        "description": "Description",
-        "keywords": "",
-        "noindex": false,
-        "canonical": ""
-      },
-      "cdn": {
-        "css": [],
-        "js": []
-      }
-    }
-```
-
-The `seo.title` and `seo.description` you write here are also what the page shows up as in `llms.txt`, so a page left with the placeholder description will advertise itself that way to AI crawlers.

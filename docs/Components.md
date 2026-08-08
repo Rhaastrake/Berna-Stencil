@@ -14,7 +14,7 @@ src/frontend/components/
 │   ├── header.njk
 │   └── footer.njk
 ├── modals/
-│   └── privacyModal.njk # You can move it to a modals/subfolder
+│   └── privacyModal.njk
 ├── not-found.njk
 ├── welcome.njk
 ```
@@ -25,7 +25,7 @@ Components are included in the page that renders them. Open the page's file in `
 
 ### example-page.njk <small>(`src/frontend/routes/`)</small>
 
-```js
+```njk
 ---
 title: "examplePage"
 permalink: "/example-page/"
@@ -49,7 +49,7 @@ Writing HTML directly in the route works too, and is perfectly fine for a short 
 A component can include other components. This is useful for breaking complex sections into smaller, reusable pieces.
 
 ### exampleComponent.njk
-```js
+```njk
 <section class="hero">
   {% include "hero/hero-title.njk" %}
   {% include "hero/hero-button.njk" %}
@@ -62,33 +62,87 @@ A component can include other components. This is useful for breaking complex se
 
 Header and footer live in `src/frontend/components/global/` and are automatically included in every page via `base.njk`. Edit them to change the site-wide layout
 
+## Custom layouts
+
+`base.njk` is the default layout, but it isn't the only one you can have. Any
+`.njk` file in `src/frontend/layouts/` is a layout, and each route picks its own.
+
+The usual reason is a page that doesn't fit the standard shell: a landing page
+with no header or footer, a full-screen login, a "coming soon" holding page.
+
+Copy `base.njk`, rename it, and change only what you need — that way you keep the
+head, the SEO tags and the CSS/JS wiring, which is the part you don't want to
+rewrite:
+
+```
+src/frontend/layouts/
+├── base.njk
+└── custom.njk
+```
+
+### custom.njk <small>(`src/frontend/layouts/`)</small>
+
+Same as `base.njk`, without the two global includes:
+
+```njk
+<body>
+    <main>
+        {{ content | safe }}
+    </main>
+</body>
+```
+
+Then point the route at it:
+
+### landing.njk <small>(`src/frontend/routes/`)</small>
+
+```njk
+---
+title: "landing"
+permalink: "/landing/"
+layout: custom.njk
+---
+```
+
+Paths are resolved from `src/frontend/layouts/`, so you write `"custom.njk"`, not
+`"layouts/custom.njk"` — the same rule as components.
+
+> ⚠️ A layout you copy is a copy: a later fix to `base.njk` won't reach it. Keep
+> the differences to the minimum, and check your custom layouts when you change
+> something in the head.
+
 ## Site data in components
 
 All values defined in `src/frontend/data/site.json` are globally available in every component via `{{ site.* }}`
 
 ### site.json <small>(`src/frontend/data/`)</small>
 ```json
-"site_name": "Site name",
-"title": "Site title",
-"description": "Site description",
-"keywords": "keyword1, keyword2, keyword3",
-"domain": "yoursite.com",
-"url": "https://yoursite.com",
-"lang": "en",
-"author": "Name and surname",
-"logo": "/assets/brand/logo.svg",
-"legal": {
-  "privacy": "", // This is supposed to contain a link
-  "cookie": "", // This is supposed to contain a link
-  "terms": "", // This is supposed to contain a link
-  "copyright": {
-    "year": "2026",
-    "text": "All rights reserved."
+{
+  "site_name": "Site name",
+  "title": "Site title",
+  "description": "Site description",
+  "keywords": "keyword1, keyword2, keyword3",
+  "domain": "yoursite.com",
+  "url": "https://yoursite.com",
+  "lang": "en",
+  "author": "Name and surname",
+  "logo": "/assets/brand/logo.svg",
+  "legal": {
+    "privacy": "",
+    "cookie": "",
+    "terms": "",
+    "copyright": {
+      "year": "2026",
+      "text": "All rights reserved."
+    }
   }
+}
 ```
 
+`legal.privacy`, `legal.cookie` and `legal.terms` hold the URLs of your legal pages — the footer links to them. See **Head & SEO** DOC file for what every field does
+
 ### Usage in any `.njk` file
-```js
+```njk
 <p>{{ site.title }}</p>
 <a href="{{ site.legal.privacy }}">Privacy Policy</a>
 <img src="{{ site.logo }}" alt="{{ site.title }}">
@@ -108,7 +162,7 @@ Create `test.json`, put anything you want inside it, and every key is reachable 
 ```
 
 ### Usage in any `.njk` file
-```js
+```njk
 <p>{{ test.testMessage }}</p>
 ```
 
@@ -131,7 +185,7 @@ Values can be anything JSON allows, so a list lets you loop instead of copying m
 }
 ```
 
-```js
+```njk
 {% for link in test.links %}
   <a href="{{ link.url }}">{{ link.label }}</a>
 {% endfor %}

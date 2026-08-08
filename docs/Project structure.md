@@ -16,7 +16,7 @@ your-project/
     ├── backend/          # REST API — see docs/Backend.md
     └── frontend/
         ├── assets/       # Images, fonts, brand files
-            └── brand/    # Favicons, logo etc
+        │   └── brand/    # Favicons, logo etc
         ├── components/   # Reusable .njk fragments
         │   └── global/   # Header and footer, included in every page
         ├── data/         # site.json and pages.json
@@ -44,6 +44,7 @@ your-project/
 | Change the site name, URL, author | `data/site.json` |
 | Change a page's SEO | `data/pages.json` |
 | Edit the HTML `<head>` | `layouts/base.njk` |
+| Give one page a different skeleton | `layouts/` — add your own, see docs/Components.md |
 | Add an API endpoint | `backend/api/` |
 
 ## Two folders worth a note
@@ -58,6 +59,7 @@ Subfolders are allowed wherever content is yours to organize:
 
 - `components/` — nest as deep as you like; includes take the path relative to `components/`
 - `scss/modules/` and `js/modules/` — same idea, remember to update the relative import paths
+- `layouts/` — extra layouts alongside `base.njk`; routes pick one by filename
 - `backend/api/public/` and `protected/` — subfolders become part of the URL
 
 The folders in the tree above are the part to leave alone: paths are wired into `.eleventy.js`, the build scripts and the assistant, so renaming one breaks the build.

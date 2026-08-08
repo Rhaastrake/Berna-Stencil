@@ -1,5 +1,4 @@
-// import { initExampleModule } from "/exampleModule";
-import { initExampleModule } from "./modules/exampleModule"
+// import { initExampleModule } from "./modules/exampleModule"
 
 function initGlobal() {
     // initExampleModule();

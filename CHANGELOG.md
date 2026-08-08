@@ -5,6 +5,41 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2026-08-08
+
+### Added
+- `docs/Components.md` documents custom layouts. `base.njk` was presented as the
+  only layout there is, so a page that doesn't fit the standard shell — a landing
+  page with no header or footer, a full-screen login — had no documented way out.
+  Copying `base.njk` and pointing a route at the copy was already supported;
+  nothing said so.
+- `docs/Head and SEO.md` shows where the tags are actually written, including the
+  `pageKey` lookup that ties a route's `title` to its record in `pages.json`, and
+  warns against removing the `url` filter from asset paths — it is what keeps a
+  site published under a subpath from 404ing every stylesheet and script.
+- `docs/Creating pages.md` covers the `layout` front matter field, which the file
+  showed in every example without ever explaining.
+
+### Fixed
+- `src/frontend/ts/global.ts` imported `exampleModule` for real while leaving the
+  call commented out, so a new TypeScript project started with an unused import
+  and a stale path in the comment above it. It now matches `global.js`, where the
+  import is commented too.
+- The `site.json` snippet in `docs/Components.md` was not valid JSON: the opening
+  and two closing braces were missing and three `//` comments sat inside it, so
+  copying it into the file broke the build.
+- `docs/Head and SEO.md` listed `favicon-48.png` among the favicon files. No tag
+  in `base.njk` loads it.
+
+### Changed
+- `docs/Creating pages.md` no longer re-explains component includes and the
+  `pages.json` stub, which are documented in full elsewhere and had started to
+  drift.
+- Nunjucks snippets in `docs/Components.md` are tagged as such instead of as
+  JavaScript.
+- `docs/Project structure.md` points at `layouts/` for pages that need their own
+  skeleton.
+  
 ## [2.0.0] - 2026-08-07
 
 ### Breaking

@@ -15,6 +15,7 @@ Global settings live in `src/frontend/data/site.json` and are available everywhe
   "lang": "en",
   "author": "Name and surname",
   "theme": "dark",
+  "theme_color": "#2a2150",
   "logo": "/assets/brand/logo.svg",
   "legal": {
     "privacy": "",
@@ -74,6 +75,8 @@ Per-page settings live in `src/frontend/data/pages.json`, available via `{{ page
 | `seo.canonical` | Absolute canonical URL override | Computed as `url + page.url` |
 | `cdn.css` / `cdn.js` | Extra per-page CDN links | No extra links loaded |
 
+The assistant creates the stub entry when you add a page; a page left with the placeholder description will advertise itself that way to AI crawlers.
+
 ## Fallback logic
 
 Global values are defaults, not duplicates. A page value is used when present; otherwise the global one applies:
@@ -120,11 +123,23 @@ The three favicon tags are hardcoded in `base.njk`. To change the icons, replace
 | File | Purpose |
 |---|---|
 | `favicon.svg` | Modern browsers, scales to any size |
-| `favicon-48.png` | Fallback for older browsers and some crawlers |
 | `favicon-32.png` | Fallback for older browsers and some crawlers |
 | `apple-touch-icon.png` | iOS home screen icon — 180×180, must be opaque (iOS renders transparency as black) |
 
 > ⚠️ Without `apple-touch-icon.png`, iOS uses a screenshot of the page as the home screen icon.
+
+## Where the tags are written
+
+All of the above is rendered by `src/frontend/layouts/base.njk`, which reads the page's record with:
+
+```njk
+{% set pageKey = title %}
+{% set pageData = pages[pageKey] %}
+```
+
+Edit the template when you need a tag the boilerplate doesn't cover — a font `<link>`, an analytics snippet. For everything listed here, change the values in `site.json` and `pages.json` instead.
+
+> ⚠️ Asset paths in `base.njk` go through the `url` filter. It makes them work when the site is published under a subpath — GitHub Pages being the usual case. Removing it 404s every stylesheet and script there.
 
 ## AI & SEO bots
 
