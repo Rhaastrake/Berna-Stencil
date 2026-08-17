@@ -4,7 +4,8 @@ permalink: "/"
 layout: base.njk
 ---
 
-<!-- !IMPORTANT -->
-<!-- To keep order, the best practice is to create a new component.njk file in components/ and include it here -->
-
+{# To keep order, create a new component in components/ and include it here #}
 {% include "welcome.njk" ignore missing %}
+
+{# Markdown also lives in components/, but the path is full, from the project root #}
+{% renderFile "example.md" | markdownPath, { site: site } %}

@@ -1,10 +1,17 @@
-const esbuild = require("esbuild");
-const glob = require("glob");
+const { RenderPlugin } = require("@11ty/eleventy");
+const markdownItAnchor = require("markdown-it-anchor");
+const markdownItAttrs = require("markdown-it-attrs");
 const Image = require("@11ty/eleventy-img");
 const fs = require("fs");
 const path = require("path");
 
 const OUTPUT_DIR = "out";
+const TEMPLATE_ENGINE = "njk";
+const ANCHOR_LEVELS = [2, 3, 4];
+const ANCHOR_PERMALINK_SYMBOL = "#";
+const ANCHOR_PERMALINK_PLACEMENT = "after";
+
+const MARKDOWN_BASE_PATH = "src/frontend/components/";
 
 module.exports = function (eleventyConfig) {
 
@@ -28,6 +35,24 @@ module.exports = function (eleventyConfig) {
       fs.copyFileSync(src, dest);
     }
   }
+
+  // ---------------------------------------------------------------------------
+  // Plugins & markdown
+  // ---------------------------------------------------------------------------
+
+  eleventyConfig.addPlugin(RenderPlugin);
+
+  eleventyConfig.amendLibrary("md", (markdownLibrary) => {
+    markdownLibrary
+      .use(markdownItAnchor, {
+        level: ANCHOR_LEVELS,
+        permalink: markdownItAnchor.permalink.linkInsideHeader({
+          symbol: ANCHOR_PERMALINK_SYMBOL,
+          placement: ANCHOR_PERMALINK_PLACEMENT,
+        }),
+      })
+      .use(markdownItAttrs);
+  });
 
   // ---------------------------------------------------------------------------
   // Events
@@ -71,6 +96,8 @@ module.exports = function (eleventyConfig) {
   // Shortcodes
   // ---------------------------------------------------------------------------
 
+  eleventyConfig.addFilter("markdownPath", (name) => `${MARKDOWN_BASE_PATH}${name}`);
+
   eleventyConfig.addShortcode("image", async function (src, alt) {
     const metadata = await Image(src, {
       widths: [320, 480, 720, 1280, 1920, 2048, 2560, 3840, 4096, 7680],
@@ -94,6 +121,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addWatchTarget("./src/frontend/scss");
   eleventyConfig.addWatchTarget("./src/frontend/routes");
   eleventyConfig.addWatchTarget("./src/frontend/data");
+  eleventyConfig.addWatchTarget("./src/frontend/components");
 
   eleventyConfig.setServerOptions({
     watch: [`${OUTPUT_DIR}/js/**/*.js`],
@@ -104,6 +132,9 @@ module.exports = function (eleventyConfig) {
   // ---------------------------------------------------------------------------
 
   return {
+    markdownTemplateEngine: TEMPLATE_ENGINE,
+    htmlTemplateEngine: TEMPLATE_ENGINE,
+
     dir: {
       input: "src/frontend",
       output: OUTPUT_DIR,

@@ -63,6 +63,8 @@
     "esbuild": "^0.27.3",
     "foundation-sites": "^6.9.0",
     "glob": "^13.0.6",
+    "markdown-it-anchor": "^9.2.1",
+    "markdown-it-attrs": "^5.0.1",
     "sass": "^1.77.0",
     "uikit": "^3.25.13"
   }

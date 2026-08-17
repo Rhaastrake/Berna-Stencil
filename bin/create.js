@@ -126,13 +126,6 @@ const FRAMEWORKS = {
     },
 };
 
-// ── LANGUAGE CONFIG ───────────────────────────────────────────────────────────
-
-const LANGUAGE_ELEVENTY = Object.freeze({
-    jsEntry: 'const entryPoints = glob.sync("src/frontend/js/pages/*.js");',
-    tsEntry: 'const entryPoints = glob.sync("src/frontend/ts/pages/*.ts");',
-});
-
 // ── GENERATED FILE CONTENTS ───────────────────────────────────────────────────
 
 const GITIGNORE_CONTENT = `
@@ -170,6 +163,8 @@ const PROJECT_PACKAGE = {
         'bulma':              '^1.0.4',
         'foundation-sites':   '^6.9.0',
         'glob':               '^13.0.6',
+        'markdown-it-anchor': '^9.2.1',
+        'markdown-it-attrs':  '^5.0.1',
         'uikit':              '^3.25.13',
     },
     devDependencies: {
@@ -391,23 +386,6 @@ function applyFramework(framework) {
     }
 }
 
-function applyLanguage(language) {
-    const eleventyPath = path.join(targetDir, '.eleventy.js');
-    if (!fs.existsSync(eleventyPath)) return;
-
-    let content = fs.readFileSync(eleventyPath, 'utf8');
-
-    if (language === LANGUAGE.TYPESCRIPT) {
-        content = slashComment(content,   LANGUAGE_ELEVENTY.jsEntry);
-        content = slashUncomment(content, LANGUAGE_ELEVENTY.tsEntry);
-    } else {
-        content = slashUncomment(content, LANGUAGE_ELEVENTY.jsEntry);
-        content = slashComment(content,   LANGUAGE_ELEVENTY.tsEntry);
-    }
-
-    fs.writeFileSync(eleventyPath, content);
-}
-
 // ── UI ────────────────────────────────────────────────────────────────────────
 
 function askChoice(question, choices) {
@@ -527,7 +505,6 @@ async function init() {
     }
 
     applyFramework(framework);
-    applyLanguage(language);
 
     installDependencies(backend);
 
