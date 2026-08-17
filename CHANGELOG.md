@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.0] - 2026-08-17
 
 ### Added
+- **The assistant asks which layout a new page should use.** Any `.njk` file in
+  `src/frontend/layouts/` is offered in an arrow-key menu, and the chosen one is
+  written into the route's front matter. Before, every page was created with
+  `base.njk` and the documentation had to remind you to change it by hand — the
+  assistant wrote a value the reader was then expected to correct. With a single
+  layout in the folder the menu is skipped, so nothing changes for a project that
+  has not added one; with none, the front matter is left untouched.
+- `askChoice` in `tools/cli/prompt.js`: the arrow-key menu the scaffolder already
+  used, available to the assistant as well.
 - **Markdown files can be rendered inside a page.** `markdown-it-anchor` and
   `markdown-it-attrs` are installed and preconfigured, and Eleventy's
   `RenderPlugin` is registered, so a `.md` file in `src/frontend/components/`
@@ -25,6 +34,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   renders those values empty unless the data is passed explicitly.
 
 ### Changed
+- **`tools/cli/prompt.js` creates a readline interface per question** instead of
+  holding one open for the whole session. The session-wide interface kept its own
+  keypress listener on stdin, which would have fought with the raw-mode listener
+  the arrow-key menu needs: both would have received every key, so arrows moved
+  the readline cursor and Enter fired its `line` event.
 - **`markdownTemplateEngine` and `htmlTemplateEngine` are set to Nunjucks.**
   Eleventy defaults `.md` files to Liquid, so a markdown file containing
   `{{ site.title }}` was processed by a different template engine than every
