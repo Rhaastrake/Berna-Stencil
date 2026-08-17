@@ -11,13 +11,18 @@ const { readPagesData, addPageData, removePageData, renamePageData } = require('
 const FRONT_MATTER_PATTERNS = Object.freeze({
     title:     /^title:.*$/m,
     permalink: /^permalink:.*$/m,
+    layout:    /^layout:.*$/m,
 });
+
+const ROUTE_FRONT_MATTER_KEYS = ['title', 'permalink'];
+const RENAME_FRONT_MATTER_KEYS = ['permalink'];
+const LAYOUT_KEY = 'layout';
 
 function templatePath(name) {
     return path.join(PATHS.templates, name);
 }
 
-function applyFrontMatter(filePath, values, keys = Object.keys(FRONT_MATTER_PATTERNS)) {
+function applyFrontMatter(filePath, values, keys) {
     let content = readText(filePath);
 
     for (const key of keys) {
@@ -27,14 +32,17 @@ function applyFrontMatter(filePath, values, keys = Object.keys(FRONT_MATTER_PATT
     writeText(filePath, content);
 }
 
-function addPage(pageName) {
+function addPage(pageName, layoutName) {
     if (pageExists(pageName)) {
         log('page.alreadyExists', { name: pageName });
         return;
     }
 
     const { camelName, source } = getPageArtifacts(pageName);
-    const values = { camelName, pageName };
+    const values = { camelName, pageName, layoutName };
+    const frontMatterKeys = layoutName
+        ? [...ROUTE_FRONT_MATTER_KEYS, LAYOUT_KEY]
+        : ROUTE_FRONT_MATTER_KEYS;
 
     const creations = [
         { destination: source.style,  template: settings.page.styleTemplate,  isRoute: false },
@@ -52,7 +60,7 @@ function addPage(pageName) {
             }
 
             copyFile(templateFile, destination);
-            if (isRoute) applyFrontMatter(destination, values);
+            if (isRoute) applyFrontMatter(destination, values, frontMatterKeys);
 
             log('page.fileCreated', { path: destination });
         }
@@ -95,7 +103,7 @@ function renamePage(oldName, newName) {
             moveFile(source, destination);
             log('page.fileRenamed', { source, destination });
 
-            if (isRoute) applyFrontMatter(destination, values, ['permalink']);
+            if (isRoute) applyFrontMatter(destination, values, RENAME_FRONT_MATTER_KEYS);
         }
     } catch (error) {
         log('page.renameFailed', { error: error.message });

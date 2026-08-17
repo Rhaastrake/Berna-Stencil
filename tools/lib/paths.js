@@ -47,6 +47,7 @@ const PATHS = Object.freeze({
     get siteData()         { return resolveFromProject(settings.paths.siteData); },
     get pagesData()        { return resolveFromProject(settings.paths.pagesData); },
     get templates()        { return resolveFromPackage(settings.paths.templates); },
+    get layouts()          { return resolveFromProject(settings.paths.layouts); },
 });
 
 function getNotInsideProjectMessage() {

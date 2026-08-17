@@ -13,7 +13,8 @@
     "stylePages": "src/frontend/scss/pages",
     "pagesData": "src/frontend/data/pages.json",
     "siteData": "src/frontend/data/site.json",
-    "templates": "tools/res/templates"
+    "templates": "tools/res/templates",
+    "layouts": "src/frontend/layouts"
   },
   "languages": {
     "javascript": {
@@ -69,6 +70,7 @@
     "routeExtension": "njk",
     "styleTemplate": "template.scss",
     "routeTemplate": "template.njk",
+    "layoutExtension": "njk",
     "outputFiles": [
       "js/pages/{camelName}.js",
       "css/pages/{camelName}.css",
@@ -95,7 +97,8 @@
   },
   "frontMatter": {
     "title": "title: \"{camelName}\"",
-    "permalink": "permalink: \"/{pageName}/\""
+    "permalink": "permalink: \"/{pageName}/\"",
+    "layout": "layout: {layoutName}"
   },
   "cli": {
     "title": "Nibula CLI",
@@ -105,7 +108,9 @@
       "prompt": "\u276f",
       "error": "\u2716",
       "warning": "\u26a0",
-      "bullet": "-"
+      "bullet": "-",
+      "selected": "\u25c9",
+      "unselected": "*"
     },
     "colors": {
       "box": "cyan",
@@ -113,7 +118,8 @@
       "prompt": "cyan",
       "error": "red",
       "warning": "yellow",
-      "notice": "dim"
+      "notice": "dim",
+      "selected": "cyan"
     },
     "menu": [
       { "key": "1", "action": "createPage", "label": "Create page" },
