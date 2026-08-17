@@ -7,8 +7,68 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.1.0] - 2026-08-17
 
-### Chaged
-- Refactored and commented `evelenty.js` file
+### Added
+- **Markdown files can be rendered inside a page.** `markdown-it-anchor` and
+  `markdown-it-attrs` are installed and preconfigured, and Eleventy's
+  `RenderPlugin` is registered, so a `.md` file in `src/frontend/components/`
+  can be pulled into a route with `renderFile`. Headings from level 2 down get
+  an `id` and a `#` link, and `{.class}` applies a CSS class inline — markdown
+  produces plain HTML, so without a way to set classes the output carries none of
+  the project's framework styling.
+- A `markdownPath` filter that prefixes the components folder, so a route writes
+  `"your-file.md" | markdownPath` and not the full path from the project root.
+  `renderFile` resolves paths from the working directory, unlike `include`, which
+  resolves them from the components folder.
+- The template new pages are created from carries a commented `renderFile`
+  example next to the component one, with the data argument included:
+  `renderFile` does not inherit the page context, so a `.md` that reads `site.*`
+  renders those values empty unless the data is passed explicitly.
+
+### Changed
+- **`markdownTemplateEngine` and `htmlTemplateEngine` are set to Nunjucks.**
+  Eleventy defaults `.md` files to Liquid, so a markdown file containing
+  `{{ site.title }}` was processed by a different template engine than every
+  other file in the project — working for the simple cases and silently not for
+  the rest.
+- `src/frontend/components` is now a watch target. Eleventy tracks `.njk`
+  includes as template dependencies, but a `.md` read through `renderFile` is
+  invisible to it, so editing one changed nothing until the route itself was
+  saved.
+- `.eleventy.js` is grouped into labelled sections, with plugins and markdown
+  configuration ahead of the build event and the passthrough copies.
+- **Documentation is written for readers who are new to this.** The docs assumed
+  vocabulary a beginner does not have yet. `Deploy.md` opens with a question that
+  routes the reader by backend, and explains what shared hosting, a VPS, systemd,
+  an HTTPS certificate and `screen` actually are; the Node section now separates
+  trying the backend out from setting it up to survive a reboot, which read as
+  five equal steps before. `Head and SEO.md` starts from what the `<head>` is and
+  why there are two data files, and drops the unexplained jargon — canonical,
+  JSON-LD, noindex. `Components.md` documents markdown from what Markdown is,
+  with each part of the `renderFile` line explained rather than assumed.
+- `Project structure.md` lists `components/` as the home of `.md` content, and
+  `Creating pages.md` describes both commented examples a new route carries.
+
+### Fixed
+- `Deploy.md` told the reader to open the Nginx site file with `nano` and how to
+  save it, without ever saying what to paste into it. The step now names the
+  edited `nginx.conf` as the source.
+
+### Removed
+- **The dead language switch in the scaffolder.** `bin/create.js` commented and
+  uncommented a `glob.sync` line for the JavaScript and TypeScript entry points,
+  but that line has not existed in `.eleventy.js` since bundling moved to
+  `tools/buildJs.js`, so the two markers matched nothing and the function ran as
+  a no-op. Entry points are collected from both language folders and resolved
+  against the filesystem, which makes the switch unnecessary: the folder that
+  does not exist contributes nothing.
+- Unused `esbuild` and `glob` imports from `.eleventy.js`. Both are still real
+  dependencies of `tools/buildJs.js`, which is where they are used.
+
+### Notes
+- The markdown setup lands in newly created projects only. To adopt it in an
+  existing one, install `markdown-it-anchor` and `markdown-it-attrs` and copy the
+  plugin block, the `markdownPath` filter and the two template engine settings
+  from the current `.eleventy.js`.
 
 ## [2.0.2] - 2026-08-08
 
