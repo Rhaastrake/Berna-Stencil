@@ -5,11 +5,13 @@ const { validatePageName, validateOutputPath, checkRequiredFiles } = require('./
 const { addPage, removePage, renamePage } = require('./lib/pageActions');
 const { pageExists } = require('./lib/pageArtifacts');
 const { updateOutputPath, getCurrentOutputPath } = require('./lib/outputPath');
-const { ask, confirm, close } = require('./cli/prompt');
+const { availableLayouts } = require('./lib/layouts');
+const { ask, confirm, askChoice, close } = require('./cli/prompt');
 const ui = require('./cli/ui');
 
 const NEW_LINE = '\n';
 const NO_PREFIX = '';
+const NO_LAYOUT = '';
 
 async function askPageName(prompt) {
     const raw = await ask(prompt);
@@ -24,9 +26,26 @@ async function askPageName(prompt) {
     return name;
 }
 
+async function askLayout() {
+    const layouts = availableLayouts();
+    if (layouts.length === 0) return NO_LAYOUT;
+    if (layouts.length === 1) return layouts[0];
+
+    const choices = layouts.map((name) => ({ label: name, value: name }));
+    return askChoice(message('cli.layoutPrompt'), choices);
+}
+
 async function handleCreate() {
     const name = await askPageName(ui.promptLine(message('cli.createPrompt')));
-    if (name) addPage(name);
+    if (!name) return;
+
+    const layoutName = await askLayout();
+    if (layoutName === null) {
+        ui.notice(message('cli.cancelled'));
+        return;
+    }
+
+    addPage(name, layoutName);
 }
 
 async function handleRemove() {

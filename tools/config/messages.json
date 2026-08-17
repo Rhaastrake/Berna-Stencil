@@ -68,6 +68,7 @@
     "renameToPrompt": "New name: ",
     "outputPathPrompt": "New output path: ",
     "menuPrompt": "Choose an option: ",
+    "layoutPrompt": "Select a layout (arrow keys, Enter to confirm):",
     "currentOutputPath": "Current path: \"{path}\"",
     "confirmRemove": "This permanently deletes all files for \"{name}\".",
     "cancelled": "Cancelled.",

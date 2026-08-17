@@ -1,17 +1,30 @@
-const esbuild = require("esbuild");
-const glob = require("glob");
+const { RenderPlugin } = require("@11ty/eleventy");
+const markdownItAnchor = require("markdown-it-anchor");
+const markdownItAttrs = require("markdown-it-attrs");
 const Image = require("@11ty/eleventy-img");
 const fs = require("fs");
 const path = require("path");
 
 const OUTPUT_DIR = "out";
+const TEMPLATE_ENGINE = "njk";
+const ANCHOR_LEVELS = [2, 3, 4];
+const ANCHOR_PERMALINK_SYMBOL = "#";
+const ANCHOR_PERMALINK_PLACEMENT = "after";
+
+const MARKDOWN_BASE_PATH = "src/frontend/components/";
 
 module.exports = function (eleventyConfig) {
 
+  // ---------------------------------------------------------------------------
+  // Utilities
+  // ---------------------------------------------------------------------------
+
   function copyRecursiveSync(src, dest) {
     if (!fs.existsSync(src)) return;
-    if (src.includes('.git')) return;
+    if (src.includes(".git")) return;
+
     const stat = fs.statSync(src);
+
     if (stat.isDirectory()) {
       fs.mkdirSync(dest, { recursive: true });
       for (const child of fs.readdirSync(src)) {
@@ -23,18 +36,47 @@ module.exports = function (eleventyConfig) {
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // Plugins & markdown
+  // ---------------------------------------------------------------------------
+
+  eleventyConfig.addPlugin(RenderPlugin);
+
+  eleventyConfig.amendLibrary("md", (markdownLibrary) => {
+    markdownLibrary
+      .use(markdownItAnchor, {
+        level: ANCHOR_LEVELS,
+        permalink: markdownItAnchor.permalink.linkInsideHeader({
+          symbol: ANCHOR_PERMALINK_SYMBOL,
+          placement: ANCHOR_PERMALINK_PLACEMENT,
+        }),
+      })
+      .use(markdownItAttrs);
+  });
+
+  // ---------------------------------------------------------------------------
+  // Events
+  // ---------------------------------------------------------------------------
+
   eleventyConfig.on("eleventy.before", () => {
     copyRecursiveSync("src/backend", `${OUTPUT_DIR}/backend`);
   });
 
+  // ---------------------------------------------------------------------------
+  // Passthrough copy
+  // ---------------------------------------------------------------------------
+
+  // Project assets
+  eleventyConfig.addPassthroughCopy("src/frontend/assets");
+  eleventyConfig.addPassthroughCopy("src/frontend/robots.txt");
+
+  // Hosting files
   eleventyConfig.addPassthroughCopy({
     "src/frontend/hosting/.htaccess": ".htaccess",
     "src/frontend/hosting/web.config": "web.config",
   });
-  
-  eleventyConfig.addPassthroughCopy("src/frontend/assets");
-  eleventyConfig.addPassthroughCopy("src/frontend/robots.txt");
 
+  // node_modules dependencies
   eleventyConfig.addPassthroughCopy({
     // Bootstrap
     "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",
@@ -50,8 +92,14 @@ module.exports = function (eleventyConfig) {
     // Bulma — CSS only, no JS passthrough needed
   });
 
+  // ---------------------------------------------------------------------------
+  // Shortcodes
+  // ---------------------------------------------------------------------------
+
+  eleventyConfig.addFilter("markdownPath", (name) => `${MARKDOWN_BASE_PATH}${name}`);
+
   eleventyConfig.addShortcode("image", async function (src, alt) {
-    let metadata = await Image(src, {
+    const metadata = await Image(src, {
       widths: [320, 480, 720, 1280, 1920, 2048, 2560, 3840, 4096, 7680],
       formats: ["webp", "jpeg"],
       outputDir: `${OUTPUT_DIR}/assets/images/`,
@@ -66,15 +114,27 @@ module.exports = function (eleventyConfig) {
     });
   });
 
+  // ---------------------------------------------------------------------------
+  // Watch targets & dev server
+  // ---------------------------------------------------------------------------
+
   eleventyConfig.addWatchTarget("./src/frontend/scss");
   eleventyConfig.addWatchTarget("./src/frontend/routes");
   eleventyConfig.addWatchTarget("./src/frontend/data");
+  eleventyConfig.addWatchTarget("./src/frontend/components");
 
   eleventyConfig.setServerOptions({
-  watch: [`${OUTPUT_DIR}/js/**/*.js`]
+    watch: [`${OUTPUT_DIR}/js/**/*.js`],
   });
 
+  // ---------------------------------------------------------------------------
+  // Directory configuration
+  // ---------------------------------------------------------------------------
+
   return {
+    markdownTemplateEngine: TEMPLATE_ENGINE,
+    htmlTemplateEngine: TEMPLATE_ENGINE,
+
     dir: {
       input: "src/frontend",
       output: OUTPUT_DIR,

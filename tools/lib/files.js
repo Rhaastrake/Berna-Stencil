@@ -46,6 +46,10 @@ function removeFile(target) {
     return true;
 }
 
+function readDirectory(directoryPath) {
+    return fs.readdirSync(directoryPath);
+}
+
 function removeDirectory(target) {
     if (!exists(target)) return false;
     fs.rmSync(target, { recursive: true, force: true });
@@ -71,6 +75,7 @@ module.exports = {
     copyFile,
     moveFile,
     removeFile,
+    readDirectory,
     removeDirectory,
     removeDirectoryIfEmpty,
 };
