@@ -58,6 +58,82 @@ A component can include other components. This is useful for breaking complex se
 
 > The same path rules apply: if the included component is in a subfolder, specify the full relative path.
 
+## Markdown files
+
+### What is Markdown
+
+Markdown (`.md`) is a way to write formatted text without HTML tags. You write
+`**bold**` instead of `<strong>bold</strong>`, and a line starting with `-`
+becomes a list item. For a page that is mostly text — an article, a privacy
+policy, a changelog — it is much faster than writing the markup by hand.
+
+### Write the file
+
+Create a `.md` file in `src/frontend/components/`, next to your `.njk` ones.
+
+#### article.md <small>(`src/frontend/components/`)</small>
+
+```markdown
+## Section title
+
+Regular paragraph text. **Bold** and *italic* work as usual.
+
+- First item
+- Second item
+```
+
+### Show it in a page
+
+Open the page's file in `src/frontend/routes/` and add this line to its body:
+
+```njk
+{% renderFile "article.md" | markdownPath, { site: site } %}
+```
+
+Three parts to it:
+
+| Part | What it does |
+|---|---|
+| `renderFile` | turns the Markdown into HTML and puts it in the page |
+| `markdownPath` | fills in the `src/frontend/components/` part of the path for you |
+| `{ site: site }` | hands the file your site settings — see below |
+
+Subfolders work the same way as with components:
+`"legal/privacy.md" | markdownPath`
+
+### Why `{ site: site }`
+
+A `.md` file can use site values, exactly like a component:
+
+```markdown
+Welcome to {{ site.title }}
+```
+
+But a Markdown file does not automatically see them. Anything the file needs has
+to be listed in the curly braces:
+
+```njk
+{% renderFile "article.md" | markdownPath, { site: site, pages: pages } %}
+```
+
+If you forget, nothing breaks — the value simply comes out empty. So if a
+`{{ site.something }}` disappears from your page, this is why.
+
+### Extras you get for free
+
+**Links to a section.** Every `##` and `###` heading gets an anchor, so you can
+link straight to it: `yoursite.com/my-page/#section-title`.
+
+**CSS classes.** Markdown produces plain HTML with no classes, so your framework's
+styling doesn't reach it. Add a class in curly braces after the element:
+
+```markdown
+## Section title {.text-center}
+```
+
+> ⚠️ If the `.md` file is missing or the name is misspelled, the build stops with
+> an error. That is on purpose: silently skipping content you asked for is worse.
+
 ## Global components
 
 Header and footer live in `src/frontend/components/global/` and are automatically included in every page via `base.njk`. Edit them to change the site-wide layout
@@ -148,49 +224,11 @@ All values defined in `src/frontend/data/site.json` are globally available in ev
 <img src="{{ site.logo }}" alt="{{ site.title }}">
 ```
 
+> In a `.md` file rendered with `renderFile`, these values only work if you passed
+> `site` in the curly braces — see *Why `{ site: site }`* above.
+
 ## Your own data files
 
 `site.json` isn't special: **any** `.json` file you drop in `src/frontend/data/` becomes a global variable, and the variable takes the name of the file.
 
 Create `test.json`, put anything you want inside it, and every key is reachable as `test.yourKey` — no import, no configuration, no restart.
-
-### test.json <small>(`src/frontend/data/`)</small>
-```json
-{
-  "testMessage": "This is a test"
-}
-```
-
-### Usage in any `.njk` file
-```njk
-<p>{{ test.testMessage }}</p>
-```
-
-Renders as:
-```html
-<p>This is a test</p>
-```
-
-That's the whole rule: **file name = variable name, keys inside = what you write after the dot.** `site.json` gives you `site.title` for exactly the same reason.
-
-Values can be anything JSON allows, so a list lets you loop instead of copying markup:
-
-```json
-{
-  "testMessage": "This is a test",
-  "links": [
-    { "label": "Home",    "url": "/" },
-    { "label": "Contact", "url": "/contact/" }
-  ]
-}
-```
-
-```njk
-{% for link in test.links %}
-  <a href="{{ link.url }}">{{ link.label }}</a>
-{% endfor %}
-```
-
-Subfolders create nested names: `data/shop/products.json` becomes `{{ shop.products }}`.
-
-> ⚠️ Don't reuse a name that already exists. Another file named `site.json` in a subfolder overwrites the original one silently, with no error to point you at the cause.
