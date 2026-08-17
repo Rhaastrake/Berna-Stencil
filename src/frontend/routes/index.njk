@@ -7,5 +7,5 @@ layout: base.njk
 {# To keep order, create a new component in components/ and include it here #}
 {% include "welcome.njk" ignore missing %}
 
-{# Markdown also lives in components/, but the path is full, from the project root #}
-{% renderFile "example.md" | markdownPath, { site: site } %}
+{# Markdown files live in components/ too. Pass the data the file needs #}
+{# {% renderFile "example.md" | markdownPath, { site: site } %} #}
