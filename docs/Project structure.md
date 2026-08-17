@@ -17,7 +17,7 @@ your-project/
     └── frontend/
         ├── assets/       # Images, fonts, brand files
         │   └── brand/    # Favicons, logo etc
-        ├── components/   # Reusable .njk fragments
+        ├── components/   # Reusable .njk fragments and .md content
         │   └── global/   # Header and footer, included in every page
         ├── data/         # site.json and pages.json
         ├── hosting/      # .htaccess and web.config
@@ -35,6 +35,7 @@ your-project/
 | Add a page | `nib cli` → creates the files in `routes/`, `scss/pages/`, `js/pages/` |
 | Write the content of a page | `routes/` |
 | Build a reusable block of markup | `components/` |
+| Write long prose in Markdown | `components/` — see docs/Components.md |
 | Change the header or footer | `components/global/` |
 | Style one page | `scss/pages/` |
 | Style every page | `scss/_global.scss` |
@@ -57,7 +58,7 @@ your-project/
 
 Subfolders are allowed wherever content is yours to organize:
 
-- `components/` — nest as deep as you like; includes take the path relative to `components/`
+- `components/` — nest as deep as you like; includes take the path relative to `components/`, and so does the `markdownPath` filter
 - `scss/modules/` and `js/modules/` — same idea, remember to update the relative import paths
 - `layouts/` — extra layouts alongside `base.njk`; routes pick one by filename
 - `backend/api/public/` and `protected/` — subfolders become part of the URL

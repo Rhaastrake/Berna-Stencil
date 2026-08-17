@@ -17,7 +17,9 @@ It also adds a stub entry in `src/frontend/data/pages.json` for the page's SEO a
 
 ## Adding content
 
-The route is created empty. Write your HTML in its body, or include components — see the **Components** DOC file.
+The route is created empty, with two commented examples: one for including a
+`.njk` component, one for rendering a `.md` file. Uncomment the one you need or
+write your HTML directly in the body — see the **Components** DOC file.
 
 ## URL and title
 
