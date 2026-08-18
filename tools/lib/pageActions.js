@@ -15,7 +15,7 @@ const FRONT_MATTER_PATTERNS = Object.freeze({
 });
 
 const ROUTE_FRONT_MATTER_KEYS = ['title', 'permalink'];
-const RENAME_FRONT_MATTER_KEYS = ['permalink'];
+const RENAME_FRONT_MATTER_KEYS = ['title', 'permalink'];
 const LAYOUT_KEY = 'layout';
 
 function templatePath(name) {
