@@ -5,6 +5,35 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2026-08-18
+
+### Added
+- **Markdown rendered with `renderFile` is styled out of the box.**
+  `src/frontend/scss/modules/_markdown.scss` carries GitHub's Markdown layout —
+  tables, code blocks, blockquotes, heading spacing — scoped to a
+  `.markdown-body` container. Markdown produces plain HTML with no classes, so a
+  rendered `.md` came out as unstyled text regardless of the CSS framework in the
+  project. Colours follow `data-theme`, and the background is transparent so the
+  block sits on the page instead of on a panel of its own.
+- The commented `renderFile` example in the route template now shows the
+  `.markdown-body` wrapper, which is what applies the styling.
+
+### Changed
+- `docs/Components.md` documents the wrapper as part of the `renderFile` line,
+  and no longer says Markdown comes out unstyled: `{.class}` is now for adding
+  your framework's classes to specific elements, not for making the content
+  presentable in the first place.
+- `docs/Styling with SCSS.md` lists `_markdown.scss` among the pre-existing
+  modules, noting that it is generated rather than hand-written and that its
+  import has to stay after the framework for its table and code block rules to
+  win.
+
+### Notes
+- The styling lands in newly created projects only. To adopt it in an existing
+  one, copy `src/frontend/scss/modules/_markdown.scss` and import it in
+  `_global.scss` after the framework, then wrap your `renderFile` calls in
+  `<article class="markdown-body">`.
+
 ## [2.1.0] - 2026-08-17
 
 ### Added
