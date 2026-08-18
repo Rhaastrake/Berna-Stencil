@@ -5,6 +5,21 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.1] - 2026-08-18
+
+### Fixed
+- Renaming a page left the old `title` in the route's front matter. Only
+  `permalink` was rewritten, so a page renamed from `about` to `company` kept
+  `title: "about"` while its stylesheet, script and `pages.json` record had all
+  moved to `company`. The title is what the layout uses to load a page's CSS and
+  JS and to look up its SEO record, so the renamed page silently lost its styles,
+  its scripts and everything set under its `pages.json` entry.
+
+### Notes
+- Pages renamed with an earlier version keep the stale title. Open the route in
+  `src/frontend/routes/` and set `title` to the camelCase form of the new page
+  name — `company-profile` becomes `companyProfile`.
+
 ## [2.2.0] - 2026-08-18
 
 ### Added
