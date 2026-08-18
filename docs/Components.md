@@ -25,7 +25,7 @@ Components are included in the page that renders them. Open the page's file in `
 
 ### example-page.njk <small>(`src/frontend/routes/`)</small>
 
-```njk
+```js
 ---
 title: "examplePage"
 permalink: "/example-page/"
@@ -49,7 +49,7 @@ Writing HTML directly in the route works too, and is perfectly fine for a short 
 A component can include other components. This is useful for breaking complex sections into smaller, reusable pieces.
 
 ### exampleComponent.njk
-```njk
+```html
 <section class="hero">
   {% include "hero/hero-title.njk" %}
   {% include "hero/hero-button.njk" %}
@@ -86,14 +86,17 @@ Regular paragraph text. **Bold** and *italic* work as usual.
 
 Open the page's file in `src/frontend/routes/` and add this line to its body:
 
-```njk
-{% renderFile "article.md" | markdownPath, { site: site } %}
+```html
+<article class="markdown-body">
+    {% renderFile "article.md" | markdownPath, { site: site } %}
+</article>
 ```
 
-Three parts to it:
+Four parts to it:
 
 | Part | What it does |
 |---|---|
+| `class="markdown-body"` | the wrapper that applies the Markdown styling — without it your content renders unstyled |
 | `renderFile` | turns the Markdown into HTML and puts it in the page |
 | `markdownPath` | fills in the `src/frontend/components/` part of the path for you |
 | `{ site: site }` | hands the file your site settings — see below |
@@ -112,7 +115,7 @@ Welcome to {{ site.title }}
 But a Markdown file does not automatically see them. Anything the file needs has
 to be listed in the curly braces:
 
-```njk
+```js
 {% renderFile "article.md" | markdownPath, { site: site, pages: pages } %}
 ```
 
@@ -160,7 +163,7 @@ src/frontend/layouts/
 
 Same as `base.njk`, without the two global includes:
 
-```njk
+```html
 <body>
     <main>
         {{ content | safe }}
@@ -172,7 +175,7 @@ Then point the route at it:
 
 ### landing.njk <small>(`src/frontend/routes/`)</small>
 
-```njk
+```js
 ---
 title: "landing"
 permalink: "/landing/"
@@ -218,7 +221,7 @@ All values defined in `src/frontend/data/site.json` are globally available in ev
 `legal.privacy`, `legal.cookie` and `legal.terms` hold the URLs of your legal pages — the footer links to them. See **Head & SEO** DOC file for what every field does
 
 ### Usage in any `.njk` file
-```njk
+```html
 <p>{{ site.title }}</p>
 <a href="{{ site.legal.privacy }}">Privacy Policy</a>
 <img src="{{ site.logo }}" alt="{{ site.title }}">

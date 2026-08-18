@@ -116,7 +116,7 @@ aren't things you'd want.
 
 One value in `site.json` controls the colour scheme everywhere:
 
-```njk
+```html
 <html data-theme="{{ site.theme }}" data-bs-theme="{{ site.theme }}">
 <meta name="color-scheme" content="{{ site.theme }}">
 <meta name="theme-color" content="{{ site.theme_color }}">

@@ -78,6 +78,9 @@ body {
 | `_footer.scss` | Footer styles |
 | `_mobile.scss` | Media query rules |
 | `_animations.scss` | Keyframe animations (`fade-in`, `spin`) |
+| `_markdown.scss` | Styling for Markdown rendered with `renderFile`. See **Components** DOC file |
+
+> If you don't use Markdown files as components, comment its import from `_global.scss`.
 
 ## CSS Framework
 

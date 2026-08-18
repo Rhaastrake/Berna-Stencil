@@ -35,7 +35,7 @@ A page that needs a different shell — a landing page with no header, for insta
 
 To create a URL like `domain.it/about/team`, edit the `permalink` in `src/frontend/routes/team.njk` and add the parent segment before the final slash:
 
-```njk
+```js
 ---
 title: "team"
 permalink: "/about/team/"
