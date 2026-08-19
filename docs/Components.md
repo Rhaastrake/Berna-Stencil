@@ -13,8 +13,6 @@ src/frontend/components/
 ├── global/
 │   ├── header.njk
 │   └── footer.njk
-├── modals/
-│   └── privacyModal.njk
 ├── not-found.njk
 ├── welcome.njk
 ```
@@ -88,7 +86,7 @@ Open the page's file in `src/frontend/routes/` and add this line to its body:
 
 ```html
 <article class="markdown-body">
-    {% renderFile "article.md" | markdownPath, { site: site } %}
+    {% renderFile "article.md" | markdownPath, { site: site }, "md" %}
 </article>
 ```
 
@@ -100,6 +98,7 @@ Four parts to it:
 | `renderFile` | turns the Markdown into HTML and puts it in the page |
 | `markdownPath` | fills in the `src/frontend/components/` part of the path for you |
 | `{ site: site }` | hands the file your site settings — see below |
+| `"md"` | specifies that the rendering should be done as Markdown, ignoring the njk engine associated by default with the file extension |
 
 Subfolders work the same way as with components:
 `"legal/privacy.md" | markdownPath`
