@@ -1,6 +1,7 @@
 const { RenderPlugin } = require("@11ty/eleventy");
 const markdownItAnchor = require("markdown-it-anchor");
 const markdownItAttrs = require("markdown-it-attrs");
+const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const Image = require("@11ty/eleventy-img");
 const fs = require("fs");
 const path = require("path");
@@ -14,7 +15,6 @@ const ANCHOR_PERMALINK_PLACEMENT = "after";
 const MARKDOWN_BASE_PATH = "src/frontend/components/";
 
 module.exports = function (eleventyConfig) {
-
   // ---------------------------------------------------------------------------
   // Utilities
   // ---------------------------------------------------------------------------
@@ -41,6 +41,10 @@ module.exports = function (eleventyConfig) {
   // ---------------------------------------------------------------------------
 
   eleventyConfig.addPlugin(RenderPlugin);
+
+  eleventyConfig.addPlugin(syntaxHighlight, {
+    templateFormats: ["md"],
+  });
 
   eleventyConfig.amendLibrary("md", (markdownLibrary) => {
     markdownLibrary
@@ -76,10 +80,16 @@ module.exports = function (eleventyConfig) {
     "src/frontend/hosting/web.config": "web.config",
   });
 
-  // node_modules dependencies
+  // Prism syntax highlighting theme
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/prismjs/themes/prism-tomorrow.css": "css/prism.css",
+  });
+
+  // CSS frameworks — uncomment the one you are using
   eleventyConfig.addPassthroughCopy({
     // Bootstrap
-    "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",
+    "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js":
+      "js/bootstrap.bundle.min.js",
     "node_modules/bootstrap-icons/font/fonts": "css/fonts",
 
     // Foundation
@@ -96,7 +106,10 @@ module.exports = function (eleventyConfig) {
   // Shortcodes
   // ---------------------------------------------------------------------------
 
-  eleventyConfig.addFilter("markdownPath", (name) => `${MARKDOWN_BASE_PATH}${name}`);
+  eleventyConfig.addFilter(
+    "markdownPath",
+    (name) => `${MARKDOWN_BASE_PATH}${name}`,
+  );
 
   eleventyConfig.addShortcode("image", async function (src, alt) {
     const metadata = await Image(src, {

@@ -158,6 +158,7 @@ const PROJECT_PACKAGE = {
     dependencies: {
         '@11ty/eleventy':     '^3.1.2',
         '@11ty/eleventy-img': '^6.0.4',
+        '@11ty/eleventy-plugin-syntaxhighlight': '^5.0.2',
         'bootstrap':          '^5.3.8',
         'bootstrap-icons':    '^1.13.1',
         'bulma':              '^1.0.4',
