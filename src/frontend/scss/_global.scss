@@ -1,9 +1,5 @@
-//==========================
-// CSS RULES FOR THE ENTIRE SITE
-//==========================
-
 // Getting root rules from _root.scss
-@use 'root' as root;
+@use 'root' as root; // Usage: root.$value-name
 
 // Frameworks imports
 @import "modules/frameworks/bootstrap";
@@ -19,13 +15,6 @@
 
 @import "modules/header";
 @import "modules/footer";
-
-@import "modules/animations";
-@import "modules/mobile";
-
-//==========================
-// Global css rules for the entire site
-//==========================
 
 *,
 *::before,
@@ -43,8 +32,4 @@ body {
 
 main {
     flex: 1;
-}
-
-a {
-    text-decoration: none !important;
 }

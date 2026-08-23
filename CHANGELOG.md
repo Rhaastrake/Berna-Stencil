@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.4.0] - 2026-08-23
 
+### Added
 - Added `ignore missing` in header and footer includes (`base.njk`) by default
+
+### Fixed
+- If you remove a an existing page with the cli, the out folder will not be touched anymore 
 
 ## [2.3.0] - 2026-08-19
 

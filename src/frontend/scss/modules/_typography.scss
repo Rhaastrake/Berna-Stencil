@@ -1,9 +1,5 @@
-//==========================
-// CSS RULES FOR TYPOGRAPHY
-//==========================
-
 // Getting root rules from _root.scss
-@use "../root" as root;
+@use "../root" as root; // Usage: root.$value-name
 
 html {
   font-size: 16px;
@@ -15,5 +11,6 @@ body {
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none !important;
+    color: inherit;
 }

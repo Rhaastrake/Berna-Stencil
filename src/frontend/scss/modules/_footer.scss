@@ -1,16 +1,13 @@
-//==========================
-// CSS RULES FOR FOOTER
-//==========================
-
 // Getting root rules from _root.scss
-@use "../root" as root;
+@use "../root" as root; // Usage: root.$value-name
 
 footer {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     width: 100%;
     padding: root.$header-padding-y root.$header-padding-x;
-    background-color: #2e7253;
+    background-color: root.$header-footer-color;
     
     h6 {
         margin-bottom: 0.75rem;
@@ -22,8 +19,19 @@ footer {
         margin: 0;
     }
 
-    small {
-        display: flex;
-        gap: 1rem;
+    hr {
+        width: 100%;
+        border: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        margin: 1.5rem 0 1rem 0;
+    }
+
+    .copyright {
+        flex-basis: 100%;
+        text-align: center;
+        
+        p {
+            margin: 0;
+        }
     }
 }
