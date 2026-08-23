@@ -61,7 +61,6 @@
     "nothingToClean": "(i) nothing to clean \u2192 {path}"
   },
   "cli": {
-    "usingLocalVersion": "Nibula cli local version ({local})",
     "createPrompt": "Name of the new page: ",
     "removePrompt": "Name of the page to remove: ",
     "renameFromPrompt": "Page to rename: ",

@@ -8,10 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.4.0] - 2026-08-23
 
 ### Added
-- Added `ignore missing` in header and footer includes (`base.njk`) by default
+- `ignoreMissing` on header and footer includes in `base.njk`, so a project without those components still builds
+
+### Changed
+- Copyright notice centered below a rule in the footer
+- Removed `_animations.scss` and `_mobile.scss` from the default SCSS modules — responsive rules now live in the module they belong to
+- Reviewed commented snippets across SCSS, JS and TS templates
+- Raised scaffold dependency floors: `esbuild` to `^0.28.2` and `@11ty/eleventy-img` to `^7.0.0` close known advisories; `@11ty/eleventy`, `sass`, `uikit` and `concurrently` aligned to current releases
+- In new pages.njk files, renderfiel will be inside a div and not in an article tag
 
 ### Fixed
-- If you remove a an existing page with the cli, the out folder will not be touched anymore 
+- Removing a page with the CLI no longer deletes its build output — the output directory is a build artifact and may be live in production
+- Corrected the local CLI version label
 
 ## [2.3.0] - 2026-08-19
 
