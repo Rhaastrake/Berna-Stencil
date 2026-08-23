@@ -3,12 +3,8 @@
 // overwritten by other imported files with the same variable names.
 // Use @use 'root' as root; to avoid namespace collisions.
 
-
-//==========================
-// STRUCTURE
-//==========================
 $header-height: 10vh;
 $header-padding-y: 15px;
 $header-padding-x: 15px;
 
-$primary-color: rgba(0, 0, 0, 0.5);
+$header-footer-color: #11474b;

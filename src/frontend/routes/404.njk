@@ -9,7 +9,7 @@ layout: base.njk
 
 {# Markdown files live in components/ too. Pass the data the file needs #}
 {#
-<article class="markdown-body">
+<div class="markdown-body">
     {% renderFile "your-file.md" | markdownPath, { site: site }, "md" %}
-</article>
+</div>
 #}

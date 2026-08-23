@@ -1,7 +1,7 @@
 const path = require('path');
 const settings = require('../config/settings.json');
 const { PATHS } = require('./paths');
-const { exists, readText, writeText, copyFile, moveFile, removeFile, removeDirectory, removeDirectoryIfEmpty } = require('./files');
+const { exists, readText, writeText, copyFile, moveFile, removeFile, removeDirectoryIfEmpty } = require('./files');
 const { log } = require('./logger');
 const { formatText } = require('./text');
 const { languageSettings } = require('./project');
@@ -120,22 +120,14 @@ function removePage(pageName) {
     }
     if (!readPagesData()) return;
 
-    const { source, output } = getPageArtifacts(pageName);
-    const files = [source.style, source.script, source.route, ...output.files];
+    const { source } = getPageArtifacts(pageName);
+    const files = [source.style, source.script, source.route];
 
     for (const file of files) {
         try {
             if (removeFile(file)) log('page.fileDeleted', { path: file });
         } catch (error) {
             log('page.deleteFailed', { path: file, error: error.message });
-        }
-    }
-
-    for (const directory of output.directories) {
-        try {
-            if (removeDirectory(directory)) log('page.fileDeleted', { path: directory });
-        } catch (error) {
-            log('page.deleteFailed', { path: directory, error: error.message });
         }
     }
 

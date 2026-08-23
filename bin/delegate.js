@@ -1,8 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
-const { color } = require('../tools/lib/colors');
-const { message } = require('../tools/lib/logger');
 
 const PACKAGE_NAME = 'nibula';
 const NODE_MODULES = 'node_modules';
@@ -22,14 +20,6 @@ function realPath(target) {
     }
 }
 
-function readVersion(packageRoot) {
-    try {
-        return JSON.parse(fs.readFileSync(path.join(packageRoot, PACKAGE_FILE), 'utf8')).version;
-    } catch {
-        return null;
-    }
-}
-
 function delegateToLocal(projectRoot) {
     if (process.env[LOCAL_FLAG] === LOCAL_FLAG_VALUE) return;
 
@@ -40,12 +30,6 @@ function delegateToLocal(projectRoot) {
 
     const localEntry = path.join(localRoot, ENTRY_FILE);
     if (!fs.existsSync(localEntry)) return;
-
-    const localVersion = readVersion(localRoot);
-
-    if (localVersion && localVersion !== globalVersion) {
-        console.log(`${color.dim}${message('cli.usingLocalVersion', { local: localVersion, global: globalVersion })}${color.reset}`);
-    }
 
     const result = spawnSync(process.execPath, [localEntry, ...process.argv.slice(2)], {
         stdio: 'inherit',

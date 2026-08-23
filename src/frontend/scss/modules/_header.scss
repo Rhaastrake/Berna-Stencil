@@ -1,27 +1,30 @@
-//==========================
-// CSS RULES FOR HEADER
-//==========================
-
 // Getting root rules from _root.scss
-@use "../root" as root;
+@use "../root" as root; // Usage: root.$value-name
 
 header {
-    height: root.$header-height;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: root.$header-padding-y root.$header-padding-x;
-    background-color: #2e7253;
+  height: root.$header-height;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: root.$header-padding-y root.$header-padding-x;
+  background-color: root.$header-footer-color;
 }
 
 nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 
-nav .logo {
-    padding: 10px;
+  .logo {
+    max-height: root.$header-height;
+    width: auto;
+    text-decoration: none !important;
+    
+    img {
+      height: 50px;
+      width: auto;
+    }
+  }
 }

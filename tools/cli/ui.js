@@ -22,7 +22,7 @@ const LOCAL_VERSION = require('../../package.json').version;
 const GLOBAL_VERSION = process.env[GLOBAL_VERSION_FLAG];
 
 const TITLE_SUFFIX = GLOBAL_VERSION && GLOBAL_VERSION !== LOCAL_VERSION
-    ? ` (local v${LOCAL_VERSION})`
+    ? ` v${LOCAL_VERSION}`
     : '';
 
 const PLAIN_TITLE = `${BOX_TITLE}${TITLE_SUFFIX}`;

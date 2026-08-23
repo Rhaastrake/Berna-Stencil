@@ -61,7 +61,6 @@
     "nothingToClean": "(i) nothing to clean \u2192 {path}"
   },
   "cli": {
-    "usingLocalVersion": "Nibula cli local version ({local})",
     "createPrompt": "Name of the new page: ",
     "removePrompt": "Name of the page to remove: ",
     "renameFromPrompt": "Page to rename: ",
@@ -70,7 +69,7 @@
     "menuPrompt": "Choose an option: ",
     "layoutPrompt": "Select a layout (arrow keys, Enter to confirm):",
     "currentOutputPath": "Current path: \"{path}\"",
-    "confirmRemove": "This permanently deletes all files for \"{name}\".",
+    "confirmRemove": "This permanently deletes the source files for \"{name}\". Rebuild to update the output.",
     "cancelled": "Cancelled.",
     "pageNotFound": "Page \"{name}\" does not exist.",
     "sameName": "Old and new name are the same.",

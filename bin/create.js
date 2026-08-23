@@ -156,8 +156,8 @@ const PROJECT_PACKAGE = {
         "assistant": "nib cli"
     },
     dependencies: {
-        '@11ty/eleventy':     '^3.1.2',
-        '@11ty/eleventy-img': '^6.0.4',
+        '@11ty/eleventy':     '^3.1.6',
+        '@11ty/eleventy-img': '^7.0.0',
         '@11ty/eleventy-plugin-syntaxhighlight': '^5.0.2',
         'bootstrap':          '^5.3.8',
         'bootstrap-icons':    '^1.13.1',
@@ -166,13 +166,13 @@ const PROJECT_PACKAGE = {
         'glob':               '^13.0.6',
         'markdown-it-anchor': '^9.2.1',
         'markdown-it-attrs':  '^5.0.1',
-        'uikit':              '^3.25.13',
+        'uikit':              '^3.25.21',
     },
     devDependencies: {
         'nibula': `^${SELF_VERSION}`,
-        'concurrently':  '^9.2.1',
-        'esbuild':       '^0.27.3',
-        'sass':          '^1.77.0',
+        'concurrently':  '^9.2.4',
+        'esbuild':       '^0.28.2',
+        'sass':          '^1.103.1',
     },
 };
 
