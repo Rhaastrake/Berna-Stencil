@@ -71,16 +71,6 @@
     "styleTemplate": "template.scss",
     "routeTemplate": "template.njk",
     "layoutExtension": "njk",
-    "outputFiles": [
-      "js/pages/{camelName}.js",
-      "css/pages/{camelName}.css",
-      "{pageName}.html",
-      "pages/{pageName}.html"
-    ],
-    "outputDirectories": [
-      "{pageName}",
-      "pages/{pageName}"
-    ],
     "defaultData": {
       "seo": {
         "title": "{title}",
