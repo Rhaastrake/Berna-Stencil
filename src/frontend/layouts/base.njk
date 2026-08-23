@@ -99,13 +99,13 @@
 
     <body>
 
-        {% include "global/header.njk" %}
+        {% include "global/header.njk" ignore missing %}
 
         <main>
             {{ content | safe }}
         </main>
 
-        {% include "global/footer.njk" %}
+        {% include "global/footer.njk" ignore missing %}
 
       {#╔══════════════════╗
         ║     SCRIPTS      ║

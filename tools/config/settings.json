@@ -84,7 +84,7 @@
     "defaultData": {
       "seo": {
         "title": "{title}",
-        "description": "description",
+        "description": "Description",
         "keywords": "",
         "noindex": false,
         "canonical": ""
