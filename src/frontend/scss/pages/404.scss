@@ -1,10 +1,5 @@
-//==========================
-// CSS MODULES IMPORTS
-//==========================
-
-// Use @use with a namespace to avoid framework variable conflicts:
-// Example: root.$primary
-@use "../root" as root;
+// Getting root rules from _root.scss
+@use "../root" as root; // Usage: root.$value-name
 
 // This global module contains the import framework, necessary modules for each page and any other common styles
 @import "../global";
@@ -12,17 +7,7 @@
 // Import any other module you need by import down here
 // @import "../modules/moduleName";
 
-//==========================
-// PAGE CUSTOM CSS RULES
-//==========================
-
-// Add any custom rule specific to this page below
-// These rules override the framework and module styles
-.not-found {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 60vh;
-    text-align: center;
-}
+// Add any custom rule specific to this page below:
+// body {
+//     background-color: root.$custom-color;
+// }
