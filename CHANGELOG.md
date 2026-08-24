@@ -5,6 +5,15 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.1] 2026-08-24
+
+### Changed
+- Changed template.njk snippets for renderFile
+- markdown files used as components will now require {class="class"} or {id="id"} instead of {#id} or {.class}
+
+### Fixed
+- Fixed json data files passed in renderfile to markdown files not rendering
+
 ## [2.4.0] - 2026-08-23
 
 ### Added

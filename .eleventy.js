@@ -47,6 +47,23 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.amendLibrary("md", (markdownLibrary) => {
+    markdownLibrary.renderer.rules.link_open = function (
+      tokens,
+      idx,
+      options,
+      env,
+      self,
+    ) {
+      const href = tokens[idx].attrGet("href");
+
+      if (href && (href.startsWith("http://") || href.startsWith("https://"))) {
+        tokens[idx].attrSet("target", "_blank");
+        tokens[idx].attrSet("rel", "noopener noreferrer");
+      }
+
+      return self.renderToken(tokens, idx, options);
+    };
+
     markdownLibrary
       .use(markdownItAnchor, {
         level: ANCHOR_LEVELS,
@@ -70,6 +87,16 @@ module.exports = function (eleventyConfig) {
   // Passthrough copy
   // ---------------------------------------------------------------------------
 
+  eleventyConfig.addPassthroughCopy({
+    // Prism syntax highlighting theme
+    "node_modules/prismjs/themes/prism-tomorrow.css": "css/prism.css",
+
+    // Bootstrap
+    "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js":
+      "js/bootstrap.bundle.min.js",
+    "node_modules/bootstrap-icons/font/fonts": "css/fonts",
+  });
+
   // Project assets
   eleventyConfig.addPassthroughCopy("src/frontend/assets");
   eleventyConfig.addPassthroughCopy("src/frontend/robots.txt");
@@ -80,12 +107,7 @@ module.exports = function (eleventyConfig) {
     "src/frontend/hosting/web.config": "web.config",
   });
 
-  // Prism syntax highlighting theme
-  eleventyConfig.addPassthroughCopy({
-    "node_modules/prismjs/themes/prism-tomorrow.css": "css/prism.css",
-  });
-
-  // CSS frameworks — uncomment the one you are using
+  // node_modules dependencies
   eleventyConfig.addPassthroughCopy({
     // Bootstrap
     "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js":
@@ -107,7 +129,7 @@ module.exports = function (eleventyConfig) {
   // ---------------------------------------------------------------------------
 
   eleventyConfig.addFilter(
-    "markdownPath",
+    "componentsPath",
     (name) => `${MARKDOWN_BASE_PATH}${name}`,
   );
 
@@ -145,7 +167,6 @@ module.exports = function (eleventyConfig) {
   // ---------------------------------------------------------------------------
 
   return {
-    markdownTemplateEngine: TEMPLATE_ENGINE,
     htmlTemplateEngine: TEMPLATE_ENGINE,
 
     dir: {
