@@ -9,7 +9,7 @@
 from small hand-written practice sites to a real project setup as gentle as
 possible.
 
-📖 **[Read the documentation](https://rhaastrake.github.io/Nibula/docs/)**
+📖 **[Read the documentation](https://rhaastrake.github.io/nibula/docs/)**
 
 ## 🎯 Why choose Nibula
 
@@ -121,7 +121,7 @@ removing too.
 
 Everything else — the page structure, components, styling, the backend, SEO and
 deployment — is at
-**[rhaastrake.github.io/Nibula](https://rhaastrake.github.io/Nibula/docs/)**.
+**[rhaastrake.github.io/Nibula](https://rhaastrake.github.io/nibula/docs/)**.
 
 ## ⭐ Support Nibula
 
@@ -129,10 +129,10 @@ Thanks for giving **Nibula** a try.
 
 It's a one-person project, so every bit of feedback counts more than you'd think:
 if something breaks, if the documentation isn't clear, or if a feature is
-missing, open an [issue](https://github.com/Rhaastrake/Nibula/issues).
+missing, open an [issue](https://github.com/Rhaastrake/nibula/issues).
 
 If **Nibula** was useful to you, leaving a ⭐ on the
-[repository](https://github.com/Rhaastrake/Nibula) is the easiest way to help
+[repository](https://github.com/Rhaastrake/nibula) is the easiest way to help
 other people find it.
 
 You can also support the project by buying me a coffee on
