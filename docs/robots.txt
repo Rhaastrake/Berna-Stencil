@@ -1,4 +1,4 @@
-Sitemap: https://rhaastrake.github.io/Nibula/sitemap.xml
+Sitemap: https://rhaastrake.github.io/nibula/sitemap.xml
 
 User-agent: *
 Disallow:
