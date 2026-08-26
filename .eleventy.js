@@ -87,14 +87,9 @@ module.exports = function (eleventyConfig) {
   // Passthrough copy
   // ---------------------------------------------------------------------------
 
+  // Prism syntax highlighting theme
   eleventyConfig.addPassthroughCopy({
-    // Prism syntax highlighting theme
     "node_modules/prismjs/themes/prism-tomorrow.css": "css/prism.css",
-
-    // Bootstrap
-    "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js":
-      "js/bootstrap.bundle.min.js",
-    "node_modules/bootstrap-icons/font/fonts": "css/fonts",
   });
 
   // Project assets
@@ -107,11 +102,11 @@ module.exports = function (eleventyConfig) {
     "src/frontend/hosting/web.config": "web.config",
   });
 
-  // node_modules dependencies
+  // CSS frameworks — uncomment the one you are using
+  // prettier-ignore
   eleventyConfig.addPassthroughCopy({
     // Bootstrap
-    "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js":
-      "js/bootstrap.bundle.min.js",
+    "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js": "js/bootstrap.bundle.min.js",
     "node_modules/bootstrap-icons/font/fonts": "css/fonts",
 
     // Foundation

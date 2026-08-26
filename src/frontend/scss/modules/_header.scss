@@ -21,7 +21,9 @@ nav {
     max-height: root.$header-height;
     width: auto;
     text-decoration: none !important;
-    
+    display: flex;
+    align-items: center;
+
     img {
       height: 50px;
       width: auto;

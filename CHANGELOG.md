@@ -5,6 +5,18 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.5] - 2026-08-26
+
+### Fixed
+- **A project scaffolded with 2.4.4 wouldn't start.** The passthrough entry for
+  the CSS framework spanned two lines, so commenting out the marker line left the
+  destination string orphaned inside the object and `.eleventy.js` failed to
+  parse. Every key-value pair now sits on one line, with `// prettier-ignore`
+  above the block so a formatter can't split them again.
+- The Bootstrap passthrough was declared twice — once in the block added for the
+  Prism theme and once among the framework markers — so the scaffolder commented
+  out both copies and produced two broken entries instead of one.
+  
 ## [2.4.4] - 2026-08-26
 
 ### Changed
