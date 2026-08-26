@@ -1,0 +1,17 @@
+# Nibula
+
+> Nibula is an open-source CLI that scaffolds ready-to-build Eleventy projects in seconds — sensible structure, configurable templates, zero boilerplate.
+
+Nibula is a command-line tool that generates ready-to-build Eleventy projects: it sets up folder structure, templates and configuration so you can start writing content immediately. Published on npm, Apache 2.0 licensed, maintained by Michele Garofalo.
+
+## Documentation
+
+## Links
+
+- [Source code](https://github.com/Rhaastrake/Nibula): issues, releases and contribution guide
+- [npm package](https://www.npmjs.com/package/Nibula): installation and version history
+
+## Notes
+
+- Language: en
+- Content and source are licensed under the Apache License 2.0; attribution required
