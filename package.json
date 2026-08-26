@@ -1,6 +1,6 @@
 {
   "name": "nibula",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "description": "A beginner-friendly static site generator built on Eleventy that stays close to vanilla HTML, CSS and JS — with a page-management CLI, an optional PHP backend, and SEO files generated for you.",
   "keywords": [
     "11ty",
@@ -54,19 +54,19 @@
     "assistant": "node tools/assistant.js"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.2",
-    "@11ty/eleventy-img": "^6.0.4",
+    "@11ty/eleventy": "^3.1.6",
+    "@11ty/eleventy-img": "^7.0.0",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "bulma": "^1.0.4",
-    "concurrently": "^9.2.1",
-    "esbuild": "^0.27.3",
+    "concurrently": "^9.2.4",
+    "esbuild": "^0.28.2",
     "foundation-sites": "^6.9.0",
     "glob": "^13.0.6",
     "markdown-it-anchor": "^9.2.1",
     "markdown-it-attrs": "^5.0.1",
-    "sass": "^1.77.0",
-    "uikit": "^3.25.13"
+    "sass": "^1.103.1",
+    "uikit": "^3.25.21"
   }
 }

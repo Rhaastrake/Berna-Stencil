@@ -23,7 +23,7 @@
         <title>{{ pageData.seo.title or title or site.title }}</title>
         <meta name="description" content="{{ pageData.seo.description or site.description }}">
         <meta name="keywords" content="{{ pageData.seo.keywords or site.keywords }}">
-        <meta name="author" content="{{ site.author }}">
+        <meta name="author" content="{{ site.author.fullName }}">
         <meta name="theme-color" content="{{ site.theme }}">
 
         {% if pageData.seo.noindex %}
@@ -36,7 +36,7 @@
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ site.url }}{{ page.url }}">
         <meta property="og:image" content="{{ site.url }}{{ site.logo }}">
-        <meta property="og:site_name" content="{{ site.site_name }}">
+        <meta property="og:site_name" content="{{ site.siteName }}">
 
         {# Twitter Card #}
         <meta name="twitter:card" content="summary_large_image">
@@ -57,11 +57,12 @@
             "url": {{ (site.url + page.url) | dump }},
             "author": {
                 "@type": "Person",
-                "name": {{ site.author | dump }}
+                "name": {{ site.author.fullName | dump }},
+                "url": {{ site.author.website | dump }}
             },
             "publisher": {
                 "@type": "Organization",
-                "name": {{ site.site_name | dump }},
+                "name": {{ site.siteName | dump }},
                 "logo": {
                     "@type": "ImageObject",
                     "url": {{ (site.url + site.logo) | dump }}

@@ -5,6 +5,30 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.4] - 2026-08-26
+
+### Changed
+- **`site_name` is now `siteName` and `author` is an object** with `fullName` and
+  `website`. The author's site feeds the JSON-LD `Person.url` and the `llms.txt`
+  header, which previously reused the site URL for both.
+- The documentation moved out of the repository and onto
+  [rhaastrake.github.io/Nibula](https://rhaastrake.github.io/Nibula/docs/). The
+  `docs/` folder now holds the built site and is excluded from the published
+  package, so `npm install` no longer carries the Markdown files.
+- The README follows the same structure as the documentation's introduction, and
+  points at the site instead of the files that used to live in `docs/`.
+
+### Fixed
+- The documentation card in `welcome.njk` linked to `Nibula/tree/main/docs`,
+  which now holds the built site rather than readable Markdown.
+- `welcome.njk` shipped with a leftover `{{ test.prova }}` referencing a data
+  file no scaffolded project has.
+
+### Notes
+- **Existing projects need two edits to `src/frontend/data/site.json`** if you
+  update their templates: rename `site_name` to `siteName`, and turn `author`
+  into `{ "fullName": "...", "website": "..." }`. Leaving the file as it is keeps
+  the old templates working — the two only have to move together.
 
 ## [2.4.3] 2026-08-24
 
