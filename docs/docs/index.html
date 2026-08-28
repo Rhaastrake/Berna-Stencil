@@ -29,14 +29,14 @@
         <meta property="og:description" content="Install Nibula, create your first project and learn the folder structure, components, styling, backend and deployment — with copy-paste examples throughout.">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://rhaastrake.github.io/nibula/docs/">
-        <meta property="og:image" content="https://rhaastrake.github.io/nibulaassets/brand/logo.svg">
+        <meta property="og:image" content="https://rhaastrake.github.io/nibula/assets/brand/logo.svg">
         <meta property="og:site_name" content="Nibula">
 
         
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Documentation · Nibula">
         <meta name="twitter:description" content="Install Nibula, create your first project and learn the folder structure, components, styling, backend and deployment — with copy-paste examples throughout.">
-        <meta name="twitter:image" content="https://rhaastrake.github.io/nibulaassets/brand/logo.svg">
+        <meta name="twitter:image" content="https://rhaastrake.github.io/nibula/assets/brand/logo.svg">
 
       
 
@@ -57,7 +57,7 @@
                 "name": &quot;Nibula&quot;,
                 "logo": {
                     "@type": "ImageObject",
-                    "url": &quot;https://rhaastrake.github.io/nibulaassets/brand/logo.svg&quot;
+                    "url": &quot;https://rhaastrake.github.io/nibula/assets/brand/logo.svg&quot;
                 }
             }
         }
@@ -88,7 +88,7 @@
         <header>
   <nav>
     <a class="logo" href="/nibula/">
-      <img src="assets/brand/logo.svg" alt="Nibula"/>
+      <img src="/assets/brand/logo.svg" alt="Nibula"/>
     </a>
 
     <button class="burger-menu" id="burger-btn" aria-label="Open menu">
@@ -322,12 +322,6 @@
     
       <li>
         
-          <a class="button link-button" href="#styling-import-a-module">Import a module</a>
-        
-      </li>
-    
-      <li>
-        
           <a class="button link-button" href="#css-frameworks">CSS frameworks</a>
         
       </li>
@@ -365,12 +359,6 @@
       <li>
         
           <a class="button link-button" href="#javascript-create-a-module">Create a module</a>
-        
-      </li>
-    
-      <li>
-        
-          <a class="button link-button" href="#javascript-import-a-module">Import a module</a>
         
       </li>
     
@@ -788,7 +776,7 @@ skipped entirely, so you don't need Composer on your machine at all.</p>
 </code></pre>
 <pre><code class="button link-button copy">nib run
 </code></pre>
-<p>Your site is now at <code>localhost:8080</code>, and it rebuilds every time you save a file.</p>
+<p>Your site is now at <strong>localhost:8080</strong>, and it rebuilds every time you save a file.</p>
 
             </div>
           
@@ -836,8 +824,7 @@ skipped entirely, so you don't need Composer on your machine at all.</p>
 </tbody>
 </table>
 <blockquote>
-<p>The <strong>permalink</strong> needs a slash at both ends: <strong>/my-page/</strong>, not <strong>my-page</strong>.</p>
-<p>Without the trailing one you get <strong>my-page.html</strong> instead of a clean <strong>/my-page/</strong> address</p>
+<p>The <strong>permalink</strong> needs a slash at both ends: <strong>/my-page/</strong>, not <strong>my-page</strong></p>
 </blockquote>
 <h3 id="what-a-page-is-made-of" tabindex="-1">What a page is made of <a class="header-anchor" href="#what-a-page-is-made-of">#</a></h3>
 <p>A page is made of three files, plus one entry in a shared <a href="#data-files">data file</a>.</p>
@@ -1286,47 +1273,141 @@ Go to <span class="token url">[<span class="token content">the title</span>](<sp
           
             <div class="col-section">
               <h1 id="styling">Styling</h1>
-<h2 id="what-is-scss" tabindex="-1">What is SCSS <a class="header-anchor" href="#what-is-scss">#</a></h2>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
+<h2 id="what-is-scss" tabindex="-1">🎨 What is SCSS <a class="header-anchor" href="#what-is-scss">#</a></h2>
+<p><strong>SCSS</strong> is basically the <strong>CSS</strong> you already know, with variables and nesting added. If you write it the way you're used to, it still works as you'd expect.</p>
+<p>The browser doesn't read <code>.scss</code> directly: your files are compiled into one <strong>CSS</strong> file when the site builds. <strong>Nibula</strong> handles that, so there's nothing to set up.</p>
 <h2 id="styling-structure" tabindex="-1">Structure <a class="header-anchor" href="#styling-structure">#</a></h2>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
+<p>Every page has its own <strong>SCSS</strong> file, named after the page in <strong>camel case</strong>. It's created for you under <code>src/frontend/scss/pages/</code> when you add a page with the [Nibula CLI] (#nibula-cli).</p>
+<blockquote>
+<p>For example <code>my-page.njk</code> (page file) is automatically linked to <code>myPage.scss</code></p>
+</blockquote>
+<p>You can write your rules there without touching anything else. They apply to that <strong>page</strong> only, which keeps things clear and keeps each page's <strong>CSS</strong> small.</p>
+<p><code>scss/pages/myPage.scss</code></p>
+<pre class="language-scss"><code class="language-scss"><span class="token keyword">@use</span> <span class="token string">"../root"</span> <span class="token module-modifier keyword">as</span> root<span class="token punctuation">;</span> <span class="token comment">// Usage: root.$value-name</span>
+
+<span class="token keyword">@import</span> <span class="token string">"../global"</span><span class="token punctuation">;</span>
+
+<span class="token selector">.page-element </span><span class="token punctuation">{</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> root.<span class="token variable">$custom-color</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Every page should declare <code>@use '../root' as root;</code> and <code>@import '../global';</code>, but what does them mean?</p>
+<p><strong>root</strong> is simply a container with all your custom <strong>named values</strong>:</p>
+<p><code>scss/_root.scss</code></p>
+<pre class="language-scss"><code class="language-scss"><span class="token property"><span class="token variable">$header-height</span></span><span class="token punctuation">:</span> 10vh<span class="token punctuation">;</span>
+<span class="token property"><span class="token variable">$header-padding-y</span></span><span class="token punctuation">:</span> 15px<span class="token punctuation">;</span>
+<span class="token property"><span class="token variable">$header-padding-x</span></span><span class="token punctuation">:</span> 15px<span class="token punctuation">;</span>
+
+<span class="token property"><span class="token variable">$header-footer-color</span></span><span class="token punctuation">:</span> #11474b<span class="token punctuation">;</span></code></pre>
+<p><strong>global</strong> instead is a pre-existing module with the rules that should be applied to every page including module imports to write them only once</p>
+<p>Heres some modules that <strong>Nibula</strong> already creates for you:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>What it styles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_typography.scss</code></td>
+<td>Fonts and text rules</td>
+</tr>
+<tr>
+<td><code>_header.scss</code></td>
+<td>The header styles</td>
+</tr>
+<tr>
+<td><code>_footer.scss</code></td>
+<td>The footer styles</td>
+</tr>
+<tr>
+<td><code>_markdown.scss</code></td>
+<td><a href="#include-markdown">Markdown files</a> style</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><code>_markdown.scss</code> Should not be touched</p>
+</blockquote>
+<blockquote>
+<p>The leading underscore marks a file meant to be imported rather than compiled into a stylesheet of its own</p>
+</blockquote>
 <h2 id="styling-create-a-module" tabindex="-1">Create a module <a class="header-anchor" href="#styling-create-a-module">#</a></h2>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<h2 id="styling-import-a-module" tabindex="-1">Import a module <a class="header-anchor" href="#styling-import-a-module">#</a></h2>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
+<p>You can create your custom <strong>SCSS</strong> module under <code>src/frontend/scss/modules/</code>, with an underscore in front of the name.</p>
+<p>Remember to declare <code>@use &quot;../root&quot; as root;</code> to access the values that you named and ant to reuse</p>
+<p><code>modules/_exampleModule.scss</code></p>
+<pre class="language-scss"><code class="language-scss"><span class="token keyword">@use</span> <span class="token string">"../root"</span> <span class="token module-modifier keyword">as</span> root<span class="token punctuation">;</span>
+
+<span class="token selector">.default-card </span><span class="token punctuation">{</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> 1rem<span class="token punctuation">;</span>
+  <span class="token property">border-radius</span><span class="token punctuation">:</span> 6px<span class="token punctuation">;</span>
+  <span class="token property">background-color</span><span class="token punctuation">:</span> root.<span class="token variable">$primary-color</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>Subfolders work too. One level deeper the path changes: <code>@use &quot;../../root&quot; as root</code></p>
+<p><code>@import</code> of global should not be here, but in th pages</p>
+</blockquote>
+<p>Once you created your module, just <code>@import</code> in <strong>global</strong> or in the page file where you need that module to be applied</p>
+<blockquote>
+<p>Order matters: a rule imported later wins over an earlier one with the same specificity. That's why the <strong>CSS framework</strong> comes first and your own modules after</p>
+</blockquote>
 <h2 id="css-frameworks" tabindex="-1">CSS frameworks <a class="header-anchor" href="#css-frameworks">#</a></h2>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
-<p>.</p>
+<p><strong>CSS frameworks</strong> is a library of pre-existing styles already built for you. You <strong>choosed</strong> one betweeen **Bootstrap, <strong>Bulma</strong>, <strong>Foundation</strong> and <strong>UIKit</strong> that <strong>Nibula</strong> already pre-installed for you right when you created your project!</p>
+<blockquote>
+<p>You're free to avoid them if you want to stay simple, but here's the linked documentation for each one
+(Nothing to install)</p>
+<p><a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/" target="_blank" rel="noopener noreferrer">Bootstrap</a> |
+<a href="https://bulma.io/documentation/" target="_blank" rel="noopener noreferrer">Bulma</a> |
+<a href="https://get.foundation/sites/docs/" target="_blank" rel="noopener noreferrer">Foundation</a> |
+<a href="https://getuikit.com/docs/accordion" target="_blank" rel="noopener noreferrer">UIKit</a> |</p>
+</blockquote>
+<p>They're <strong>imported</strong> in <code>scss/_globlal.scss</code> between root and and your other modules. Your modules will be imported later to have priority in the style</p>
+<p>Sometimes a full <strong>CSS</strong> framework can be unneccessary heavly for your pages, expecially if you use only few things of that. It can be filtered by all the micro <strong>CSS</strong> modules by just commenting their imports in <code>scss/modules/frameworks/_choosenFramework.scss</code>.</p>
+<p><code>scss/modules/frameworks/_bootstrap.scss</code></p>
+<pre class="language-scss"><code class="language-scss"><span class="token keyword">@import</span> <span class="token string">"bootstrap/scss/alert"</span><span class="token punctuation">;</span>            <span class="token comment">// Alerts</span>
+<span class="token keyword">@import</span> <span class="token string">"bootstrap/scss/badge"</span><span class="token punctuation">;</span>            <span class="token comment">// Badges</span>
+<span class="token keyword">@import</span> <span class="token string">"bootstrap/scss/breadcrumb"</span><span class="token punctuation">;</span>       <span class="token comment">// Breadcrumbs</span>
+. . .</code></pre>
+<p>You can also <strong>switch</strong> between them or just set <strong>none</strong> just by commenting/uncomenting few lines in 3 different files:</p>
+<p><code>scss/_global.scss</code></p>
+<pre class="language-scss"><code class="language-scss">. . .
+<span class="token keyword">@import</span> <span class="token string">"modules/frameworks/bootstrap"</span><span class="token punctuation">;</span>
+<span class="token comment">// @import "modules/frameworks/bulma";</span>
+<span class="token comment">// @import "modules/frameworks/foundation";</span>
+<span class="token comment">// @import "modules/frameworks/uikit";</span>
+. . .</code></pre>
+<p><code>frontend/layout/base.njk</code> (or your <a href="#layouts">custom layout</a> file)</p>
+<pre class="language-njk"><code class="language-njk"><span class="token punctuation">{</span># <span class="token variable">Bootstrap</span> <span class="token variable">JS</span> #<span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token variable">script</span> <span class="token variable">src</span><span class="token operator">=</span><span class="token string">"{{ '/js/bootstrap.bundle.min.js' | url }}"</span> <span class="token variable">defer</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">script</span><span class="token operator">></span>
+
+<span class="token punctuation">{</span># <span class="token variable">Foundation</span> <span class="token variable">JS</span> #<span class="token punctuation">}</span>
+<span class="token punctuation">{</span># <span class="token operator">&lt;</span><span class="token variable">script</span> <span class="token variable">src</span><span class="token operator">=</span><span class="token string">"{{ '/js/foundation.min.js' | url }}"</span> <span class="token variable">defer</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">script</span><span class="token operator">></span> #<span class="token punctuation">}</span>
+
+<span class="token punctuation">{</span># <span class="token variable">UIkit</span> <span class="token variable">JS</span> #<span class="token punctuation">}</span>
+<span class="token punctuation">{</span># <span class="token operator">&lt;</span><span class="token variable">script</span> <span class="token variable">src</span><span class="token operator">=</span><span class="token string">"{{ '/js/uikit.min.js' | url }}"</span> <span class="token variable">defer</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">script</span><span class="token operator">></span> #<span class="token punctuation">}</span>
+<span class="token punctuation">{</span># <span class="token operator">&lt;</span><span class="token variable">script</span> <span class="token variable">src</span><span class="token operator">=</span><span class="token string">"{{ '/js/uikit-icons.min.js' | url }}"</span> <span class="token variable">defer</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">script</span><span class="token operator">></span> #<span class="token punctuation">}</span>
+
+<span class="token punctuation">{</span># <span class="token variable">Bulma</span> — <span class="token variable">no</span> <span class="token variable">JS</span> <span class="token variable">needed</span> #<span class="token punctuation">}</span></code></pre>
+<p><code>.eleventy.js</code></p>
+<pre class="language-js"><code class="language-js">eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+<span class="token comment">// Bootstrap</span>
+<span class="token string-property property">"node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"</span><span class="token operator">:</span>
+    <span class="token string">"js/bootstrap.bundle.min.js"</span><span class="token punctuation">,</span>
+<span class="token string-property property">"node_modules/bootstrap-icons/font/fonts"</span><span class="token operator">:</span> <span class="token string">"css/fonts"</span><span class="token punctuation">,</span>
+
+<span class="token comment">// Foundation</span>
+<span class="token comment">// "node_modules/foundation-sites/dist/js/foundation.min.js": "js/foundation.min.js",</span>
+
+<span class="token comment">// UIkit</span>
+<span class="token comment">// "node_modules/uikit/dist/js/uikit.min.js": "js/uikit.min.js",</span>
+<span class="token comment">// "node_modules/uikit/dist/js/uikit-icons.min.js": "js/uikit-icons.min.js",</span>
+
+<span class="token comment">// Bulma — CSS only, no JS passthrough needed</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 
             </div>
           
           
-            
-              
             
               
             
@@ -1373,8 +1454,6 @@ Go to <span class="token url">[<span class="token content">the title</span>](<sp
             </div>
           
           
-            
-              
             
               
             
