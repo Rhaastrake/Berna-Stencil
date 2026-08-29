@@ -18,8 +18,8 @@ const APP_ENV = config.APP_ENV || "production";
 const DOCUMENT_ROOT =
   process.env.DOCUMENT_ROOT || path.join(CORE_PATH, "..", "..");
 
-const basePublic = path.join(CORE_PATH, "..", "api", "public");
-const baseProtected = path.join(CORE_PATH, "..", "api", "protected");
+const basePublic = path.join(CORE_PATH, "..", "endpoints", "public");
+const baseProtected = path.join(CORE_PATH, "..", "endpoints", "protected");
 
 function hashEquals(known, given) {
   const a = Buffer.from(String(known));
@@ -70,7 +70,6 @@ async function handleRequest(req, res) {
     const method = req.method;
     const parsedUrl = new URL(req.url, "http://localhost");
     let uri = parsedUrl.pathname;
-
     uri = uri.replace(/^\/api/, "");
     uri = uri.replace(/\/+$/, "");
     if (uri === "") uri = "/";
@@ -153,7 +152,6 @@ async function handleRequest(req, res) {
       return;
     }
 
-    // Rate limit: 60 requests / 60 seconds per IP
     const ip =
       (req.headers["x-forwarded-for"] || "").split(",")[0].trim() ||
       req.socket.remoteAddress ||
@@ -169,10 +167,11 @@ async function handleRequest(req, res) {
       const apiKey = req.headers["x-api-key"] || "";
 
       if (validKey === "" || !hashEquals(validKey, apiKey)) {
-        Response.error("Unauthorized. X_API_KEY is incorrect or missing", 403);
+        Response.error("Unauthorized. X_API_KEY is incorrect or missing", 401);
       }
     }
 
+    const body = await readBody(req);
     const handler = require(endpointFile);
 
     const context = {
@@ -198,6 +197,7 @@ async function handleRequest(req, res) {
     if (err === HALT) {
       return;
     }
+
     try {
       handleException(err, config, Response);
     } catch (inner) {

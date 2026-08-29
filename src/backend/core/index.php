@@ -20,8 +20,8 @@ foreach ($parts as $part) {
     }
 }
 
-$basePublic    = __DIR__ . '/../api/public/';
-$baseProtected = __DIR__ . '/../api/protected/';
+$basePublic    = __DIR__ . '/../endpoints/public/';
+$baseProtected = __DIR__ . '/../endpoints/protected/';
 
 $endpointFile  = null;
 $isProtected   = false;
@@ -32,7 +32,6 @@ $params     = [];
 while (count($checkParts) > 0) {
     $relativePath = implode('/', $checkParts) . '.php';
 
-    // Check first whether this is a public route
     if (file_exists($basePublic . $relativePath)) {
         $endpointFile = $basePublic . $relativePath;
         $isProtected  = false;
@@ -109,7 +108,7 @@ if ($isProtected) {
     $apiKey   = $_SERVER['HTTP_X_API_KEY'] ?? '';
 
     if ($validKey === '' || !hash_equals($validKey, $apiKey)) {
-        Response::error('Unauthorized. X_API_KEY is incorrect or missing', 403);
+        Response::error('Unauthorized. X_API_KEY is incorrect or missing', 401);
     }
 }
 

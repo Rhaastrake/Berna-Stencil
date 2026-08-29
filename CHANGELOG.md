@@ -5,12 +5,18 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2026-09-??
+
+### Changed
+- **BREAKING** Renamed `src/backend/_core` to `src/backend/core`. The underscore prefix carried no meaning: no tool interpreted it, it only made the path noisier than its siblings.
+- **BREAKING** Renamed `src/backend/api` to `src/backend/endpoints`. The folder holds route files, while `/api` is the public URL prefix — one name for two concepts was the main source of confusion when reading the front controller. Endpoints are still reached at `domain/api/endpoint`.
+
 ## [2.4.6] - 2026-08-29
 
 ### Changed
 
-- Restored `404.scss` **.not-found** selector to center the not found text 
-- Removed all comments in backend files
+- Restored `404.scss` **.not-found** selector to center the not found text.
+- Removed all comments in backend files.
 
 ## [2.4.5] - 2026-08-26
 

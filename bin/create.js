@@ -130,7 +130,7 @@ const FRAMEWORKS = {
 
 const GITIGNORE_CONTENT = `
 node_modules/
-src/backend/_core/vendor/
+src/backend/core/vendor/
 out/
 src/backend/config.php
 src/backend/config.js
@@ -300,7 +300,7 @@ function njkUncomment(content, marker) {
 }
 
 function installDependencies(backend) {
-    const backendCore = path.join(targetDir, 'src', 'backend', '_core');
+    const backendCore = path.join(targetDir, 'src', 'backend', 'core');
 
     log(`${color.blue}\n>> Installing Node modules...${color.reset}`);
     const npm = spawnSync('npm', ['install'], {
@@ -335,7 +335,7 @@ function installDependencies(backend) {
 
     if (probe.status !== 0) {
         log('\n(!) Composer not found — skipping backend dependencies.');
-        log('    Install Composer, then run: cd src/backend/_core && composer install\n');
+        log('    Install Composer, then run: cd src/backend/core && composer install\n');
         return true;
     }
 

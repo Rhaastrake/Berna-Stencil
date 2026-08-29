@@ -2,9 +2,8 @@
 declare(strict_types=1);
 
 /**
- * Mirror of src/backend/example.config.php
- *
- * Copy this file to config.php and fill in real values. config.php is git-ignored and stays local.
+ * On setup, copy this file to config.php and fill in real values.
+ * config.php is git-ignored and stays local.
  */
 
 return [

@@ -1,9 +1,8 @@
 "use strict";
 
 /**
- * Mirror of src/backend/example.config.php
- *
- * Copy this file to config.js and fill in real values. config.js is git-ignored and stays local.
+ * On setup, copy this file to config.js and fill in real values.
+ * config.js is git-ignored and stays local.
  */
 
 module.exports = {
