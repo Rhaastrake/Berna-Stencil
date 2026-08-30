@@ -7,9 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.0] - 2026-09-??
 
+### Added
+- Endpoints now export one function per HTTP method instead of checking the method by hand. Unsupported methods get an automatic 405, and the file itself shows at a glance which methods it answers. The old single-function form still works.
+- A `Validate` module with `required`, `integer`, `email` and `minLength`. Each rule either returns the value or stops the request with a 422 and a readable message, so endpoints no longer repeat the same checks.
+- Endpoints receive `query`, `body`, `rawBody` and `headers` in both backends. The PHP side previously left the body to the endpoint, which meant every project reimplemented the same `json_decode`.
+- A `Debug-Mode` header on every response when `APP_ENV` is not `production`, so a site left in debug mode is visible without reading the config.
+
 ### Changed
 - **BREAKING** Renamed `src/backend/_core` to `src/backend/core`. The underscore prefix carried no meaning: no tool interpreted it, it only made the path noisier than its siblings.
-- **BREAKING** Renamed `src/backend/api` to `src/backend/endpoints`. The folder holds route files, while `/api` is the public URL prefix — one name for two concepts was the main source of confusion when reading the front controller. Endpoints are still reached at `domain/api/endpoint`.
+- **BREAKING** Renamed `src/backend/api` to `src/backend/endpoints`. The folder holds route files, while `/api` is the public URL prefix, and using one name for two concepts was the main source of confusion when reading the front controller. Endpoints are still reached at `domain/api/endpoint`.
+- **BREAKING** A missing API key now returns 401 instead of 403. The previous code said "forbidden" for a request that was never authenticated.
+- **BREAKING** The backend no longer starts without `config.js` or `config.php`. It used to fall back to the example file, which ships a publicly known API key and allows every origin.
+- **BREAKING** The bundled `nginx.conf`, `.htaccess` and `web.config` now point at `backend/core` instead of `backend/_core`. Any custom server rule referring to the old path needs updating.
+- Endpoints only receive the documented request values. They previously saw every local variable of the front controller by accident, which made internal renames a breaking change without anyone noticing.
+- `RateLimiter` is now created per request like `Response`, instead of taking the response helpers as trailing arguments.
+- The PHP backend removes the `X-Powered-By` header, which exposed the exact PHP version on every response.
+- `Response.php` no longer carries its own access guard and 404 fallback. Every request already goes through the front controller, so the guard could never fire, and it duplicated error-page logic inside a module that only formats responses.
+
+### Fixed
+- A custom endpoint key or origin list set to an empty value no longer falls back to the general one.
+- The PHP exception handler no longer captures the config before it exists, which used to hide the real cause of startup errors behind a generic 500.
 
 ## [2.4.6] - 2026-08-29
 

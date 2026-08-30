@@ -3,30 +3,35 @@
 const fs = require("fs");
 const path = require("path");
 
+const CONFIG_FILE = "config.js";
+const EXAMPLE_CONFIG_FILE = "example.config.js";
+const DEFAULT_ENVIRONMENT = "production";
+
 function loadConfig() {
   const backendRoot = path.join(__dirname, "..");
-  const configPath = path.join(backendRoot, "config.js");
-  const examplePath = path.join(backendRoot, "example.config.js");
+  const configPath = path.join(backendRoot, CONFIG_FILE);
 
-  if (fs.existsSync(configPath)) {
-    return require(configPath);
+  if (!fs.existsSync(configPath)) {
+    throw new Error(
+      `Missing ${CONFIG_FILE}. Copy ${EXAMPLE_CONFIG_FILE} to ${CONFIG_FILE} in ${backendRoot} and fill in your values.`,
+    );
   }
-  return require(examplePath);
+
+  return require(configPath);
 }
 
-/**
- * Turn any thrown error into a 500 response, mirroring set_exception_handler.
- * @param {Error} exception
- * @param {object} config
- * @param {object} Response request-bound helper
- */
+function isDebug(config) {
+  return (config.APP_ENV ?? DEFAULT_ENVIRONMENT) !== DEFAULT_ENVIRONMENT;
+}
+
 function handleException(exception, config, Response) {
-  const isDebug = (config.APP_ENV || "production") !== "production";
+  const debugMode = isDebug(config);
+
   Response.error(
-    isDebug ? exception.message : "Internal server error",
+    debugMode ? exception.message : "Internal server error",
     500,
-    isDebug ? { stack: exception.stack } : null,
+    debugMode ? { stack: exception.stack } : null,
   );
 }
 
-module.exports = { loadConfig, handleException };
+module.exports = { loadConfig, isDebug, handleException };
