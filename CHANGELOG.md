@@ -5,6 +5,21 @@ All notable changes to Nibula are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.7] - 2026-09-04
+
+### Changed
+- **New page and global scripts no longer wrap their code in `DOMContentLoaded`.**
+  Scripts are loaded at the end of the body, so the page is already there when
+  they run: the wrapper was a precaution that a beginner had to understand before
+  being able to ignore it. The documentation explains when to add it back.
+- The TypeScript module template annotates its return type, so the first file a
+  TypeScript project opens actually shows TypeScript syntax.
+
+### Changed
+
+- Restored `404.scss` **.not-found** selector to center the not found text 
+- Removed all comments in backend files
+
 ## [2.4.6] - 2026-08-29
 
 ### Changed
