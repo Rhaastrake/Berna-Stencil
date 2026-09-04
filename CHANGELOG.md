@@ -15,11 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The TypeScript module template annotates its return type, so the first file a
   TypeScript project opens actually shows TypeScript syntax.
 
-### Changed
-
-- Restored `404.scss` **.not-found** selector to center the not found text 
-- Removed all comments in backend files
-
 ## [2.4.6] - 2026-08-29
 
 ### Changed
